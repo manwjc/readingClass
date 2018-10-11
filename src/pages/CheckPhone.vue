@@ -5,17 +5,15 @@
 			<div class="input-wrapper">
 				<div class="input-row box-start">
 					<img  src="static/images/course/login-mobile.jpg">
-					<input placeholder="输入手机号" class="box-start rest" type="text" />
+					<input v-model="mobile" placeholder="输入手机号" class="box-start rest" type="text" />
 				</div>
 				<div class="input-row box-start">
 					<img  src="static/images/course/login-verify.jpg">
-					<input placeholder="输入验证码"  class="box-start rest" type="text" />
-					<p>
-						<a href="#">验证码</a>
-					</p>
+					<input v-model="code" placeholder="输入验证码"  class="box-start rest" type="text" />
+					<p @click="getCode">验证码</p>
 				</div>
 			</div>
-			<button class="course-btn box-center">登录</button>
+			<button @click="submitForm" class="course-btn box-center">登录</button>
 		</div>
 		<img class="check-bot" src="static/images/course/bottom.jpg">
 	</div>
@@ -30,10 +28,6 @@
 				mobile: '',
 				code: '',
 				checkedValue: true,
-				list:[
-					{value: '是', key: true},
-					{value: '否', key: false}
-				]
 			}
 		},
 		mounted() {
@@ -123,7 +117,7 @@
 				}
 
 				self.$showMsg('验证码已发送');
-				self.$service.sendValidateCode(dataParams, (res) => {
+				self.$service.sendValidateCode({params: dataParams}, (res) => {
 					var validCode = res.data.data;
 					if(validCode){
 						self.code = validCode;

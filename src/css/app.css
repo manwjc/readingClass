@@ -57,7 +57,7 @@ html {
     color: #42b983;
   }
   
-  select, input {
+  select, input, button {
     outline: none; font-size: 0.3rem;
   }
   

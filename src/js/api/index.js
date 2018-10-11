@@ -25,4 +25,17 @@ export default {
     getReadRoomGradeVideo: '/wx/chelApi/getReadRoomGradeVideo',
     //获取用户上传视频
     getUserVideo: '/wx/chelApi/getUserVideo',
+
+    /** 
+     * 导读课接口 
+     * 20181011
+     */
+    //获取学生信息
+    queryStudentAll: '/wx/homepage/queryStudentAll',
+    //获取线下导读课程
+    queryReadCourseAppointment: '/wx/homepage/queryReadCourseAppointment',
+    //获取已参加课程
+    queryReadCourseHaveClassRecord: '/wx/homepage/queryReadCourseHaveClassRecord',
+    //获取未参加课程
+    queryReadCourseNotClassRecord: '/wx/homepage/queryReadCourseNotClassRecord',
 }

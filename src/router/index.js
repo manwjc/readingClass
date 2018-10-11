@@ -8,20 +8,22 @@ const CheckPhone = resolve => require(['../pages/CheckPhone'], resolve)
 const NameList = resolve => require(['../pages/NameList'], resolve)
 const NewGay = resolve => require(['../pages/NewGay'], resolve)
 
-const SceneList = resolve => require(['../pages/SceneList'], resolve)
+const ClassList = resolve => require(['../pages/ClassList'], resolve)
 const SceneCon = resolve => require(['../pages/SceneCon'], resolve)
 const SceneLastDay = resolve => require(['../pages/SceneLastDay'], resolve)
-const SceneShare = resolve => require(['../pages/SceneShare'], resolve)
+const VideoShare = resolve => require(['../pages/VideoShare'], resolve)
 
 export default new Router({
   routes: [
+    //导读课路由
     {
       path: '/',
       name: 'index',
       component: IndexPage,
+      redirect: '/checkPhone',
       meta: {
         keepAlive: true,
-        title: '暑假英文阅读戏剧表演营'
+        title: '乔希家导读课预约'
       }
     },
     {
@@ -30,16 +32,36 @@ export default new Router({
       component: CheckPhone,
       meta: {
         keepAlive: true,
-        title: '暑假英文阅读戏剧表演营'
+        title: '乔希家导读课预约'
       }
     },
+    {
+      path: '/classList',
+      name: 'classList',
+      component: ClassList,
+      meta: {
+        keepAlive: true,
+        title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/videoShare',
+      name: 'videoShare',
+      component: VideoShare,
+      meta: {
+        keepAlive: true,
+        title: '乔希家导读课预约'
+      }
+    },
+
+    //旧路由
     {
       path: '/nameList',
       name: 'nameList',
       component: NameList,
       meta: {
         keepAlive: true,
-        title: '暑假英文阅读戏剧表演营'
+        title: '乔希家导读课预约'
       }
     },
     {
@@ -48,16 +70,7 @@ export default new Router({
       component: NewGay,
       meta: {
         keepAlive: true,
-        title: '暑假英文阅读戏剧表演营'
-      }
-    },
-    {
-      path: '/sceneList',
-      name: 'sceneList',
-      component: SceneList,
-      meta: {
-        keepAlive: true,
-        title: '乔希“小剧场”阅读表演营'
+        title: '乔希家导读课预约'
       }
     },
     {
@@ -66,7 +79,7 @@ export default new Router({
       component: SceneCon,
       meta: {
         keepAlive: true,
-        title: '乔希“小剧场”阅读表演营'
+        title: '乔希家导读课预约'
       }
     },
     {
@@ -75,16 +88,7 @@ export default new Router({
       component: SceneLastDay,
       meta: {
         keepAlive: true,
-        title: '乔希“小剧场”阅读表演营'
-      }
-    },
-    {
-      path: '/sceneShare',
-      name: 'sceneShare',
-      component: SceneShare,
-      meta: {
-        keepAlive: true,
-        title: '乔希“小剧场”阅读表演营'
+        title: '乔希家导读课预约'
       }
     },
   ]

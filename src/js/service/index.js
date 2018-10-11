@@ -134,4 +134,43 @@ export default {
             fail && fail(error);
         })
     },
+
+
+    //导读课
+    //获取学生信息
+    queryStudentAll: function(success, fail) {
+        axios.get(api.queryStudentAll).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //获取线下导读课程
+    queryReadCourseAppointment: function(params, success, fail) {
+        axios.post(api.queryReadCourseAppointment, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //获取已参加课程
+    queryClassRecord: function(params, success, fail) {
+        axios.post(api.queryReadCourseHaveClassRecord, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //获取未参加课程
+    queryClassMissing: function(params, success, fail) {
+        axios.post(api.queryReadCourseNotClassRecord, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
 }

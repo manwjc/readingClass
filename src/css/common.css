@@ -2,14 +2,11 @@
 
 /* CSS Document */
 
-html,
-body,
 p,
 h1,
 h2,
 h3,
 h4,
-div,
 ul,
 li,
 dl,
@@ -104,7 +101,7 @@ li {
 }
 
 html {
-    font-size: 10px;
+    /* font-size: 10px; */
 }
 
 body {
@@ -114,11 +111,11 @@ body {
     /*background-color: #fff;*/
     color: #666;
     background-color: #fff;
-    font-size: 14px;
+    /* font-size: 14px; */
     line-height:100%;
 
 }
-@media screen and (max-width:320px) {
+/* @media screen and (max-width:320px) {
     html {
         font-size: 10px !important;
     }
@@ -142,15 +139,16 @@ body {
     html {
         font-size: 20px !important;
     }
-} 
+}  */
 
 
 .flexbox {
-    display: -webkit-box;
+    /* 样式过旧，导致编译报错 */
+    /* display: -webkit-box;
     display: -moz-box;
     display: -ms-box;
     display: -o-box;
-    display: box;
+    display: box; */
 
     display: -webkit-flex;
     display: -moz-flex;
