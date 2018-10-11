@@ -12,8 +12,8 @@ export default {
         })
     },
     //获取用户信息
-    getUserInfo: function(params,success, fail) {
-        axios.get(api.getUserInfo, params).then((res)=>{
+    getUserInfo: function(success, fail) {
+        axios.get(api.getUserInfo).then((res)=>{
             success && success(res);
         })
         .catch((error) => {

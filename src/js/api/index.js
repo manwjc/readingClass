@@ -4,7 +4,7 @@ export default {
     //获取微信签名信息
     getWechatSign: '/wx/wechat/portal/getWechatSign',
     //获取用户信息
-    getUserInfo: '/api/service2/student!queryStudent',
+    getUserInfo: '/wx/wxApi/getUserInfo',
     //绑定手机号
     bindMobile: '/wx/wxApi/bindMobile',
     //发送验证码

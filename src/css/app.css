@@ -73,8 +73,20 @@ html {
     margin-left: 0.1rem;
   }
   
+  .mleft15 {
+    margin-left: 0.15rem !important;
+  }
+  
   .mleft20 {
     margin-left: 0.2rem !important;
+  }
+  
+  .mright10 {
+    margin-right: 0.1rem !important;
+  }
+  
+  .mright20 {
+    margin-right: 0.2rem !important;
   }
   
   .minuleft20 {
@@ -87,6 +99,10 @@ html {
   
   .mb10 {
     margin-bottom: 10px !important;
+  }
+  
+  .mtop5 {
+    margin-top: 5px !important;
   }
   
   .mtop10 {
@@ -105,6 +121,10 @@ html {
     text-align: right;
   }
   
+  .f16 {
+    font-size: 0.16rem;
+  }
+  
   .f18 {
     font-size: 0.18rem;
   }
@@ -119,6 +139,10 @@ html {
   
   .f24 {
     font-size: 0.24rem;
+  }
+  
+  .f26 {
+    font-size: 0.26rem;
   }
   
   .f30 {
@@ -215,3 +239,11 @@ html {
   .mask img{ width: 100%;}
 
   .message{ width: 3.6rem !important; height: 0.8rem !important;}
+
+  /* 导读课 */
+  .list-img{ width: 80px; height: 120px;}
+  .user-avatar{ width: 40px; height: 40px;}
+  .red-btn{ width: 100px; height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
+  .padding20{ padding: 20px;}
+  .border-top{ border-top: 1px solid #eeeeee}
+  .pt20{ padding-top: 20px;}

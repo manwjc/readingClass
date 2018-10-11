@@ -39,9 +39,9 @@
 				self.$service.getUserInfo((res) => {
 					let data = res.data;
 					if(data.code === '0'){
-						if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === true){
-							self.$router.push({name:"sceneList"})
-						}else if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === false){
+						if(data.data && data.data.isBindPhone === true){
+							self.$router.push({name:"classList"})
+						}else{
 							self.$router.push({name:"newGay"})
 						}
 					}else{

@@ -14,8 +14,8 @@ module.exports = {
       // 需要 proxyTable 代理的接口（可跨域）//修改脚手架的东西后一定要npm run dev，否则不生效！！	
       //统一替换baseapi
       '/baseApi': {
-        // target: 'http://1945464e.ngrok.io',
-      	target: 'http://192.168.1.116',
+        target: 'http://456422bb.ngrok.io',
+      	// target: 'http://192.168.1.116',
       	changeOrigin: true,
       	pathRewrite: {
       		'^/baseApi': ''

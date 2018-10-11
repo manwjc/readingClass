@@ -32,7 +32,7 @@
             <p id="flash-circle15" class="flash-circle"></p> -->
 
         </div>
-        <div class="total box-center">
+        <!-- <div class="total box-center">
             <div class="item">
                 <p>周冠军</p>
                 <p>10次</p>
@@ -49,7 +49,7 @@
                 <p>已预约导读</p>
                 <p>1次</p>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="course-main ">
         <div class="course-main-header">
@@ -61,13 +61,32 @@
                     <div class="introduce-text">
                         <p>{{item.NAME}}</p>
                         <p>{{item.app_explain}}</p>
-                        <p class="text-bg">格林童话 | 经典阅读</p>
+                        <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
                     </div>
                     <div class="btn-wrapper">
                         <button>立即预约</button>
                     </div>
                 </div>
             </div>
+            <!-- <div v-for="(item,index) in courseRecordData" v-if="index === 0" class="shadow mright20 padding20">
+                <div class="displaybox">
+                    <img class="list-img" src="static/images/course/index-demo.png">
+                    <div class="boxflex01 boxalign mleft15">
+                        <div class="course-item-info">
+                            <p class="f26 bold">{{item.NAME}}</p>
+                            <p class="mtop10">{{item.appointment_time | timeFormat}}</p>
+                            <p class="box-start mtop10">
+                                <img class="user-avatar" src="static/images/course/wx.jpg">
+                                <span class="mleft15">老师：{{item.english_name}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="displaybox border-top mtop20 pt20">
+                    <a class="left boxflex01" target="_blank" href="static/images/zhongqi.pdf"><button class="box-center">取消课程</button></a>
+                    <div class="right boxflex01 mright20"><button class="red-btn">预习课件</button></div>
+                </div>
+            </div> -->
         </div>
         <div class="course-main-body">
             <div class="course-tab">
@@ -86,15 +105,15 @@
                                         <p>{{item.appointment_time | timeFormat}}</p>
                                         <p class="box-start">
                                             <img class="avatar" src="static/images/course/wx.jpg">
-                                            <span class="box-center">{{item.english_name}}</span>
-                                            <span class="box-center">|</span>
-                                            <span class="box-center">4.5分</span>
+                                            <span class="box-center">老师：{{item.english_name}}</span>
+                                            <!-- <span class="box-center">|</span>
+                                            <span class="box-center">4.5分</span> -->
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="item-bot box-center">
-                                <button class="box-center">查看课件</button>
+                                <a target="_blank" href="static/images/zhongqi.pdf"><button class="box-center">查看课件</button></a>
                                 <button class="box-center">做作业</button>
                             </div>
                         </div>
@@ -440,6 +459,10 @@ p.text-bg {
 }
 
 .course-index .course-main .course-main-body .tab-body .course-item .item-top .avatar {
+    width: 40px;
+    height: 40px;
+}
+.avatar-img {
     width: 40px;
     height: 40px;
 }
