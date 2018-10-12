@@ -64,7 +64,7 @@
                         <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
                     </div>
                     <div class="btn-wrapper">
-                        <button @click="orderNow">立即预约</button>
+                        <button>立即预约</button>
                     </div>
                 </div>
             </div>
@@ -305,12 +305,6 @@ export default {
                 }
             );
         },
-		//立刻预约课程
-		orderNow(){
-		   var that=this;
-		  
-		   that.$router.push({name:"orderCourse"})
-		}
     }
 };
 </script>

@@ -246,4 +246,14 @@ html {
   .red-btn{ width: 100px; height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
   .padding20{ padding: 20px;}
   .border-top{ border-top: 1px solid #eeeeee}
+  .pt10{ padding-top: 10px;}
   .pt20{ padding-top: 20px;}
+  
+  
+  .mright10 {
+    margin-right: 10px !important;
+  }
+  
+  .mright20 {
+    margin-right: 20px !important;
+  }
