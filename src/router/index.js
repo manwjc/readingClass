@@ -12,6 +12,7 @@ const ClassList = resolve => require(['../pages/ClassList'], resolve)
 const SceneCon = resolve => require(['../pages/SceneCon'], resolve)
 const SceneLastDay = resolve => require(['../pages/SceneLastDay'], resolve)
 const VideoShare = resolve => require(['../pages/VideoShare'], resolve)
+const orderCourse = resolve => require(['../pages/orderCourse'], resolve)
 
 export default new Router({
   routes: [
@@ -53,6 +54,15 @@ export default new Router({
         title: '乔希家导读课预约'
       }
     },
+    {
+        path: '/orderCourse',
+        name: 'orderCourse',
+        component: orderCourse,
+        meta: {
+          keepAlive: true,
+          title: '乔希家导读课预约'
+        }
+      },
 
     //旧路由
     {

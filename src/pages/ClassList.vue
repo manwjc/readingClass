@@ -64,7 +64,9 @@
                         <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
                     </div>
                     <div class="btn-wrapper">
-                        <button>立即预约</button>
+                        <router-link to="/orderCourse">
+                            <button>立即预约</button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -114,7 +116,7 @@
                             </div>
                             <div class="item-bot box-center">
                                 <a target="_blank" href="static/images/zhongqi.pdf"><button class="box-center">查看课件</button></a>
-                                <button class="box-center">做作业</button>
+                                <button v-if="curTabIndex === 0" class="box-center">做作业</button>
                             </div>
                         </div>
                         <!-- <div class="course-item shadow">
@@ -237,13 +239,15 @@ export default {
         //获取学生信息
         queryStudentAll() {
             this.$service.queryStudentAll((res) => {
-                this.dataLoaded = true;
-                if (res.data.code === "0") {
+                    this.dataLoaded = true;
+                    if (res.data.code === "0" && res.data.data) {
                         this.studentList = res.data.data;
                         //获取线下导读课程
                         this.queryReadCourseAppointment();
                         //获取已参加课程
                         this.queryClassRecord();
+                    }else if(!res.data.data){
+					    this.$showMsg(res.data.message)
                     }
                 },
                 error => {
