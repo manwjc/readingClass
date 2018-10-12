@@ -14,6 +14,21 @@
 				</div>
 			</div>
 			<button @click="submitForm" class="course-btn box-center">登录</button>
+
+			<!-- <div class="m020">
+				<div class="swiper-container" id="swiper">
+					<div class="swiper-wrapper mtop20">
+					<div class="swiper-slide displaybox" v-for="(item1, $index) in dateList">
+						<div @click="queryCourseForDate(item2)" class="boxflex01 text-center arrow" v-for="(item2, $index) in dateList">
+							<div>{{item2.day}}</div>
+							<div>{{item2.date}}</div>
+						</div>
+					</div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div> -->
+
 		</div>
 		<img class="check-bot" src="static/images/course/bottom.jpg">
 	</div>
@@ -21,6 +36,8 @@
 
 <script>
 	import Valid from '@/js/common/validate'
+	import Swiper from 'swiper';
+	import 'swiper/dist/css/swiper.min.css';
 
 	export default {
 		data() {
@@ -28,12 +45,62 @@
 				mobile: '',
 				code: '',
 				checkedValue: true,
+
+				dateList: [
+					{
+						date: '01',
+						day: '周日'
+					},
+					{
+						date: '02',
+						day: '周一'
+					},
+					{
+						date: '03',
+						day: '周二'
+					},
+					{
+						date: '04',
+						day: '周三'
+					},
+					{
+						date: '05',
+						day: '周四'
+					},
+					{
+						date: '06',
+						day: '周五'
+					},
+					{
+						date: '07',
+						day: '周六'
+					},
+				]
 			}
 		},
 		mounted() {
+
+			setTimeout(function () {
+				let swiperObj = new Swiper('#swiper', {
+					loop: true,
+					pagination: '.swiper-pagination',
+					autoplay: 2000,
+					paginationClickable: true,
+					on:{
+						slideChange: function(){
+							console.log('slide change');
+						},
+					},
+				});
+			}, 100)
 			
 		},
 		methods: { 
+			queryCourseForDate(item) {
+				console.log(item)
+			},
+
+
 			getUserInfo() {
 				let self = this;
 				self.$service.getUserInfo((res) => {
@@ -41,8 +108,10 @@
 					if(data.code === '0'){
 						if(data.data && data.data.isBindPhone === true){
 							self.$router.push({name:"classList"})
-						}else{
+						}else if(data.data){
 							self.$router.push({name:"newGay"})
+						}else{
+							self.$showMsg(data.message);
 						}
 					}else{
 						self.$showMsg(data.message);
@@ -165,5 +234,17 @@
 	
 	#check-container .check-bot{
 		width:100%;
+	}
+	
+	.arrow:after{
+		content:"";
+		width:0;
+		height:0;
+		position:absolute;
+		left:100px;
+		top:20px;
+		border-top:solid 10px transparent;
+		border-left:solid 10px black;     /* 白色小三角形 */
+		border-bottom:solid 10px transparent;
 	}
 </style>

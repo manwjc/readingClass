@@ -196,6 +196,9 @@ export default {
             //获取学生信息
             this.queryStudentAll();
         },
+        cancelCourse(item) {
+            console.log(item)
+        },
         changeCourseTab(index) {
             this.curTabIndex = index
         },
