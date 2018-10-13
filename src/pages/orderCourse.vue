@@ -107,7 +107,7 @@
 		      <div class="box-justify popupHeader" > 
 				<img class="backIcon" style="visibility:hidden" src="static/images/leftBack.png">
 				<div class="headerTittle" style="color:black">课程信息确认</div>
-			    <img class="backIcon" src="static/images/close2c.png" @click="closePopup">
+			    <div @click="closePopup" class="p510"><img class="backIcon" src="static/images/close2c.png"></div>
 			  </div>
 			  <div class="popupBody box-v-start align-stretch">
 			    <div class="box-justify popupItem">
@@ -144,7 +144,8 @@
 			 <div class="popupSamallT" style="margin-bottom:0.5rem">
 			   请提醒孩子尽快学习课前教材哦
 			 </div>
-			 <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a>
+			 <!-- <a target="_blank" href="static/images/zhongqi.pdf"><div class="red-btn">查看课件</div></a> -->
+			 <!-- <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a> -->
            </div>
          </mt-popup>
 	   </div>
@@ -171,7 +172,8 @@
                 curYearMonth: '',
                 curDateTime: '',
                 curStudentIndex: 0,
-                hasSubmit: false,
+				hasSubmit: false,
+				orderedGradeList: [],
 			}
 		},
         computed: {
@@ -310,15 +312,27 @@
 			   }
 			},
 			orderCourse(item){
-                this.confirmCourse = item;
-                this.popupShow = true;
+				let _hasOrdered = false;
+				this.confirmCourse = item;
+				//已经预约的课程，则直接显示课件
+				this.orderedGradeList.filter((grade) => {
+					if(item.grade_number === grade) {
+						_hasOrdered = true;
+					}
+				})
+				if(_hasOrdered) {
+					this.popupShow = true;
+					this.orderSuccess = true;
+				}else{
+					this.popupShow = true;
+					this.orderSuccess = false;
+				}
 			},
 			chooseDate(item){
                 this.activeDate = +item.weekDate;
 			},
 			closePopup(){
-			  var that=this;
-			  that.popupShow=false;
+			  this.popupShow=false;
 			},
 			SwipeNextWeek(){
               var that=this;
@@ -376,11 +390,12 @@
                 this.$service.addAppointment(
                     dataParams,
                     res => {
+						this.hasSubmit = false;
                         if (res.data.code === "0") {
-			                this.orderSuccess = true;
+							this.orderSuccess = true;
+							this.orderedGradeList.push(this.confirmCourse.grade_number);
                         }else{
                             this.$showMsg(res.data.message)
-                            this.hasSubmit = false;
                         }
                     },
                     error => {

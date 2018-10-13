@@ -86,7 +86,8 @@
                 </div>
                 <div class="displaybox border-top mtop10 pt10">
                     <div class="left boxflex01" target="_blank" @click="cancelCourse(item)"><button class="box-center">取消课程</button></div>
-                    <a class="right boxflex01" target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">预习课件</button></a>
+                    <a class="right boxflex01" target="_blank"  href="static/images/zhongqi.pdf"><button class="red-btn">预习课件</button></a>
+                    <!-- <a class="right boxflex01" target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">预习课件</button></a> -->
                 </div>
             </div>
         </div>
@@ -115,7 +116,8 @@
                                 </div>
                             </div>
                             <div class="item-bot box-center">
-                                <a target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">查看课件</button></a>
+                                <!-- <a target="_blank"  href="static/images/zhongqi.pdf"><button class="red-btn">查看课件</button></a> -->
+                                <!-- <a target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">查看课件</button></a> -->
                                 <!-- <button v-if="curTabIndex === 0" class="red-btn">做作业</button> -->
                             </div>
                         </div>
@@ -312,12 +314,13 @@ p {
 
 .course-index .course-main .course-main-header .introduce .introduce-text p {
     line-height: 24px;
-    font-size: 16px;
+    font-size: 14px;
+    color: #666;
 }
 
 .course-index .course-main .course-main-header .introduce .introduce-text p:nth-of-type(1) {
-    color: #999;
-    font-size: 14px;
+    color: #333;
+    font-size: 16px;
 }
 
 p.text-bg {
