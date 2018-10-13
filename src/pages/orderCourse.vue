@@ -3,165 +3,395 @@
 	   <div class="topOrder box-v-start align-stretch">
 	      <div class="topHeader box-justify">
 		  <div class="box-start">
-		    <img class="backIcon" src="static/images/leftBack.png">
-		    <img class="user-avatar" src="static/images/course/wx.jpg">
+		    <img @click="goback()" class="backIcon" src="static/images/leftBack.png">
+		    <img class="user-avatar" src="static/images/course/head-img.png">
 		  </div>
 		  <div class="headerTittle">线下导读预约</div>
 		  <div style="visibility: hidden;">1111</div>
 		  </div>
 		  <div class="topItem">
 		    <div class="smallTittle">当前预约课程</div>
-			<div class="bigWFont box-start">joe和他特别的衣服</div>
+			<div class="bigWFont box-start" style="height: 20px;">{{activeDateCourse[0] && activeDateCourse[0].NAME}}</div>
 		  </div>
 		  <div class="topItem" style="margin-top:0.45rem">
-		    <div class="smallTittle">选择上课地点</div>
+		    <div class="smallTittle">上课馆区名称</div>
 			<div class="bigWFont box-start">
-			<div style="margin-right:0.1rem">南山区世界之窗益田假日广场</div>
-			<img class="backIcon" style="width: 15px;height: 15px;" src="static/images/down.png">
+			<div style="margin-right:0.1rem; height: 20px;">{{activeDateCourse[0] && activeDateCourse[0].school_name}}</div>
+			<!-- <img class="backIcon" style="width: 15px;height: 15px;" src="static/images/down.png"> -->
 			</div>
 		  </div>
 		  <div class="topItem " style="margin-top:0.25rem">
 		    <div class="box-justify">
-			   <div class="smallTittle">周日</div>
 			   <div class="smallTittle">周一</div>
 			   <div class="smallTittle">周二</div>
 			   <div class="smallTittle">周三</div>
 			   <div class="smallTittle">周四</div>
 			   <div class="smallTittle">周五</div>
 			   <div class="smallTittle">周六</div>
+			   <div class="smallTittle">周日</div>
 			</div>
-			<div class="box-justify">
-			   <div class="bigWFont">01</div>
-			   <div class="bigWFont">02</div>
-			   <div class="bigWFont">03</div>
-			   <div class="bigWFont">04</div>
-			   <div class="bigWFont">05</div>
-			   <div class="bigWFont">06</div>
-			   <div class="bigWFont">07</div>
-			</div>
-			<div class="box-justify">
-			   <img class="backIcon2" style="width: 15px;height: 15px;visibility:hidden" src="static/images/up.png">
-			   <img class="backIcon2" style="width: 15px;height: 15px;visibility:hidden" src="static/images/up.png">
-			   <img class="backIcon2" style="width: 15px;height: 15px;" src="static/images/up.png">
-			   <img class="backIcon2" style="width: 15px;height: 15px;visibility:hidden" src="static/images/up.png">
-			   <img class="backIcon2" style="width: 15px;height: 15px;visibility:hidden" src="static/images/up.png">
-			   <img class="backIcon2" style="width: 15px;height: 15px;visibility:hidden" src="static/images/up.png">
-			   <img class="backIcon2" style="width: 15px;height: 15px;visibility:hidden" src="static/images/up.png">
-			</div>
+			<!-- <div class="box-justify align-stretch"> -->
+            <v-touch v-on:swipeleft="SwipeNextWeek()" v-on:swiperight="onSwipeRight()" class="box-justify align-stretch" >
+			   <div class="bigWFont" v-for=" (item,index) in weekDateShow" @click="chooseDate(item)">
+                    <div>
+                    {{item.weekDate}}
+                    </div>
+                    <div style="width: 13px;height: 13px;margin-top:0.04rem;"><img v-if="+item.weekDate === activeDate" class="backIcon2" src="static/images/up.png"></div>
+			   </div>
+            </v-touch>
+			<!-- </div> -->
+
+            
+            <!-- <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height:24px;background: #00244C;padding: 0rem 0.2rem;">
+                <mt-swipe-item >
+                <div class="box-justify align-stretch">
+                    <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index<7" @click="chooseDate(item)">
+                    <div>
+                        {{item.weekDate}}
+                    </div>
+                    <img class="backIcon2" style="width: 13px;height: 13px;" src="static/images/up.png" v-if="+item.weekDate === activeDate">
+                    </div>
+                </div>
+                </mt-swipe-item>
+                <mt-swipe-item >
+                <div class="box-justify align-stretch">
+                    <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index>6" @click="chooseDate(item)">
+                    <div>
+                        {{item.weekDate}}
+                    </div>
+                    <img class="backIcon2" style="width: 13px;height: 13px;" src="static/images/up.png" v-if="+item.weekDate === activeDate">
+                    </div>
+                </div>
+                </mt-swipe-item>
+            </mt-swipe>  -->
+
+
 		  </div>
 	   </div>
 	   <div class="rest box-v-start align-stretch orderBody" >
 	     <div class="box-justify bodyItem">
 		   <div class="bigWFont" style="color: initial;font-weight: 600;">选择课时段</div>
-		   <div style="color: #BEBEBE;">共5节课</div>
+		   <div style="color: #BEBEBE;">共{{activeDateCourse.length}}节课</div>
 		 </div>
 		 <div class="bodyItem">
-		   <div class="box-start timeCourse align-stretch" v-for=" (item,index) in dataCourse" :style="{'border':index+1==dataCourse.length?'none':''}">
-		   <div class="pointTime"></div>
-		     <div style="padding: 0rem 0.15rem;" >
-			   <div style="padding-bottom:0.1rem">{{item.when}}</div>
-			   <div>{{item.time}}</div>
-			 </div>
-			 <div class="rest"> 
-			   <div class="panlInfo box-justify" v-for="item2 in item.course">
-			     <div class="box-start align-stretch" >
-				 
-				   <img class="user-avatar" src="static/images/course/wx.jpg">
-				   <div class="box-v-justify align-stretch" style="padding:0.12rem ">
-				     <div class="sirName">{{item2.sirName}}</div>
-					 <div>{{item2.point}}分</div>
-				   </div>
-				   <div v-if="item2.isFollow" class="panlFollow">
-				   <div class="followClass">已关注</div>
-				   </div>
-				 </div>
-				 <div style="color:#B02E2E;font-size: 0.23rem;" @click="orderCourse">
-				  立刻预约
-				 </div>
-			   </div>
-			   
-			 </div>
-			 
+            <div v-if="!activeDateCourse.length" class="ptb20 text-center" style="margin-top: 30%">该日期没有可预约课程</div>
+		    <div v-else class="box-start timeCourse align-stretch" v-for=" (item,index) in activeDateCourse" :style="{'border':index+1==activeDateCourse.length?'none':''}">
+                <div class="pointTime"></div>
+                    <div style="padding: 0.02rem 0.15rem 0;" >
+                        <div style="padding-bottom:0.1rem">{{item.appointmentTime}}</div>
+                        <div>{{item.appointment_start_time}}-{{item.appointment_over_time}}</div>
+                    </div>
+                    <div class="rest"> 
+                        <div class="panlInfo box-justify">
+                            <div class="box-start align-stretch" >
+                            
+                            <img class="user-avatar" src="static/images/course/head-img.png">
+                            <div class="box-v-justify align-stretch" style="padding:0.12rem; margin-top: 6px;">
+                                    <div class="sirName">老师：{{item.english_name}}</div>
+                                    <!-- <div>5分</div> -->
+                            </div>
+                            <!-- <div v-if="item.isFollow" class="panlFollow">
+                                    <div class="followClass">已关注</div>
+                            </div> -->
+                            </div>
+                            <div style="color:#B02E2E;font-size: 0.23rem;" @click="orderCourse(item)">
+                                立刻预约
+                            </div>
+                        </div>
+                    </div>
 		   </div>
 		 </div>
+		 <mt-popup v-model="popupShow" position="bottom" popup-transition="popup-fade" style="width:100%">
+		   
+		   <div v-if="!orderSuccess" style="width:100%;height:250px;background-color:white" class="box-v-justify align-stretch">
+		      <div class="box-justify popupHeader" > 
+				<img class="backIcon" style="visibility:hidden" src="static/images/leftBack.png">
+				<div class="headerTittle" style="color:black">课程信息确认</div>
+			    <img class="backIcon" src="static/images/close2c.png" @click="closePopup">
+			  </div>
+			  <div class="popupBody box-v-start align-stretch">
+			    <div class="box-justify popupItem">
+				  <div class="popupSamallT">课程</div>
+				  <div class="popupSamallT2">{{confirmCourse.NAME}}</div>
+				</div>
+			    <div class="box-justify popupItem">
+				  <div class="popupSamallT">老师</div>
+				  <div class="popupSamallT2 box-start">
+				  <img class="user-avatar" style="width:20px;height:20px;margin-right:0.10rem" src="static/images/course/head-img.png">
+				  <div>{{confirmCourse.english_name}}</div>
+				  </div>
+				</div>
+				<div class="box-justify popupItem">
+				  <div class="popupSamallT">上课地址</div>
+				  <div class="popupSamallT2">{{confirmCourse.school_name}}</div>
+				</div>
+				<div class="box-justify popupItem">
+				  <div class="popupSamallT">时间</div>
+				  <div class="popupSamallT2">{{confirmCourse.appointmentTime + ' ' + confirmCourse.appointment_start_time + '-' + confirmCourse.appointment_over_time}}</div>
+				</div>
+			  </div>
+			  <div class="box-center popupFoot" @click="addAppointment" >
+			    <div class="headerTittle">确&nbsp;&nbsp;定</div>
+			  </div>
+		   </div>
+		   <div v-if="orderSuccess" style="width:100%;height:170px;background-color:white; padding: 20px 0;" class="box-v-center">
+		     <div>
+			   <img class="user-avatar" style="margin-bottom:0.3rem;width:45px;height:45px" src="static/images/success.png">
+			 </div>
+		      <div class="headerTittle" style="color:#c5393c;margin-bottom:0.4rem">
+			   预约成功
+			 </div>
+			 <div class="popupSamallT" style="margin-bottom:0.5rem">
+			   请提醒孩子尽快学习课前教材哦
+			 </div>
+			 <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a>
+           </div>
+         </mt-popup>
 	   </div>
+	   
 	</div>
 </template>
 <script>
-	import Valid from '@/js/common/validate'
-
+    import mixin from '@/js/common/student_mixin'
 	export default {
 		data() {
 			return {
-				mobile: '',
-				code: '',
-				checkedValue: true,
-				dataCourse:[
-				  {
-				    time:"14:30",
-					when:"下午",
-					course:[
-					{
-					  sirName:"Amy",
-					  point:4.5,
-					  isFollow:true
-					},
-					{
-					  sirName:"Rocher",
-					  point:4.5,
-					  isFollow:false
-					},
-					]
-				  },
-				  {
-				    time:"14:30",
-					when:"下午",
-					course:[
-					{
-					  sirName:"Alice",
-					  point:4.5,
-					  isFollow:false
-					}
-					]
-				  },
-				  {
-				    time:"20:30",
-					when:"晚上",
-					course:[
-					{
-					  sirName:"Bob",
-					  point:4.5,
-					  isFollow:false
-					}
-					]
-				  }
-				],
+                weekDate:[],
+                weekDateShow: [],
+				popupShow:false,
+				orderSuccess:false,
+                checkedValue: true,
+                
+                appointment_time: '',   //当前周的周一日期
+                courseListData: [],   //可预约的导读课程
+                studentList: [],
+                activeDate: 1,   //当前可预约日期
+                activeDateCourse: [],   //当前可预约日期的课程
+                confirmCourse: {},  //确认预约课程信息
+                curYearMonth: '',
+                curDateTime: '',
+                curStudentIndex: 0,
+                hasSubmit: false,
 			}
 		},
+        computed: {
+            curStudent() {
+                return this.studentList.length && this.studentList[this.curStudentIndex];
+            },
+        },
+        watch: {
+            activeDate(val) {
+                this.activeDateCourse = [];
+                 this.courseListData.filter((item) => {
+                    if(+item.appointment_time.substr(8, 2) === val) {
+                        this.activeDateCourse.push(item)
+                    }
+                });
+            }
+        },
 		mounted() {
-			
-		},
+            this.setCurStudentIndex();
+            this.getDate()
+            this.getweekDate()
+            this.getYearMonth()
+            this.queryStudentAll()
+        },
+        mixins: [mixin],
 		methods: { 
-			getUserInfo() {
-				let self = this;
-				self.$service.getUserInfo((res) => {
-					let data = res.data;
-					if(data.code === '0'){
-						if(data.data && data.data.isBindPhone === true){
-							self.$router.push({name:"classList"})
-						}else{
-							self.$router.push({name:"newGay"})
-						}
-					}else{
-						self.$showMsg(data.message);
-					}
-				}, (error) => {
-					self.$showMsg(error)
-				})
+            setCurStudentIndex() {
+                this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
+            },
+            handleChange(index) {
+                console.log(index)
+                let nextWeekMonday = this.weekDate[7].weekDate;
+                if(index === 0) {
+                    this.changeWeekCourse(this.curYearMonth + nextWeekMonday, nextWeekMonday, 13)
+                }else{
+                    this.changeWeekCourse(this.curYearMonth + this.weekDate[0].weekDate, new Date().getDate(), 6)
+                }
+            },
+            goback() {
+                history.go(-1)
+            },
+            //获取学生信息
+            queryStudentAll() {
+                // let courseListStorage = sessionStorage.getItem('courseListData')
+                
+                // if(courseListStorage) {
+                //     this.courseListData = JSON.parse(courseListStorage);
+                //     this.activeDate = this.initActiveDate;
+                // }else{
+                    this.$service.queryStudentAll((res) => {
+                            let resDate = res.data;
+                            this.dataLoaded = true;
+                            if (resDate.code === "0" && resDate.data.length) {
+                                this.studentList = resDate.data;
+                                //获取线下导读课程
+                                this.queryReadCourseAppointment(new Date().getDate(), 6);
+                            }else if(!resDate.data){
+                                this.$showMsg(resDate.message)
+                            }else if(!resDate.data.length){
+                                let message = '未查找到用户信息'
+                                this.$showMsg(message)
+                            }
+                        },
+                        error => {
+                            console.error(error);
+                        }
+                    );
+                // }
+
+            },
+			//获取线下导读课程
+			queryReadCourseAppointment(monday, sundayIndex) {
+                let dataParams = this.$qs.stringify({
+                        school_id: this.curStudent.schoolId,
+                        appointment_time: this.appointment_time,
+                        student_id: this.curStudent.studentId
+                    });
+
+                this.$service.queryReadCourseAppointment(
+                    dataParams,
+                    res => {
+                        if (res.data.code === "0") {
+                            this.courseListData = res.data.data;
+                            this.initActiveDate(monday, sundayIndex);
+                            sessionStorage.setItem('courseListData', JSON.stringify(res.data.data))
+                        }
+                    },
+                    error => {
+                        console.error(error);
+                    }
+                );
 			},
-			orderCourse(){
+            //计算当前可预约日期
+            initActiveDate(curDate, sundayIndex) {
+                let hasActiveCourse = false;
+                let today = +curDate;
+                let leftDay = +this.weekDate[sundayIndex].weekDate - today;
+                for(let i=0; i<=leftDay; i++) {
+                    this.courseListData.filter((item) => {
+                        if(+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
+                            this.activeDate = today;
+                            hasActiveCourse = true;
+                        }
+                    });
+                    today++
+                }
+            },
+			getweekDate(){
+			   var that=this;
+			   that.weekDate=[];
+               var Nowdate=new Date();  
+               var WeekFirstDay=new Date(Nowdate-(Nowdate.getDay()-1)*86400000);
+			   var oneTime=WeekFirstDay.getDate()
+			   if(oneTime<10){
+			       oneTime='0'+oneTime
+			   }else{
+			       oneTime=""+oneTime
+			   }
+               that.weekDate.push({
+                    weekDate:oneTime
+			   })
+               for(let i=1; i<14; i++){
+			       var tempTime=new Date((WeekFirstDay/1000+i*86400)*1000).getDate();
+                   if(tempTime<10){
+				       tempTime='0'+tempTime
+				   }else{
+				        tempTime=''+tempTime
+				   }				   
+			       that.weekDate.push({
+                        weekDate:tempTime
+                   });
+               }
+               
+			   for(let i=0; i<7; i++){
+			        that.weekDateShow.push(that.weekDate[i])
+			   }
+			},
+			orderCourse(item){
+                this.confirmCourse = item;
+                this.popupShow = true;
+			},
+			chooseDate(item){
+                this.activeDate = +item.weekDate;
+			},
+			closePopup(){
 			  var that=this;
-			}
+			  that.popupShow=false;
+			},
+			SwipeNextWeek(){
+              var that=this;
+			  that.weekDateShow=[];
+			  for(var i=7;i<14;i++){
+			     that.weekDateShow.push(that.weekDate[i])
+              }
+    
+              var nextWeekMonday = that.weekDate[7].weekDate;
+              this.changeWeekCourse(this.curYearMonth + nextWeekMonday, nextWeekMonday, 13)
+			},
+			onSwipeRight(){
+			  var that=this;
+			  that.weekDateShow=[];
+			  for(var i=0;i<7;i++){
+			     that.weekDateShow.push(that.weekDate[i])
+			  }
+              this.changeWeekCourse(this.curYearMonth + that.weekDate[0].weekDate, new Date().getDate(), 6)
+            },
+            //获取年月格式化
+            getYearMonth() {
+                let curYearMonth;
+                let newDate = new Date();
+                let date = newDate.getDate() + 1;
+                let month = newDate.getMonth() + 1;
+                if(date < 10) {
+                    date = '0' + date
+                }
+                if(month < 10) {
+                    month = '0' + month
+                }
+                curYearMonth = newDate.getFullYear() + '-' + month + '-';
+                this.curDateTime = curYearMonth + date
+                this.curYearMonth = curYearMonth;
+            },
+            //切换周日期
+            changeWeekCourse(weekTime, monday, sundayIndex) {
+                this.appointment_time = weekTime;
+                sessionStorage.removeItem('courseListData')
+                this.queryReadCourseAppointment(monday, sundayIndex);
+            },
+			//提交预约课程
+			addAppointment() {
+                // if(this.isDateCanAppoiment()) {
+                //     this.$showMsg('当前日期不可预约');
+                //     return;
+                // }
+                if(this.hasSubmit) {
+                    return;
+                }
+                this.hasSubmit = true;
+                this.confirmCourse.student_id = this.curStudent.studentId;
+                this.confirmCourse.classroom_type = 1;
+                let dataParams = this.$qs.stringify(this.confirmCourse);
+                this.$service.addAppointment(
+                    dataParams,
+                    res => {
+                        if (res.data.code === "0") {
+			                this.orderSuccess = true;
+                        }else{
+                            this.$showMsg(res.data.message)
+                            this.hasSubmit = false;
+                        }
+                    },
+                    error => {
+                        this.hasSubmit = false;
+                        console.error(error);
+                    }
+                );
+            },
+            isDateCanAppoiment() {
+                return this.curDateTime < this.confirmCourse.appointmentTime
+            }
 		}
 			
 	}
@@ -174,8 +404,8 @@
 	}
 	.OrderBodyContent{
 	    padding:0px;
-		margin:0px;
-		height:100%;
+        margin:0px;
+        min-height: 100%;
 	}
 	.topOrder{
 		padding:0.1rem 0.2rem;
@@ -198,11 +428,11 @@
 	margin-right:0.22rem;
 	}
 	.backIcon2{
-	width: 20px;
-    height: 20px;
+	width: 13px;
+    height: 13px;
     border-radius: 60px;
     display: block;
-	margin-top:0.04rem
+    margin-top:0.04rem;
 	}
 	.headerTittle{
 	color:white;
@@ -256,5 +486,29 @@
 		background-color:red;
 		border-radius:30px;
 		margin-left: -3px;
+	}
+	.popupHeader{
+	   padding:0.25rem 0.15rem;
+	   border-bottom:1px solid #b7b7b7;
+	}
+	.popupBody{
+	   padding:0.35rem 0.20rem;
+	   
+	}
+	.popupSamallT{
+	   font-size:0.25rem;
+	   color:#b7b7b7
+	}
+	.popupSamallT2{
+	   font-size:0.25rem;
+	   color:black
+	}
+	.popupItem{
+	   margin-bottom:0.4rem;
+	}
+	.popupFoot{
+	 background-color:#B02E2E;
+	 color:white;
+	 padding:0.35rem 0rem
 	}
 </style>

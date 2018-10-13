@@ -173,4 +173,13 @@ export default {
             fail && fail(error);
         })
     },
+    //预约课程
+    addAppointment: function(params, success, fail) {
+        axios.post(api.addAppointmentStudentInfo, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
 }

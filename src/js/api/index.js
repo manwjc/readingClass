@@ -38,4 +38,6 @@ export default {
     queryReadCourseHaveClassRecord: '/wx/homepage/queryReadCourseHaveClassRecord',
     //获取未参加课程
     queryReadCourseNotClassRecord: '/wx/homepage/queryReadCourseNotClassRecord',
+    //预约课程
+    addAppointmentStudentInfo: '/wx/homepage/addAppointmentStudentInfo',
 }

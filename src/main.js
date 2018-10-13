@@ -9,6 +9,12 @@ import qs from 'qs'
 import service from './js/service'
 
 import showMessage from 'vue-show-message'
+import Mint from 'mint-ui';
+Vue.use(Mint);
+import 'mint-ui/lib/style.css'; 
+
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch, {name: 'v-touch'})
 
 Vue.use(showMessage, {
 	duration: 2000

@@ -10,7 +10,7 @@
 				<div class="input-row box-start">
 					<img  src="static/images/course/login-verify.jpg">
 					<input v-model="code" placeholder="输入验证码"  class="box-start rest" type="text" />
-					<p @click="getCode">验证码</p>
+					<p style="font-size: 16px;" @click="getCode">验证码</p>
 				</div>
 			</div>
 			<button @click="submitForm" class="course-btn box-center">登录</button>
@@ -36,8 +36,8 @@
 
 <script>
 	import Valid from '@/js/common/validate'
-	import Swiper from 'swiper';
-	import 'swiper/dist/css/swiper.min.css';
+	// import Swiper from 'swiper';
+	// import 'swiper/dist/css/swiper.min.css';
 
 	export default {
 		data() {
@@ -80,7 +80,9 @@
 		},
 		mounted() {
 
-			setTimeout(function () {
+			this.getUserInfo()
+
+			/* setTimeout(function () {
 				let swiperObj = new Swiper('#swiper', {
 					loop: true,
 					pagination: '.swiper-pagination',
@@ -92,14 +94,12 @@
 						},
 					},
 				});
-			}, 100)
-			
+			}, 100) */
 		},
 		methods: { 
 			queryCourseForDate(item) {
 				console.log(item)
 			},
-
 
 			getUserInfo() {
 				let self = this;
@@ -109,7 +109,8 @@
 						if(data.data && data.data.isBindPhone === true){
 							self.$router.push({name:"classList"})
 						}else if(data.data){
-							self.$router.push({name:"newGay"})
+							self.$showMsg('请先绑定手机');
+							// self.$router.push({name:"newGay"})
 						}else{
 							self.$showMsg(data.message);
 						}
@@ -218,7 +219,7 @@
 	}
 	#check-container .input-wrapper .input-row input{
 		margin-right:10px;
-		height:40px;
+		height:50px;
 		border:none;
 		font-size:14px;
 	}

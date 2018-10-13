@@ -3,7 +3,7 @@ html {
   }
   
   body {
-    font-size: 0.16rem;
+    font-size: 0.24rem;
     text-align: left;
     tap-highlight-color: rgba(143,142,148,0); focus-ring-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(143,142,148,0); -webkit-focus-ring-color: rgba(0, 0, 0, 0); 
   }
@@ -79,14 +79,6 @@ html {
   
   .mleft20 {
     margin-left: 0.2rem !important;
-  }
-  
-  .mright10 {
-    margin-right: 0.1rem !important;
-  }
-  
-  .mright20 {
-    margin-right: 0.2rem !important;
   }
   
   .minuleft20 {
@@ -243,7 +235,7 @@ html {
   /* 导读课 */
   .list-img{ width: 80px; height: 120px;}
   .user-avatar{ width: 40px; height: 40px;}
-  .red-btn{ width: 100px; height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
+  .red-btn{ width: 100px; height: 32px; line-height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
   .padding20{ padding: 20px;}
   .border-top{ border-top: 1px solid #eeeeee}
   .pt10{ padding-top: 10px;}
