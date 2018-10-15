@@ -146,6 +146,15 @@ export default {
             fail && fail(error);
         })
     },
+    //获取本周导读课程
+    queryThisWeekReadByUser: function(params, success, fail) {
+        axios.post(api.queryThisWeekReadByUser, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
     //获取线下导读课程
     queryReadCourseAppointment: function(params, success, fail) {
         axios.post(api.queryReadCourseAppointment, params).then((res)=>{

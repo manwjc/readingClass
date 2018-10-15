@@ -6,6 +6,22 @@ export default {
       };
     },
     methods: { 
+        //获取年月格式化
+        getYearMonth() {
+            let curYearMonth;
+            let newDate = new Date();
+            let date = newDate.getDate();
+            let month = newDate.getMonth() + 1;
+            if(date < 10) {
+                date = '0' + date
+            }
+            if(month < 10) {
+                month = '0' + month
+            }
+            curYearMonth = newDate.getFullYear() + '-' + month + '-';
+            this.curDateTime = curYearMonth + date
+            this.curYearMonth = curYearMonth;
+        },
         getMonday() {
             let now = new Date();
             let nowTime = now.getTime() ;
@@ -15,7 +31,6 @@ export default {
             let formatDate = this.getNowFormatDate(new Date(MondayTime))
             this.appointment_time = this.appointment_time || formatDate;
             return formatDate;
-
         },
         getNowFormatDate(date) {
             let seperator1 = "-";
@@ -38,8 +53,8 @@ export default {
                     this.dataLoaded = true;
                     if (resDate.code === "0" && resDate.data.length) {
                         this.studentList = resDate.data;
-                        //获取线下导读课程
-                        this.queryReadCourseAppointment();
+                        //获取本周导读课程
+                        this.queryThisWeekReadByUser();
                         //获取已参加课程
                         this.queryClassRecord();
                     }else if(!resDate.data){
@@ -54,15 +69,13 @@ export default {
                 }
             );
         },
-        //获取线下导读课程
-        queryReadCourseAppointment() {
+        //获取本周导读课程
+        queryThisWeekReadByUser() {
             let dataParams = this.$qs.stringify({
-                school_id: this.curStudent.schoolId,
-                appointment_time: this.appointment_time,
                 student_id: this.curStudent.studentId
             });
 
-            this.$service.queryReadCourseAppointment(
+            this.$service.queryThisWeekReadByUser(
                 dataParams,
                 res => {
                     if (res.data.code === "0") {

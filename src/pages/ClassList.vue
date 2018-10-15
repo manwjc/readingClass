@@ -55,38 +55,40 @@
         <div class="course-main-header">
             <h3>线下导读</h3>
             <p class="des">老师带领细读经典英文课本</p>
-            <div v-for="(item,index) in courseListData" v-if="item.status === '-1' && index === 0" class="introduce box-start">
-                <img  src="static/images/course/book.png">
-                <div class="introduce-right box-v-center align-start">
-                    <div class="introduce-text">
-                        <p>{{item.NAME}}</p>
-                        <p>{{item.app_explain}}</p>
-                        <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
-                    </div>
-                    <div class="btn-wrapper">
-                        <router-link to="/orderCourse">
-                            <button>立即预约</button>
-                        </router-link>
+            <div v-if="courseListData.status === '-1'">
+                <div class="introduce box-start">
+                    <img  src="static/images/course/book.png">
+                    <div class="introduce-right box-v-center align-start">
+                        <div class="introduce-text">
+                            <p>{{courseListData.name}}</p>
+                            <!-- <p>{{courseListData.app_explain}}</p> -->
+                            <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
+                        </div>
+                        <div class="btn-wrapper">
+                            <router-link to="/orderCourse">
+                                <button>立即预约</button>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div v-for="(item,index) in courseListData" v-else-if="item.status === '1' && index === 0" class="shadow mtop10 mright20 padding20">
+            <div v-else-if="courseListData.status === '1'" class="shadow mtop10 mright20 padding20">
                 <div class="displaybox">
                     <img class="list-img" src="static/images/course/book.png">
                     <div class="boxflex01 boxalign mleft15">
                         <div class="course-item-info">
-                            <p class="f26 bold">{{item.NAME}}</p>
-                            <p class="mtop10">{{item.appointment_time | timeFormat}}</p>
+                            <p class="f26 bold">{{courseListData.name}}</p>
+                            <p class="mtop10">{{courseListData.appointmentTime | timeFormat}}</p>
                             <p class="box-start mtop10">
                                 <img class="user-avatar" src="static/images/course/head-img.png">
-                                <span class="mleft15">老师：{{item.english_name}}</span>
+                                <span class="mleft15">老师：{{courseListData.teacherName}}</span>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="displaybox border-top mtop10 pt10">
-                    <div class="left boxflex01" target="_blank" @click="cancelCourse(item)"><button class="box-center">取消课程</button></div>
-                    <a class="right boxflex01" target="_blank"  href="static/images/zhongqi.pdf"><button class="red-btn">预习课件</button></a>
+                    <div class="left boxflex01" target="_blank" @click="cancelCourse(courseListData.gradeNumber)"><button class="box-center">取消课程</button></div>
+                    <a v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01" target="_blank"  :href="item.h5_file_url"><button class="red-btn">预习课件</button></a>
                     <!-- <a class="right boxflex01" target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">预习课件</button></a> -->
                 </div>
             </div>
@@ -108,16 +110,16 @@
                                         <p>{{item.appointment_time | timeFormat}}</p>
                                         <p class="box-start">
                                             <img class="avatar" src="static/images/course/head-img.png">
-                                            <span class="box-center">老师：{{item.english_name}}</span>
+                                            <span class="box-center">{{item.teacher_name}}</span>
                                             <!-- <span class="box-center">|</span>
                                             <span class="box-center">4.5分</span> -->
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="item-bot box-center">
+                            <div class="item-bot box-center" target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'">
                                 <!-- <a target="_blank"  href="static/images/zhongqi.pdf"><button class="red-btn">查看课件</button></a> -->
-                                <!-- <a target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">查看课件</button></a> -->
+                                <a target="_blank" :href="chelchost + '/' + course.APPENDIX_URL"><button class="red-btn">查看课件</button></a>
                                 <!-- <button v-if="curTabIndex === 0" class="red-btn">做作业</button> -->
                             </div>
                         </div>
@@ -131,6 +133,7 @@
 </template>
 
 <script>
+    import constant from '@/js/common/constant'
     import mixin from '@/js/common/student_mixin'
     export default {
         data() {
@@ -142,6 +145,9 @@
                 appointment_time: '',   //当前周的周一日期
                 curTabIndex: 0,
                 curStudentIndex: '',
+                chelchost: constant.chelchost,
+                curDateTime: '',
+                curYearMonth: ''
             };
         },
         computed: {
@@ -153,7 +159,7 @@
             curStudentIndex: function() {
                 if(this.studentList.length) {
                     //获取线下导读课程
-                    this.queryReadCourseAppointment();
+                    this.queryThisWeekReadByUser();
                     //获取已参加课程
                     this.queryClassRecord();
                 }
@@ -172,6 +178,7 @@
             this.setCurStudentIndex();
             this.initPage();
             this.getMonday();
+            this.getYearMonth();
         },
         mixins: [mixin],
         methods: {
@@ -182,10 +189,10 @@
                 //获取学生信息
                 this.queryStudentAll();
             },
-            cancelCourse(item) {
+            cancelCourse(grade_number) {
 
                 let dataParams = this.$qs.stringify({
-                    grade_number: item.grade_number,
+                    grade_number: grade_number,
                     student_id: this.curStudent.studentId
                 });
                 
@@ -198,7 +205,7 @@
                     res => {
                         if (res.data.code === "0") {
                             this.$showMsg('取消成功！')
-                            this.queryReadCourseAppointment()
+                            this.queryThisWeekReadByUser()
                         }else{
                             this.$showMsg(res.data.message)
                         }
@@ -223,7 +230,8 @@
             queryClassMissing() {
                 let dataParams = this.$qs.stringify({
                     school_id: this.curStudent.schoolId,
-                    student_id: this.curStudent.studentId
+                    student_id: this.curStudent.studentId,
+                    appointment_time : this.curDateTime
                 });
 
                 this.$service.queryClassMissing(

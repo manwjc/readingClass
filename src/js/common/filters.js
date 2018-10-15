@@ -12,7 +12,7 @@ export default {
         return Number(str).toFixed(2);
     },
     timeFormat: (str) => {
-        if (str === '' || str === undefined) {
+        if (!str) {
             return '';
         }
         return str.replace(/T/g, ' ').replace(/\.000\+0000/, '');

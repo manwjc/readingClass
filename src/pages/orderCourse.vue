@@ -348,22 +348,6 @@
 			  }
               this.changeWeekCourse(this.curYearMonth + that.weekDate[0].weekDate, new Date().getDate(), 6)
             },
-            //获取年月格式化
-            getYearMonth() {
-                let curYearMonth;
-                let newDate = new Date();
-                let date = newDate.getDate() + 1;
-                let month = newDate.getMonth() + 1;
-                if(date < 10) {
-                    date = '0' + date
-                }
-                if(month < 10) {
-                    month = '0' + month
-                }
-                curYearMonth = newDate.getFullYear() + '-' + month + '-';
-                this.curDateTime = curYearMonth + date
-                this.curYearMonth = curYearMonth;
-            },
             //切换周日期
             changeWeekCourse(weekTime, monday, sundayIndex) {
                 this.appointment_time = weekTime;

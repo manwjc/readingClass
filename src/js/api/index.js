@@ -32,6 +32,8 @@ export default {
      */
     //获取学生信息
     queryStudentAll: '/wx/homepage/queryStudentAll',
+    //获取本周导读课程
+    queryThisWeekReadByUser: '/wx/homepage/queryThisWeekReadByUser',
     //获取线下导读课程
     queryReadCourseAppointment: '/wx/homepage/queryReadCourseAppointment',
     //获取已参加课程
