@@ -182,4 +182,13 @@ export default {
             fail && fail(error);
         })
     },
+    //取消预约课程
+    updateStudentAppointmentState: function(params, success, fail) {
+        axios.post(api.updateStudentAppointmentState, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
 }

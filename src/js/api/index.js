@@ -40,4 +40,6 @@ export default {
     queryReadCourseNotClassRecord: '/wx/homepage/queryReadCourseNotClassRecord',
     //预约课程
     addAppointmentStudentInfo: '/wx/homepage/addAppointmentStudentInfo',
+    //取消预约课程
+    updateStudentAppointmentState: '/wx/homepage/updateStudentAppointmentState',
 }

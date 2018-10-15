@@ -31,18 +31,18 @@
 			   <div class="smallTittle">周日</div>
 			</div>
 			<!-- <div class="box-justify align-stretch"> -->
-            <v-touch v-on:swipeleft="SwipeNextWeek()" v-on:swiperight="onSwipeRight()" class="box-justify align-stretch" >
+            <!-- <v-touch v-on:swipeleft="SwipeNextWeek()" v-on:swiperight="onSwipeRight()" class="box-justify align-stretch" >
 			   <div class="bigWFont" v-for=" (item,index) in weekDateShow" @click="chooseDate(item)">
                     <div>
                     {{item.weekDate}}
                     </div>
                     <div style="width: 13px;height: 13px;margin-top:0.04rem;"><img v-if="+item.weekDate === activeDate" class="backIcon2" src="static/images/up.png"></div>
 			   </div>
-            </v-touch>
+            </v-touch> -->
 			<!-- </div> -->
 
             
-            <!-- <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height:24px;background: #00244C;padding: 0rem 0.2rem;">
+            <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height:24px; background: #00244C; margin-top: -0.1rem; padding: 0.2rem 0.1rem 0;">
                 <mt-swipe-item >
                 <div class="box-justify align-stretch">
                     <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index<7" @click="chooseDate(item)">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 </mt-swipe-item>
-            </mt-swipe>  -->
+            </mt-swipe> 
 
 
 		  </div>
@@ -193,7 +193,7 @@
         },
 		mounted() {
             this.setCurStudentIndex();
-            this.getDate()
+            this.getMonday()
             this.getweekDate()
             this.getYearMonth()
             this.queryStudentAll()
@@ -204,45 +204,39 @@
                 this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
             },
             handleChange(index) {
-                console.log(index)
-                let nextWeekMonday = this.weekDate[7].weekDate;
-                if(index === 0) {
-                    this.changeWeekCourse(this.curYearMonth + nextWeekMonday, nextWeekMonday, 13)
-                }else{
+				let activeWeekMonday;
+				if(index === 0) {
+					activeWeekMonday = this.weekDate[0].weekDate;
+                    this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
+				}else{
+					activeWeekMonday = this.weekDate[7].weekDate;
                     this.changeWeekCourse(this.curYearMonth + this.weekDate[0].weekDate, new Date().getDate(), 6)
-                }
+				}
+                console.log(index, activeWeekMonday)
             },
             goback() {
                 history.go(-1)
             },
             //获取学生信息
             queryStudentAll() {
-                // let courseListStorage = sessionStorage.getItem('courseListData')
-                
-                // if(courseListStorage) {
-                //     this.courseListData = JSON.parse(courseListStorage);
-                //     this.activeDate = this.initActiveDate;
-                // }else{
-                    this.$service.queryStudentAll((res) => {
-                            let resDate = res.data;
-                            this.dataLoaded = true;
-                            if (resDate.code === "0" && resDate.data.length) {
-                                this.studentList = resDate.data;
-                                //获取线下导读课程
-                                this.queryReadCourseAppointment(new Date().getDate(), 6);
-                            }else if(!resDate.data){
-                                this.$showMsg(resDate.message)
-                            }else if(!resDate.data.length){
-                                let message = '未查找到用户信息'
-                                this.$showMsg(message)
-                            }
-                        },
-                        error => {
-                            console.error(error);
-                        }
-                    );
-                // }
-
+				this.$service.queryStudentAll((res) => {
+						let resDate = res.data;
+						this.dataLoaded = true;
+						if (resDate.code === "0" && resDate.data.length) {
+							this.studentList = resDate.data;
+							//获取线下导读课程
+							this.queryReadCourseAppointment(new Date().getDate(), 6);
+						}else if(!resDate.data){
+							this.$showMsg(resDate.message)
+						}else if(!resDate.data.length){
+							let message = '未查找到用户信息'
+							this.$showMsg(message)
+						}
+					},
+					error => {
+						console.error(error);
+					}
+				);
             },
 			//获取线下导读课程
 			queryReadCourseAppointment(monday, sundayIndex) {
@@ -274,6 +268,7 @@
                 for(let i=0; i<=leftDay; i++) {
                     this.courseListData.filter((item) => {
                         if(+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
+							//设置当前可预约日期
                             this.activeDate = today;
                             hasActiveCourse = true;
                         }
@@ -329,6 +324,7 @@
 				}
 			},
 			chooseDate(item){
+				console.log(item)
                 this.activeDate = +item.weekDate;
 			},
 			closePopup(){
@@ -341,8 +337,8 @@
 			     that.weekDateShow.push(that.weekDate[i])
               }
     
-              var nextWeekMonday = that.weekDate[7].weekDate;
-              this.changeWeekCourse(this.curYearMonth + nextWeekMonday, nextWeekMonday, 13)
+              var activeWeekMonday = that.weekDate[7].weekDate;
+              this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
 			},
 			onSwipeRight(){
 			  var that=this;

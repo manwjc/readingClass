@@ -6,7 +6,7 @@ export default {
       };
     },
     methods: { 
-        getDate() {
+        getMonday() {
             let now = new Date();
             let nowTime = now.getTime() ;
             let day = now.getDay();

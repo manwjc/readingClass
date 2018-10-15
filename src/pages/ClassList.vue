@@ -171,7 +171,7 @@
         mounted() {
             this.setCurStudentIndex();
             this.initPage();
-            this.getDate();
+            this.getMonday();
         },
         mixins: [mixin],
         methods: {
@@ -183,7 +183,30 @@
                 this.queryStudentAll();
             },
             cancelCourse(item) {
-                console.log(item)
+
+                let dataParams = this.$qs.stringify({
+                    grade_number: item.grade_number,
+                    student_id: this.curStudent.studentId
+                });
+                
+                if(!window.confirm('确定取消该课程？')) {
+                    return;
+                }
+
+                this.$service.updateStudentAppointmentState(
+                    dataParams,
+                    res => {
+                        if (res.data.code === "0") {
+                            this.$showMsg('取消成功！')
+                            this.queryReadCourseAppointment()
+                        }else{
+                            this.$showMsg(res.data.message)
+                        }
+                    },
+                    error => {
+                        console.error(error);
+                    }
+                );
             },
             changeCourseTab(index) {
                 this.curTabIndex = index
