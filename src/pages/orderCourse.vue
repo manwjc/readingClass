@@ -207,10 +207,10 @@
 				let activeWeekMonday;
 				if(index === 0) {
 					activeWeekMonday = this.weekDate[0].weekDate;
-                    this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
+                    this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 6)
 				}else{
 					activeWeekMonday = this.weekDate[7].weekDate;
-                    this.changeWeekCourse(this.curYearMonth + this.weekDate[0].weekDate, new Date().getDate(), 6)
+                    this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
 				}
                 console.log(index, activeWeekMonday)
             },
