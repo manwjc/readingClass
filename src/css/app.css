@@ -1,10 +1,11 @@
 html {
-    font-size: 100px;
+    font-size: 100px; height: 100%;
   }
   
   body {
     font-size: 0.24rem;
     text-align: left;
+    height: 100%;
     tap-highlight-color: rgba(143,142,148,0); focus-ring-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: rgba(143,142,148,0); -webkit-focus-ring-color: rgba(0, 0, 0, 0); 
   }
   html,
@@ -19,6 +20,7 @@ html {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    height: inherit;
   }
   
   @media only screen and (min-width:640px) {
@@ -250,4 +252,21 @@ html {
   
   .mright20 {
     margin-right: 20px !important;
+  }
+
+  .align-middle{ position: relative; top: 50%; left: 50%; transform:translate(-50%,-50%);  -webkit-transform:translate(-50%,-50%);}
+
+  .loading-box{
+    width: 120px;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .loading-icon{
+    width: 20px;
+    height: 20px;
+    margin: 0px auto 5px;
+    margin-top: 32px;
   }

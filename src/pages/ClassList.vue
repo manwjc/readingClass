@@ -55,7 +55,7 @@
         <div class="course-main-header">
             <h3>线下导读</h3>
             <p class="des">老师带领细读经典英文课本</p>
-            <div v-if="courseListData.status === '-1'">
+            <div v-if="courseListData.status === '-1' || courseListData.status === '4'">
                 <div class="introduce box-start">
                     <img  src="static/images/course/book.png">
                     <div class="introduce-right box-v-center align-start">

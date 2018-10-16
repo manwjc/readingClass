@@ -21,7 +21,7 @@ export default new Router({
       path: '/',
       name: 'index',
       component: IndexPage,
-      redirect: '/checkPhone',
+      // redirect: '/checkPhone',
       meta: {
         keepAlive: true,
         title: '乔希家导读课预约'

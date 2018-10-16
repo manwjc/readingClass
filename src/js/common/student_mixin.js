@@ -1,5 +1,3 @@
-import service from '@/js/service'
-
 export default {
     data() {
       return {

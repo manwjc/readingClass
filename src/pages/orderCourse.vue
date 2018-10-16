@@ -145,6 +145,7 @@
 			   请提醒孩子尽快学习课前教材哦
 			 </div>
 			 <!-- <a target="_blank" href="static/images/zhongqi.pdf"><div class="red-btn">查看课件</div></a> -->
+			 <!-- <a target="_blank" :href="chelchost + '/' + course.APPENDIX_URL"><button class="red-btn">查看课件</button></a> -->
 			 <!-- <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a> -->
            </div>
          </mt-popup>
@@ -153,6 +154,7 @@
 	</div>
 </template>
 <script>
+    import constant from '@/js/common/constant'
     import mixin from '@/js/common/student_mixin'
 	export default {
 		data() {
@@ -174,6 +176,7 @@
                 curStudentIndex: 0,
 				hasSubmit: false,
 				orderedGradeList: [],
+                chelchost: constant.chelchost,
 			}
 		},
         computed: {
