@@ -22,6 +22,7 @@
 			getUserInfo() {
 				this.$service.getUserInfo((res) => {
 					this.userData = res.data;
+					this.userData.data.openId && sessionStorage.setItem('openId', this.userData.data.openId);
 					this.goToRouter(this.userData);
 				}, (error) => {
 					this.$showMsg(error)

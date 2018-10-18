@@ -3,8 +3,7 @@
 		<div ref="maskVideoBox" class="mask-video" v-show="maskShow">
 			<video ref="maskVideo" controls="controls" :src="curVideoUrl"></video>
 		</div>
-		<div class="mask relative" v-show="maskShow" @click="hideMask">
-		</div>
+		<div class="mask relative" v-show="maskShow" @click="hideMask"></div>
 		<img @click.prevent src="static/images/page2_01.jpg">
 		<img @click.prevent src="static/images/page2_02.jpg">
 		<div class="video_box">
@@ -41,7 +40,7 @@
 		data() {
 			return {
 				listData: [],
-				maskShow: false,
+				maskShow: true,
 				curVideoUrl: '',
 				firstVideoUrl: 'https://pic.ibaotu.com/00/43/09/17T888piCtVf.mp4',
 				videoListData: [],

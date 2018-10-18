@@ -106,11 +106,11 @@
 				self.$service.getUserInfo((res) => {
 					let data = res.data;
 					if(data.code === '0'){
-						if(data.data && data.data.isBindPhone === true){
+						if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === true){
 							self.$router.push({name:"classList"})
-						}else if(data.data){
-							self.$showMsg('请先绑定手机');
-							// self.$router.push({name:"newGay"})
+						}else if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === false){
+							// self.$showMsg('请先绑定手机');
+							self.$router.push({name:"newGay"})
 						}else{
 							self.$showMsg(data.message);
 						}

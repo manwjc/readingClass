@@ -44,4 +44,9 @@ export default {
     addAppointmentStudentInfo: '/wx/homepage/addAppointmentStudentInfo',
     //取消预约课程
     updateStudentAppointmentState: '/wx/homepage/updateStudentAppointmentState',
+
+    //查询所有馆区
+    queryAllSchool: '/wx/homepage/queryAllSchool',
+    //添加孩子
+    addStudent: '/wx/homepage/addStudent',
 }

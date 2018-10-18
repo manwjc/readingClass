@@ -101,7 +101,7 @@
                     </div>
 		   </div>
 		 </div>
-		 <mt-popup v-model="popupShow" position="bottom" popup-transition="popup-fade" style="width:100%">
+		 <mt-popup v-model="popupShow" position="bottom" popup-transition="popup-fade" closeOnClickModal="false" style="width:100%">
 		   
 		   <div v-if="!orderSuccess" style="width:100%;height:250px;background-color:white" class="box-v-justify align-stretch">
 		      <div class="box-justify popupHeader" > 
@@ -139,13 +139,13 @@
 			   <img class="user-avatar" style="margin-bottom:0.3rem;width:45px;height:45px" src="static/images/success.png">
 			 </div>
 		      <div class="headerTittle" style="color:#c5393c;margin-bottom:0.4rem">
-			   预约成功
+			   已成功预约该课程
 			 </div>
 			 <div class="popupSamallT" style="margin-bottom:0.5rem">
 			   请提醒孩子尽快学习课前教材哦
 			 </div>
-			 <!-- <a target="_blank" href="static/images/zhongqi.pdf"><div class="red-btn">查看课件</div></a> -->
-			 <!-- <a target="_blank" :href="chelchost + '/' + course.APPENDIX_URL"><button class="red-btn">查看课件</button></a> -->
+			 <router-link to="/classList"><div class="red-btn">确定</div></router-link>
+			 <!-- <a target="_blank" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
 			 <!-- <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a> -->
            </div>
          </mt-popup>
@@ -154,7 +154,6 @@
 	</div>
 </template>
 <script>
-    import constant from '@/js/common/constant'
     import mixin from '@/js/common/student_mixin'
 	export default {
 		data() {
@@ -176,7 +175,6 @@
                 curStudentIndex: 0,
 				hasSubmit: false,
 				orderedGradeList: [],
-                chelchost: constant.chelchost,
 			}
 		},
         computed: {

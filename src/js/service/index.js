@@ -200,4 +200,23 @@ export default {
             fail && fail(error);
         })
     },
+
+    //查询所有馆区
+    queryAllSchool: function(success, fail) {
+        axios.get(api.queryAllSchool).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //添加孩子
+    addStudent: function(params, success, fail) {
+        axios.post(api.addStudent, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
 }

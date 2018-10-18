@@ -81,15 +81,14 @@
                             <p class="mtop10">{{courseListData.appointmentTime | timeFormat}}</p>
                             <p class="box-start mtop10">
                                 <img class="user-avatar" src="static/images/course/head-img.png">
-                                <span class="mleft15">老师：{{courseListData.teacherName}}</span>
+                                <span class="mleft15">老师：{{courseListData.englishName}}</span>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="displaybox border-top mtop10 pt10">
                     <div class="left boxflex01" target="_blank" @click="cancelCourse(courseListData.gradeNumber)"><button class="box-center">取消课程</button></div>
-                    <a v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01" target="_blank"  :href="item.h5_file_url"><button class="red-btn">预习课件</button></a>
-                    <!-- <a class="right boxflex01" target="_blank" :href="item.coursewareList && item.coursewareList[0].h5_file_url"><button class="red-btn">预习课件</button></a> -->
+                    <div v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div>
                 </div>
             </div>
         </div>
@@ -100,17 +99,17 @@
                     <button class="box-center" @click="changeCourseTab(1)" :class="{'active': curTabIndex === 1}">未参加课程</button>
                 </div>
                 <div class="tab-body">
-                    <div v-if="courseRecordData.length" class="attended">
+                    <div v-if="courseRecordData && courseRecordData.length" class="attended">
                         <div v-for="item in courseRecordData" class="course-item shadow">
                             <div class="item-top box-start">
                                 <img class="course-img" src="static/images/course/book.png">
                                 <div class="course-item-right box-v-center align-start">
                                     <div class="course-item-text">
-                                        <p>{{item.NAME}}</p>
+                                        <p>{{item.course_name}}</p>
                                         <p>{{item.appointment_time | timeFormat}}</p>
                                         <p class="box-start">
                                             <img class="avatar" src="static/images/course/head-img.png">
-                                            <span class="box-center">{{item.teacher_name}}</span>
+                                            <span class="box-center">{{item.english_name}}</span>
                                             <!-- <span class="box-center">|</span>
                                             <span class="box-center">4.5分</span> -->
                                         </p>
@@ -118,13 +117,13 @@
                                 </div>
                             </div>
                             <div class="item-bot box-center" target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'">
-                                <!-- <a target="_blank"  href="static/images/zhongqi.pdf"><button class="red-btn">查看课件</button></a> -->
-                                <a target="_blank" :href="chelchost + '/' + course.APPENDIX_URL"><button class="red-btn">查看课件</button></a>
-                                <!-- <button v-if="curTabIndex === 0" class="red-btn">做作业</button> -->
+                                <!-- <a target="_blank" :href="chelchost + '/' + course.APPENDIX_URL"><button class="red-btn">查看课件</button></a> -->
+                                <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button>
+                                <button v-if="curTabIndex === 0" class="red-btn" @click="doHomework(item)">做作业</button>
                             </div>
                         </div>
                     </div>
-                    <div v-else class="ptb20 text-center" style="margin-top: 30%">暂无课程信息</div>
+                    <div v-else class="ptb20 text-center" style="margin-top: 10%">暂无课程信息</div>
                 </div>
             </div>
         </div>
@@ -133,7 +132,6 @@
 </template>
 
 <script>
-    import constant from '@/js/common/constant'
     import mixin from '@/js/common/student_mixin'
     export default {
         data() {
@@ -145,7 +143,6 @@
                 appointment_time: '',   //当前周的周一日期
                 curTabIndex: 0,
                 curStudentIndex: '',
-                chelchost: constant.chelchost,
                 curDateTime: '',
                 curYearMonth: ''
             };
@@ -182,6 +179,16 @@
         },
         mixins: [mixin],
         methods: {
+            //查看课件详情
+            viewCourseDetail(item) {
+                sessionStorage.setItem('courseDetailData', JSON.stringify(item));
+                this.$router.push({name: 'courseDetail'})
+            },
+            //做作业
+            doHomework(item) {
+                sessionStorage.setItem('courseDetailData', JSON.stringify(item));
+                this.$router.push({name: 'homework'})
+            },
             setCurStudentIndex() {
                 this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
             },

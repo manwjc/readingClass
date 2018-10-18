@@ -11,18 +11,11 @@ export default {
     methods: { 
         getUserInfo(callback) {
             let self = this;
-            let stateUserData = self.$store.state.userData;
-            if(stateUserData !== null){
-                self.userData = self.$store.state.userData
+            service.getUserInfo((res)=>{
+                self.userData = res.data;
                 self.getWxInfo();
                 callback && callback();
-            }else{
-                service.getUserInfo((res)=>{
-                    self.userData = self.$store.state.userData = res.data;
-                    self.getWxInfo();
-                    callback && callback();
-                })
-            }
+            })
         },
         getWxInfo() {
             let self = this;
@@ -40,7 +33,7 @@ export default {
                 })
             }
         },
-        wxShareInit(shareData) {
+        wxShareInit() {
             let self = this;
             //配置微信信息
             wx.config ({

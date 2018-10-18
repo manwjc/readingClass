@@ -1,40 +1,95 @@
 <template>
-	<div class="relative">
-		<img @click.prevent src="../assets/images/p_a_01.jpg">
-		<img @click.prevent src="../assets/images/p_b_02.jpg">
-		<img @click.prevent src="../assets/images/p_b_03.jpg">
-		<div class="form_list">
-			<div class="form_box">
-				<form id="FormBox" method="post">
-					<p class="displaybox">
-						<label class="label_name" for="userName">学员姓名</label><span>：</span>
-						<input class="input_normal boxflex01" type="text" name="userName" v-model="userName">
-					</p>
-					<p class="displaybox">
-						<label class="label_name" for="userAge">宝贝年龄</label><span>：</span>
-						<input class="input_normal boxflex01" type="number" name="userAge" v-model.number="userAge" @change="getTermNumList">
-					</p>
-					<p class="displaybox">
-						<label class="label_name" for="defaultRoom">阅读馆</label><span>：</span>
-						<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="getTermNumList" v-if="userData && userData.data && userData.data.utmSource === 'cmb'" >
-							<option v-for="(item,index) in readingRooms"  :value="index+1" v-if="index < 5">{{ item.name }}</option>
-						</select>
-						<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="getTermNumList" v-else >
-							<option v-for="(item,index) in readingRooms"  :value="index+1">{{ item.name }}</option>
-						</select>
-					</p>
-					<p class="displaybox">
-						<label class="label_name" for="partNum">期数</label><span>：</span>
-						<select class="input_normal boxflex01" v-model="defaultTerm" name="defaultTerm" >
-							<option v-for="(item,index) in termList"  :value="index+1">{{ item.time }}</option>
-						</select>
-					</p>
-				</form>
+	<div class="box-v-start align-stretch" style="height: 100%;">
+		<div class="box-v-start">
+			<img @click.prevent src="static/images/course/login-banner.jpg">
+			<img src="static/images/course/wx.jpg" class="user-avatar">
+			<div style="margin-top: 0.2rem">为了更好您孩子进行体验课程，请先填写孩子的信息</div>
+			<div style="margin-top: 0.5rem">
+				<div class="box-start infoItem">
+                   <div class="rightName">孩子姓名</div>
+                   <input type="text" name="" placeholder="孩子姓名" class="leftInput" v-model="userName" />
+				</div>
+				<div class="box-start infoItem">
+                   <div class="rightName">孩子生日</div>
+                   <input type="text" name="" placeholder="孩子姓名" class="leftInput" v-model="kidDate" @click="openPicker"/>
+				</div>
+				<mt-datetime-picker
+				    ref="picker"
+				    type="date"
+				    v-model="pickerValue"
+				    @confirm="sureDate"
+				    year-format="{value} 年"
+					month-format="{value} 月"
+					date-format="{value} 日"
+				    >
+				</mt-datetime-picker>
+				<div class="box-start infoItem">
+                   <div class="rightName">孩子性别</div>
+                   <div class="box-justify rest">
+                   	<div class="box-start" @click="chooseSex('boy')">
+                   		<img v-if="!isBoy" src="static/images/course/star-gray.jpg" class="backIcon" />
+                   		<img v-if="isBoy" src="static/images/course/star-light.jpg" class="backIcon" />
+                   	    <div>男孩</div>
+                   	</div>
+                   	<div class="box-start" @click="chooseSex('girl')">
+                   		<img v-if="!isGirl" src="static/images/course/star-gray.jpg" class="backIcon"/>
+                   		<img v-if="isGirl" src="static/images/course/star-light.jpg" class="backIcon" />
+                   	    <div>女孩</div>
+                   	</div>
+                   </div>
+                     
+				</div>
+				<div class="box-start infoItem">
+                   <div class="rightName">英&nbsp;&nbsp;文&nbsp;&nbsp;名</div>
+                   <input type="text" name="" placeholder="孩子英文名" class="leftInput" v-model="englishName" />
+				</div>
+				<div class="box-start infoItem">
+					<label class="rightName" for="defaultRoom">阅&nbsp;&nbsp;读&nbsp;&nbsp;馆</label>
+					<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="" >
+						<option v-for="item in readingRooms"  :value="item.label">{{ item.name }}</option>
+					</select>
+				</div>
+				<div class="box-center">
+					<div class="submitBtn" @click="submitForm">提交信息</div>
+				</div>
 			</div>
+			<!-- <div class="form_list">
+				<div class="form_box">
+					<form id="FormBox" method="post">
+						<p class="displaybox">
+							<label class="label_name" for="userName">学员姓名</label><span>：</span>
+							<input class="input_normal boxflex01" type="text" name="userName" v-model="userName">
+						</p>
+						<p class="displaybox">
+							<label class="label_name" for="userAge">宝贝年龄</label><span>：</span>
+							<input class="input_normal boxflex01" type="number" name="userAge" v-model.number="userAge" @change="getTermNumList">
+						</p>
+						<p class="displaybox">
+							<label class="label_name" for="defaultRoom">阅读馆</label><span>：</span>
+							<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="getTermNumList" v-if="userData && userData.data && userData.data.utmSource === 'cmb'" >
+								<option v-for="(item,index) in readingRooms"  :value="index+1" v-if="index < 5">{{ item.name }}</option>
+							</select>
+							<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="getTermNumList" v-else >
+								<option v-for="(item,index) in readingRooms"  :value="index+1">{{ item.name }}</option>
+							</select>
+						</p>
+						<p class="displaybox">
+							<label class="label_name" for="partNum">期数</label><span>：</span>
+							<select class="input_normal boxflex01" v-model="defaultTerm" name="defaultTerm" >
+								<option v-for="(item,index) in termList"  :value="index+1">{{ item.time }}</option>
+							</select>
+						</p>
+					</form>
+				</div>
+			</div> -->
 		</div>
-		<div @click.prevent="submitForm"><img @click.prevent src="../assets/images/p_b_06.jpg"></div>
+		<div class="rest displayflex flex-end">
+			<img @click.prevent src="../assets/images/p_a_08.jpg">
+		</div>
+		
+		<!-- <div @click.prevent="submitForm"><img @click.prevent src="../assets/images/p_b_06.jpg"></div>
 		<img @click.prevent src="../assets/images/p_b_07.jpg">
-		<img @click.prevent src="../assets/images/p_a_08.jpg">
+		<img @click.prevent src="../assets/images/p_a_08.jpg"> -->
 	</div>
 </template>
 
@@ -45,81 +100,75 @@
 		data() {
 			return {
 				readingRooms: [],
-				defaultRoom: 1,
+				defaultRoom: '',
 				termList: [],
 				defaultTerm: 1,
 				partNum: '',
 				userName: '',
 				userAge: '',
-				userData: null
+				englishName: '',
+				userData: null,
+				kidDate:'2018-10-16',
+				pickerValue:'',
+				sexValue:"男孩",
+				isGirl:false,
+				isBoy:true,
+				hasSubmit: false,
 			}
 		},
 		mounted() {
-			this.getUserInfo();
-			this.getReadRoomList();
+			// this.getUserInfo();
+			this.queryAllSchool();
 		},
 		methods: { 
-			async submitForm() {
+			
+			submitForm() {
 				let self = this;
 				let validateMsg = self.validateResult();
 				let dataParams;
 
+				if(this.hasSubmit){
+					return;
+				}
 				if(validateMsg){
 					self.$showMsg(validateMsg);
 					return;
 				}
-				
+				this.hasSubmit = true;
+				console.log(self.defaultRoom)
 				dataParams = self.$qs.stringify({
-					signName:self.userName,
-					age:self.userAge,
-					readRoomName:self.readingRooms[self.defaultRoom-1].name,
-					termNum:self.termList.length > 0 && self.termList[self.defaultTerm-1].time,
+					name:self.userName,
+					englishName:self.englishName,
+					birthDate:self.kidDate,
+					sex:self.sexValue,
+					schoolId:self.defaultRoom,
 				})
 				
 				//判断当前阅读馆当前期数是否已满额
-				const termListData = await self.$service.getTermNumList();
-				const termNumData = await self.$service.getTermNum({
-					params: {
-						termNum:self.termList.length > 0 && self.termList[self.defaultTerm-1].time,
-						readRoomName:self.readingRooms[self.defaultRoom-1].name
-					}
-				});
-				const signUpData = await self.$service.signUp(dataParams);
-
-				if(!termNumData.data.data.canSignUp){
-					self.$showMsg('本期报名人数已满，欢迎到店领取精美绘本');
-				}else{
-					let data = signUpData.data;
+				self.$service.addStudent(dataParams, (res) => {
+					let data = res.data;
 					if(data.code === '0'){
-						if(self.userData.code === '0'){
-							if(self.userData.data.isBindPhone === true && self.userData.data.isBuyUser === true){
-								self.$router.push({name:"nameList"})
-							}else{
-								self.toPay(data.data);
-							}
-						}else{
-							self.$showMsg(self.userData.message);
-						}
+						self.$router.push({name:"classList"})
 					}else{
-						const msg = data.message || 'signUp接口异常';
+						this.hasSubmit = false;
+						const msg = data.message || '接口异常';
 						self.$showMsg(msg);
 					}
-				}
+				});
+
 			},
 			validateResult:function () {
 				var self = this,
                     names = [
 						{name:'userName'},
-                        {name:'userAge', reg:Valid.validateAge},
+                        // {name:'englishName'},
                         {name:'defaultRoom'},
-                        {name:'defaultTerm'},
                     ],
                     message;
                 var messages = {
                     userName: {require: '姓名不能为空'},
-                    userAge: {require: '宝贝年龄不能为空', regex: '年龄为1-3位整数'},
+                    // englishName: {require: '宝贝年龄不能为空'},
                     defaultRoom: {require: '阅读馆不能为空'},
-                    defaultTerm: {require: '期数不能为空'},
                 };
 
                 for (var i = 0; i < names.length; i++) {
@@ -136,33 +185,39 @@
                 }
                 return message;
 			},
-			getCode: function(){
-				let self = this;
-				let mobile = self.mobile,
-					dataParams = {
-						mobile:mobile
-					};
-
-				if(!mobile){
-					self.$showMsg('请输入手机号');
-					return;
-				}
-				if(!Valid.validateMobile(mobile)){
-					self.$showMsg('手机号不合法，请重新输入');
-					return;
-				}
-
-				self.$showMsg('验证码已发送');
-				self.$service.sendValidateCode({
-					params: dataParams
-				}, (res) => {
-					var validCode = res.data.data;
-					if(validCode){
-						self.code = validCode;
-					}
-				}, (error) => {
-					console.log(error)
-				})
+			openPicker() {
+		        this.$refs.picker.open();
+		      },
+		    sureDate(){
+                var that=this;
+                // var dateKid=new Date(that.pickerValue)
+                that.kidDate=that.dateToString(that.pickerValue)
+               
+		    },
+		    chooseSex(sex){
+               var that=this;
+               if(sex=="boy"){
+                  that.isGirl=false;
+				  that.isBoy=true
+				  that.sexValue = '男孩'
+               }else{
+                  that.isGirl=true;
+                  that.isBoy=false
+				  that.sexValue = '女孩'
+               }
+		    },
+		    dateToString: function(date){ 
+			  var year = date.getFullYear(); 
+			  var month =(date.getMonth() + 1).toString(); 
+			  var day = (date.getDate()).toString();  
+			  if (month.length == 1) { 
+			      month = "0" + month; 
+			  } 
+			  if (day.length == 1) { 
+			      day = "0" + day; 
+			  }
+			  var dateTime = year + "-" + month + "-" + day;
+			  return dateTime; 
 			},
 			toPay(obj) {
 				let self = this;
@@ -183,20 +238,15 @@
 					}  
 				});
 			},
-			getUserInfo() {
+			queryAllSchool() {
 				let self = this;
-				self.$service.getUserInfo((res) => {
-					self.userData = res.data;
-				})
-			},
-			getReadRoomList() {
-				let self = this;
-				self.$service.getReadRoomList((res) => {
+				self.$service.queryAllSchool((res) => {
 					if(res.data.code === '0'){
 						let arr = res.data.data;
 						self.readingRooms = arr.map(function(val){
 							var obj = {};
-							obj.name = val;
+							obj.name = val.ORG_UNIT_NAME;
+							obj.label = val.ID;
 							return obj;
 						})
 					}else{
@@ -204,35 +254,6 @@
 					}
 				})
 			},
-			async getTermNumList() {
-				let self = this, 
-					dataParams;
-
-				if(!self.userAge){
-					self.$showMsg('请填写宝贝年龄');
-					return;
-				}
-				self.termList = [];
-
-				dataParams = {
-					age:self.userAge,
-					readRoomName:self.readingRooms[self.defaultRoom-1].name
-				}
-				
-				const termNumData = await self.$service.getTermNumList();
-
-				if(termNumData.data.code === '0'){
-					let termArray = termNumData.data.data;
-					let termListData = termArray.map(function(val){
-						var obj = {};
-						obj.time = val;
-						return obj;
-					})
-					self.termList = termListData;
-				}else{
-					self.$showMsg(termNumData.data.message);
-				}
-			}
 		}
 	}
 </script>
@@ -242,13 +263,40 @@
 	body {
 		 text-align: left;
 	}
-	.form_list{ background: url(../assets/images/bg_repeat.jpg) repeat-y; background-size: 100% 100%;}
-	.form_box{ padding: 0 0.6rem 0 0.5rem; margin: 0 auto;}
-	.form_box p{ margin-bottom: 15px; overflow: hidden;}
-	select option{
-		appearance:none;
-		-moz-appearance:none; 
-		-webkit-appearance:none;  
+	#app{
+		height: 100%
 	}
-	option{ width: 100%;}
+	.user-avatar{
+		width: 60px;
+	    height: 60px;
+	    border-radius: 60px;
+	    display: block;
+	}
+	.infoItem{
+		padding: 0.1rem
+	}
+	.rightName{
+		margin-right: 0.5rem;
+	}
+	.leftInput{
+		border: none;
+		border-bottom: 1px solid #dadada;
+		font-size: 0.16rem;
+		padding: 0.06rem 0.04rem
+	}
+	.backIcon{
+		width: 20px;
+	    height: 20px;
+	    border-radius: 60px;
+	    display: block;
+		margin-right: 0.1rem;
+	}
+	.submitBtn{
+		padding: 0.2rem 1rem;
+		color: white;
+		background-color: #C01920;
+		text-align: center;
+        border-radius: 20px;
+        margin-top: 0.3rem
+	}
 </style>
