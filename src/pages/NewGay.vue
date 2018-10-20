@@ -2,8 +2,8 @@
 	<div class="box-v-start align-stretch" style="height: 100%; min-height: 100%;">
 		<div class="box-v-start">
 			<img @click.prevent src="static/images/course/login-banner.jpg">
-			<img src="static/images/course/wx.jpg" class="user-avatar">
-			<div style="margin-top: 0.2rem">为了更好您孩子进行体验课程，请先填写孩子的信息</div>
+			<img src="static/images/course/head-img.png" class="user-avatar">
+			<div style="margin-top: 0.2rem">为了您孩子更好地进行体验课程，请先填写孩子的信息</div>
 			<div style="margin-top: 0.5rem">
 				<div class="box-start infoItem">
                    <div class="rightName">孩子姓名</div>

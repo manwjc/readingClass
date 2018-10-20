@@ -6,26 +6,27 @@
 <div class="homeWorkCotent box-v-start align-stretch">
     <div style="border-bottom: 1px solid #dadada;margin-top: 0.5rem">
         <div class="box-start workInfoItem">
-            <div class="workInfoItemRight"><span>课程内容：</span>{{courseDetailData.course_code}}</div>
-            <div><span style="font-weight: 600">时间：</span>{{courseDetailData.appointment_time}}</div>
+            <div class="workInfoItemRight"><span>课程内容：</span>{{courseDetailData && courseDetailData.course_code}}</div>
+            <div><span style="font-weight: 600">时间：</span>{{courseDetailData && courseDetailData.appointment_time}}</div>
         </div>
         <div class="box-start workInfoItem">
-            <div class="workInfoItemRight"><span>课程名称：</span>{{courseDetailData.course_name}}</div>
+            <div class="workInfoItemRight"><span>课程名称：</span>{{courseDetailData && courseDetailData.course_name}}</div>
             <!-- <div><span style="font-weight: 600">进度：</span>0%</div> -->
         </div>
     </div>
     <div style="padding: 0.2rem 0rem">
         <div style="font-weight: 600;margin-bottom: 0.2rem">全部作业</div>
-        <div class="workInfoItem2 displayflex mtop20" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '1'">
+        <div class="workInfoItem2 displayflex mtop20" v-for="course in courseDetailData && courseDetailData.coursewareList" v-if="course.fileType === '1'">
             <div class="left-title">作业名称：</div>
             <div class="flex-start mleft10">
                 <div>{{course.APPENDIX_NAME}}</div>
                 <div class="mtop10">
-                    <router-link to="/courseDetail"><span class="green">查看</span></router-link>
+                    <!-- <router-link to="/courseDetail"><span class="green">查看</span></router-link> -->
                     <a class="mleft20 green" target="_blank" :href="course.h5_file_url"><span class="green">下载</span></a>
                 </div>
             </div>
         </div>
+                    <a target="_blank" v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01" :href="item.h5_file_url"><button class="red-btn">查看课件</button></a>
         <div class="displayflex mtop20">
             <div class="pt10 left-title">上传作业：</div>
             <div class="relative mleft10 flex-start">
@@ -92,7 +93,9 @@ export default {
             courseDetailData: {},
             loading: null,
             uploadText: '选择视频',
-            homeworkRecordId: ''
+            homeworkRecordId: '',
+
+            courseListData: {}
         };
     },
     mounted() {
@@ -112,6 +115,9 @@ export default {
         initCourseDetail() {
             this.courseDetailData = JSON.parse(
                 sessionStorage.getItem("courseDetailData")
+            );
+            this.courseListData = JSON.parse(
+                sessionStorage.getItem("courseListData")
             );
         },
         redirect(item) {
@@ -371,6 +377,6 @@ a.el-upload-list__item-name {
 }
 
 .left-title {
-    width: 75px;
+    width: 85px;
 }
 </style>

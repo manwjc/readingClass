@@ -88,7 +88,8 @@
                 </div>
                 <div class="displaybox border-top mtop10 pt10">
                     <div class="left boxflex01" target="_blank" @click="cancelCourse(courseListData.gradeNumber)"><button class="box-center">取消课程</button></div>
-                    <div v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div>
+                    <!-- <div v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div> -->
+                    <a target="_blank" v-for="course in courseListData.file" v-if="course.fileType === '1'" class="right boxflex01" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a>
                 </div>
             </div>
         </div>
@@ -117,8 +118,8 @@
                                 </div>
                             </div>
                             <div class="item-bot box-center" target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'">
-                                <!-- <a target="_blank" :href="chelchost + '/' + course.APPENDIX_URL"><button class="red-btn">查看课件</button></a> -->
-                                <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button>
+                                <a target="_blank" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a>
+                                <!-- <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button> -->
                                 <button v-if="curTabIndex === 0" class="red-btn" @click="doHomework(item)">做作业</button>
                             </div>
                         </div>
@@ -140,7 +141,7 @@
                 studentList: [],
                 courseListData: [],     //可预约的导读课程
                 courseRecordData: [
-                /*     {
+                    {
 	"type_name": "2",
 	"teacher_name": "钟导读测试老师",
 	"course_unit_id": "152776112074159801291420",
@@ -207,7 +208,7 @@
 	"student_id": "152328200694459801411107",
 	"UPDATE_TIME": "2018-06-27T23:31:33.000+0000",
 	"time": "17:00-17:45"
-} */
+}
                 ],   //已参加的导读课程
                 appointment_time: '',   //当前周的周一日期
                 curTabIndex: 0,
