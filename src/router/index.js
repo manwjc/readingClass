@@ -24,6 +24,8 @@ const SaSet = resolve => require(['../pages/SaSet'], resolve)
 const WeekChampion = resolve => require(['../pages/WeekChampion'], resolve)
 const MonthChampion = resolve => require(['../pages/MonthChampion'], resolve)
 
+const ActivityPage = resolve => require(['../pages/ActivityPage'], resolve)
+
 export default new Router({
   routes: [
     //导读课路由
@@ -149,6 +151,15 @@ export default new Router({
       path: '/monthChampion',
       name: 'monthChampion',
       component: MonthChampion,
+      meta: {
+        keepAlive: true,
+        title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/activityPage',
+      name: 'activityPage',
+      component: ActivityPage,
       meta: {
         keepAlive: true,
         title: '乔希家导读课预约'

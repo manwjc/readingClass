@@ -99,6 +99,7 @@ export default {
                 res => {
                     if (res.data.code === "0") {
                         this.courseRecordData = res.data.data;
+                        // this.dataTips = '暂无课程信息'; 
                     }
                 },
                 error => {

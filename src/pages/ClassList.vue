@@ -9,12 +9,14 @@
                     <p>{{curStudent && curStudent.showGrade}}</p>
                 </div>
             </div>
-            <div v-if="studentList.length" @click="changeStudent" class="box-end user-right">
+            <div v-if="studentList.length > 1" @click="changeStudent" class="box-end user-right">
                 <p>其他孩子 &gt;</p>
             </div>
         </div>
         <div class="flash">
-            <img class="flash-mask" src="static/images/course/light-bg.png">
+            <router-link to="/activityPage">
+                <img class="flash-mask" src="static/images/course/light-bg.png">
+            </router-link>
             <!-- <p id="flash-circle1" class="flash-circle"></p>
             <p id="flash-circle2" class="flash-circle"></p>
             <p id="flash-circle3" class="flash-circle"></p>
@@ -60,8 +62,8 @@
                     <img  src="static/images/course/book.png">
                     <div class="introduce-right box-v-center align-start">
                         <div class="introduce-text">
+                            <p class="bold">{{courseListData.name}}</p>
                             <p>{{courseListData.schoolName}}</p>
-                            <p>{{courseListData.name}}</p>
                             <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
                         </div>
                         <div class="btn-wrapper">
@@ -117,14 +119,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item-bot box-center" target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'">
-                                <a target="_blank" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a>
+                            <div class="item-bot box-center">
+                                <a target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a>
                                 <!-- <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button> -->
-                                <button v-if="curTabIndex === 0" class="red-btn" @click="doHomework(item)">做作业</button>
+                                <button v-for="course in item.coursewareList" v-if="course.fileType === '0' && curTabIndex === 0" class="red-btn" @click="doHomework(item)">做作业</button>
                             </div>
                         </div>
                     </div>
-                    <div v-else class="ptb20 text-center" style="margin-top: 10%">暂无课程信息</div>
+                    <div v-else class="ptb20 text-center" style="margin-top: 10%">{{dataTips}}</div>
                 </div>
             </div>
         </div>
@@ -139,76 +141,579 @@
             return {
                 dataLoaded: false,
                 studentList: [],
+                dataTips: '暂无课程信息',
                 courseListData: [],     //可预约的导读课程
                 courseRecordData: [
-                    {
-	"type_name": "2",
-	"teacher_name": "钟导读测试老师",
-	"course_unit_id": "152776112074159801291420",
-	"classroom_name": "乔希家太古城教室",
-	"teacher_english_name": "test",
-	"truely_course_count": "0",
-	"classhour_type": "151663241406235092578752",
-	"english_name": "The Gull's Picnic",
-	"create_id": "152337614399459801341474",
-	"course_code": "G-04-22",
-	"appointment_type": "4",
-	"app_explain": "测试导读课",
-	"ID": "153011349286659801413064",
-	"SECRET_LEVEL": "",
-	"over_time": "2018-06-28 17:45:00",
-	"day": "2018-06-28",
-	"activity_number": 0,
-	"courseware": "1527762102773",
-	"fileList": [],
-	"classroom_id": "151747750802759801346523",
-	"appointment_time": "2018-06-28 17:00:00",
-	"course_name": "Gull的野餐",
-	"ETL_FLAG": "O",
-	"teacher_confirm_stateExp": "",
-	"student_english_name": "yuan",
-	"coid": "150760086241435091502172",
-	"routine_number": 0,
-	"NAME": "海鸥的野餐",
-	"name": null,
-	"course_appointment_id": "153002641705759801411182",
-	"sys_course_count": "1",
-	"main_number": 0,
-	"teacher_confirm_state": "1",
-	"gid": "-1",
-	"week": "星期四",
-	"teacher_id": "152337614404959801341487",
-	"line": 2,
-	"real_course_count": "0",
-	"class_time_package_id": "",
-	"consume": "1",
-	"grade_number": "2018062810733",
-	"student_name": "袁大宝",
-	"course_type": "0",
-	"coursewareId": "152776112074159801291420",
-	"file": "1527762102773",
-	"school_id": "151624329992235091733904",
-	"use_timePackage_way": "2",
-	"course_id": "152776112071759801291398",
-	"student_level": "4",
-	"subscribe": "2018-06-27 23:31:32",
-	"coursewareList": [{
-		"APPENDIX_NAME": "L1-T22 The Gulls' Picnic PDF.pdf",
-		"APPENDIX_URL": "appendix/M00/00/0B/rBLrN1s13ZuAJZctAC0BF7yRTrA854.pdf",
-		"h5_file_url": "https://www.chel-c.com/appendix/M00/00/0B/rBLrN1s13ZuAJZctAC0BF7yRTrA854.pdf",
-		"fileType": "1",
-		"fileId": "153025679588759802013615"
+    
+{
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735159801216165",
+		"teacher_id": "152845283545259806201279",
+		"line": 2,
+		"appointment_over_time": "18:00",
+		"classhour_type": "151663241406235092578752",
+		"grade_number": "2018091912597",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"app_explain": null,
+		"ID": "153699729052959801001485",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-19T02:00:00.000+0000",
+		"start_date": "2018-09-19",
+		"courseware_id": "1527757085555",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-09-19T01:15:00.000+0000",
+		"subscribe": "2018-09-15 15:41:30",
+		"course_name": "欢迎来到农场",
+		"ETL_FLAG": "O",
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"table_id": "1527757085555",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"fileType": "1",
+			"fileId": "153423491843259801934699"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"fileType": "1",
+			"fileId": "153423492833259801404707"
+		}, {
+			"APPENDIX_NAME": "PreL2 T32 Welcome to the farm.mp3",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"fileType": "0",
+			"fileId": "153449481489859801226321"
+		}],
+		"coid": "150760086241435091502172",
+		"appointment_start_time": "17:15",
+		"UPDATE_TIME": "2018-09-17T15:30:52.000+0000",
+		"name": null
 	}, {
-		"APPENDIX_NAME": "L1-T22 The Gull's picnic-1.mp3",
-		"APPENDIX_URL": "appendix/M00/00/0B/rBLrN1s14MiAEfTMABlHSva-fRI291.mp3",
-		"h5_file_url": "https://www.chel-c.com/appendix/M00/00/0B/rBLrN1s14MiAEfTMABlHSva-fRI291.mp3",
-		"fileType": "0",
-		"fileId": "153025760878559802334885"
-	}],
-	"student_id": "152328200694459801411107",
-	"UPDATE_TIME": "2018-06-27T23:31:33.000+0000",
-	"time": "17:00-17:45"
-}
+		"courseware_id": "1527757085555",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-09-20T03:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735159801216165",
+		"subscribe": "2018-09-15 15:41:30",
+		"course_name": "欢迎来到农场",
+		"teacher_id": "152845238043359806198592",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"table_id": "1527757085555",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"fileType": "1",
+			"fileId": "153423491843259801934699"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"fileType": "1",
+			"fileId": "153423492833259801404707"
+		}, {
+			"APPENDIX_NAME": "PreL2 T32 Welcome to the farm.mp3",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"fileType": "0",
+			"fileId": "153449481489859801226321"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-17T04:31:28.000+0000",
+		"grade_number": "2018092012598",
+		"english_name": "Nancy",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153699729056259801001492",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-20T04:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757085555",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-09-21T02:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735159801216165",
+		"subscribe": "2018-09-17 14:09:50",
+		"course_name": "欢迎来到农场",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"table_id": "1527757085555",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"fileType": "1",
+			"fileId": "153423491843259801934699"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"fileType": "1",
+			"fileId": "153423492833259801404707"
+		}, {
+			"APPENDIX_NAME": "PreL2 T32 Welcome to the farm.mp3",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"fileType": "0",
+			"fileId": "153449481489859801226321"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-17T21:46:18.000+0000",
+		"grade_number": "2018092112599",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153699729060459801001500",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-21T03:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757085555",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-09-23T01:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735159801216165",
+		"subscribe": "2018-09-15 15:41:30",
+		"course_name": "欢迎来到农场",
+		"teacher_id": "152845238043359806198592",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"table_id": "1527757085555",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykSaANqOQADDTdZj9GDo746.pdf",
+			"fileType": "1",
+			"fileId": "153423491843259801934699"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T32 Welcome to the farm HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/23/rBLrN1tykTCAceFCAAyTpeOrTI8215.pdf",
+			"fileType": "1",
+			"fileId": "153423492833259801404707"
+		}, {
+			"APPENDIX_NAME": "PreL2 T32 Welcome to the farm.mp3",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t2iF6AS7B2ACsXSisIlUU704.mp3",
+			"fileType": "0",
+			"fileId": "153449481489859801226321"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-16T12:24:25.000+0000",
+		"grade_number": "2018092312600",
+		"english_name": "Nancy",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153699729064159801001508",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-23T02:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757049845",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-09-26T01:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735259801216166",
+		"subscribe": "2018-09-22 18:42:04",
+		"course_name": "动物之书",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T33 The animal book PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/26/rBLrN1t35OqAWenEACY8JvtCsNY203.pdf",
+			"table_id": "1527757049845",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/26/rBLrN1t35OqAWenEACY8JvtCsNY203.pdf",
+			"fileType": "1",
+			"fileId": "153458404296159801734862"
+		}, {
+			"APPENDIX_NAME": "PreL2 T33 The Animal Book.mp3",
+			"APPENDIX_URL": "appendix/M00/00/26/rBLrN1t35NuAMLwtACcfx0dVazE644.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/26/rBLrN1t35NuAMLwtACcfx0dVazE644.mp3",
+			"fileType": "0",
+			"fileId": "153458402777959801774859"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-23T11:29:32.000+0000",
+		"grade_number": "2018092612782",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153761292449359807211330",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-26T02:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757049845",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151757238803559801345050",
+		"appointment_time": "2018-09-27T03:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735259801216166",
+		"subscribe": "2018-09-22 18:49:26",
+		"course_name": "动物之书",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T33 The animal book PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/26/rBLrN1t35OqAWenEACY8JvtCsNY203.pdf",
+			"table_id": "1527757049845",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/26/rBLrN1t35OqAWenEACY8JvtCsNY203.pdf",
+			"fileType": "1",
+			"fileId": "153458404296159801734862"
+		}, {
+			"APPENDIX_NAME": "PreL2 T33 The Animal Book.mp3",
+			"APPENDIX_URL": "appendix/M00/00/26/rBLrN1t35NuAMLwtACcfx0dVazE644.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/26/rBLrN1t35NuAMLwtACcfx0dVazE644.mp3",
+			"fileType": "0",
+			"fileId": "153458402777959801774859"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-24T05:23:21.000+0000",
+		"grade_number": "2018092712786",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153761336607559808421888",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-27T04:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757049845",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-09-29T01:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735259801216166",
+		"subscribe": "2018-09-22 18:54:02",
+		"course_name": "动物之书",
+		"teacher_id": "152845238043359806198592",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T33 The animal book PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/26/rBLrN1t35OqAWenEACY8JvtCsNY203.pdf",
+			"table_id": "1527757049845",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/26/rBLrN1t35OqAWenEACY8JvtCsNY203.pdf",
+			"fileType": "1",
+			"fileId": "153458404296159801734862"
+		}, {
+			"APPENDIX_NAME": "PreL2 T33 The Animal Book.mp3",
+			"APPENDIX_URL": "appendix/M00/00/26/rBLrN1t35NuAMLwtACcfx0dVazE644.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/26/rBLrN1t35NuAMLwtACcfx0dVazE644.mp3",
+			"fileType": "0",
+			"fileId": "153458402777959801774859"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-23T08:35:05.000+0000",
+		"grade_number": "2018092912792",
+		"english_name": "Nancy",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153761364293659807211971",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-09-29T02:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757029842",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-04T03:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735359801216167",
+		"subscribe": "2018-09-29 13:30:36",
+		"course_name": "有趣的游戏",
+		"teacher_id": "152845238043359806198592",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T34 Having fun PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t3viaAc9xhACS9jqqU2I8128.pdf",
+			"table_id": "1527757029842",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t3viaAc9xhACS9jqqU2I8128.pdf",
+			"fileType": "1",
+			"fileId": "153457411892859801766371"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T34 Having fun HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t3viCABXCXAAc2C4i7Vzs053.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t3viCABXCXAAc2C4i7Vzs053.pdf",
+			"fileType": "1",
+			"fileId": "153457411202359801706366"
+		}, {
+			"APPENDIX_NAME": "PreL2 T34 Having Fun.mp3",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t73ZGAfNpMABvpkzunwMo639.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t73ZGAfNpMABvpkzunwMo639.mp3",
+			"fileType": "0",
+			"fileId": "153484430596059801757419"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-30T00:45:57.000+0000",
+		"grade_number": "2018100412963",
+		"english_name": "Nancy",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153819903622559801697148",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-10-04T04:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757029842",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-06T01:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735359801216167",
+		"subscribe": "2018-09-29 13:30:36",
+		"course_name": "有趣的游戏",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T34 Having fun PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t3viaAc9xhACS9jqqU2I8128.pdf",
+			"table_id": "1527757029842",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t3viaAc9xhACS9jqqU2I8128.pdf",
+			"fileType": "1",
+			"fileId": "153457411892859801766371"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T34 Having fun HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t3viCABXCXAAc2C4i7Vzs053.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t3viCABXCXAAc2C4i7Vzs053.pdf",
+			"fileType": "1",
+			"fileId": "153457411202359801706366"
+		}, {
+			"APPENDIX_NAME": "PreL2 T34 Having Fun.mp3",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t73ZGAfNpMABvpkzunwMo639.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t73ZGAfNpMABvpkzunwMo639.mp3",
+			"fileType": "0",
+			"fileId": "153484430596059801757419"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-09-30T11:15:49.000+0000",
+		"grade_number": "2018100612964",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153819903625759801697156",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-10-06T02:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757029842",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-07T00:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735359801216167",
+		"subscribe": "2018-09-29 13:30:36",
+		"course_name": "有趣的游戏",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-2 T34 Having fun PPT.pdf",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t3viaAc9xhACS9jqqU2I8128.pdf",
+			"table_id": "1527757029842",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t3viaAc9xhACS9jqqU2I8128.pdf",
+			"fileType": "1",
+			"fileId": "153457411892859801766371"
+		}, {
+			"APPENDIX_NAME": "Pre-2 T34 Having fun HW.pdf",
+			"APPENDIX_URL": "appendix/M00/00/25/rBLrN1t3viCABXCXAAc2C4i7Vzs053.pdf",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/25/rBLrN1t3viCABXCXAAc2C4i7Vzs053.pdf",
+			"fileType": "1",
+			"fileId": "153457411202359801706366"
+		}, {
+			"APPENDIX_NAME": "PreL2 T34 Having Fun.mp3",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t73ZGAfNpMABvpkzunwMo639.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t73ZGAfNpMABvpkzunwMo639.mp3",
+			"fileType": "0",
+			"fileId": "153484430596059801757419"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-10-06T01:40:57.000+0000",
+		"grade_number": "2018100712965",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153819903630659801697163",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-10-07T01:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757005531",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-10T02:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735459801216168",
+		"subscribe": "2018-10-05 14:50:11",
+		"course_name": "它是谁？",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-L2  T35 Who is it PDF.pdf",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"table_id": "1527757005531",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"fileType": "1",
+			"fileId": "153484533249759801798854"
+		}, {
+			"APPENDIX_NAME": "Pre-L2 T35 Who is It.mp3",
+			"APPENDIX_URL": "appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"fileType": "0",
+			"fileId": "153510039833259801378900"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-10-08T10:44:55.000+0000",
+		"grade_number": "2018101013088",
+		"english_name": "Qianna",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153872221167859801695225",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-10-10T03:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757005531",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-11T03:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735459801216168",
+		"subscribe": "2018-10-05 14:55:37",
+		"course_name": "它是谁？",
+		"teacher_id": "152845238043359806198592",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-L2  T35 Who is it PDF.pdf",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"table_id": "1527757005531",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"fileType": "1",
+			"fileId": "153484533249759801798854"
+		}, {
+			"APPENDIX_NAME": "Pre-L2 T35 Who is It.mp3",
+			"APPENDIX_URL": "appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"fileType": "0",
+			"fileId": "153510039833259801378900"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-10-06T09:43:02.000+0000",
+		"grade_number": "2018101113095",
+		"english_name": "Nancy",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153872253713559802645339",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-10-11T04:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757005531",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-13T01:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735459801216168",
+		"subscribe": "2018-10-05 15:06:08",
+		"course_name": "它是谁？",
+		"teacher_id": "152845238043359806198592",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-L2  T35 Who is it PDF.pdf",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"table_id": "1527757005531",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"fileType": "1",
+			"fileId": "153484533249759801798854"
+		}, {
+			"APPENDIX_NAME": "Pre-L2 T35 Who is It.mp3",
+			"APPENDIX_URL": "appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"fileType": "0",
+			"fileId": "153510039833259801378900"
+		}],
+		"coid": "150760086241435091502172",
+		"classhour_type": "151663241406235092578752",
+		"UPDATE_TIME": "2018-10-06T08:24:49.000+0000",
+		"grade_number": "2018101313104",
+		"english_name": "Nancy",
+		"school_id": "151624329992235091733904",
+		"appointment_type": 4,
+		"ID": "153872316840959802155538",
+		"state": "1",
+		"SECRET_LEVEL": "",
+		"over_time": "2018-10-13T02:00:00.000+0000"
+	}, {
+		"courseware_id": "1527757005531",
+		"course_id": "152775560731259801216133",
+		"classroom_id": "151747750802759801346523",
+		"appointment_time": "2018-10-14T00:15:00.000+0000",
+		"type_name": "2",
+		"gid": "-1",
+		"course_unit_id": "152775560735459801216168",
+		"subscribe": "2018-10-05 15:17:27",
+		"course_name": "它是谁？",
+		"teacher_id": "152845283545259806201279",
+		"ETL_FLAG": "O",
+		"line": 2,
+		"coursewareList": [{
+			"APPENDIX_NAME": "Pre-L2  T35 Who is it PDF.pdf",
+			"APPENDIX_URL": "appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"table_id": "1527757005531",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/27/rBLrN1t74ZSAM4S3ACvWkkd6Rz8036.pdf",
+			"fileType": "1",
+			"fileId": "153484533249759801798854"
+		}, {
+			"APPENDIX_NAME": "Pre-L2 T35 Who is It.mp3",
+			"APPENDIX_URL": "appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"h5_file_url": "https://www.chel-c.com/appendix/M00/00/29/rBLrN1t_xe6AfHDAAARWeg726C4451.mp3",
+			"fileType": "0",
+			"fileId": "153510039833259801378900"
+		}]}
+
                 ],   //已参加的导读课程
                 appointment_time: '',   //当前周的周一日期
                 curTabIndex: 0,
@@ -233,6 +738,8 @@
                 }
             },
             curTabIndex: function(val) {
+                // this.dataTips = '加载中';
+                this.courseRecordData = [];
                 if(val === 0) {
                     //获取已参加课程
                     this.queryClassRecord();
@@ -429,7 +936,7 @@ p {
 
 .course-index .course-main .course-main-header .introduce .introduce-text p:nth-of-type(1) {
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 p.text-bg {
@@ -519,7 +1026,6 @@ p.text-bg {
 }
 
 .course-index .course-main .course-main-body .tab-body .course-item .item-bot button {
-    width: 100px;
     border: solid 1px #e5e5e5;
     margin: 0 10px;
 }

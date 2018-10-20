@@ -264,7 +264,7 @@ html {
   /* 导读课 */
   .list-img{ width: 80px; height: 120px;}
   .user-avatar{ width: 40px; height: 40px;}
-  .red-btn{ width: 100px; height: 32px; line-height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
+  .red-btn{ height: 32px; padding: 0 10px; line-height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
   .padding20{ padding: 20px;}
   .border-top{ border-top: 1px solid #eeeeee}
   .border-bottom{ border-bottom: 1px solid #eeeeee}
@@ -300,3 +300,5 @@ html {
     margin: 0px auto 5px;
     margin-top: 42px;
   }
+
+  .inline-block{ display: inline-block}

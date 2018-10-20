@@ -22,11 +22,11 @@
                 <div>{{course.APPENDIX_NAME}}</div>
                 <div class="mtop10">
                     <!-- <router-link to="/courseDetail"><span class="green">查看</span></router-link> -->
+                    <a target="_blank" :href="item.h5_file_url"><span class="green">查看</span></a>
                     <a class="mleft20 green" target="_blank" :href="course.h5_file_url"><span class="green">下载</span></a>
                 </div>
             </div>
         </div>
-                    <a target="_blank" v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01" :href="item.h5_file_url"><button class="red-btn">查看课件</button></a>
         <div class="displayflex mtop20">
             <div class="pt10 left-title">上传作业：</div>
             <div class="relative mleft10 flex-start">
@@ -34,7 +34,7 @@
                     <el-button class="select-file" slot="trigger" size="small" type="primary">
                         <div class="upload-text">{{uploadText}}</div>
                     </el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传mp4/mov格式的文件，且不超过100MB</div>
+                    <div slot="tip" class="el-upload__tip">请上传作业视频（时长小于1分钟，大小不超过100MB）</div>
                 </el-upload>
                 <!-- <el-button class="up-button" size="small" type="success" @click="submitUpload">开始上传</el-button> -->
             </div>
@@ -116,9 +116,6 @@ export default {
             this.courseDetailData = JSON.parse(
                 sessionStorage.getItem("courseDetailData")
             );
-            this.courseListData = JSON.parse(
-                sessionStorage.getItem("courseListData")
-            );
         },
         redirect(item) {
             let self = this;
@@ -177,13 +174,13 @@ export default {
             const fileLength = fileArr.length;
             const extension = fileArr[fileLength - 1] === "mp4" || file.name.indexOf("mov") > -1;
             const isLt2M = file.size / 1024 / 1024 < 100;
-            if (!extension) {
-            	this.$showMsg('上传文件只能是 mp4/mov 格式!')
-            }
+            // if (!extension) {
+            // 	this.$showMsg('上传文件只能是 mp4/mov 格式!')
+            // }
             if (!isLt2M) {
                 this.$showMsg("上传文件大小不能超过 100MB!");
             }
-            return extension && isLt2M;
+            return isLt2M;
         },
         submitUpload() {
             this.$refs.upload.submit();
