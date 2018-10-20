@@ -6,23 +6,22 @@
 <div class="homeWorkCotent box-v-start align-stretch">
     <div style="border-bottom: 1px solid #dadada;margin-top: 0.5rem">
         <div class="box-start workInfoItem">
-            <div class="workInfoItemRight"><span>课程内容：</span>{{courseDetailData && courseDetailData.course_code}}</div>
-            <div><span style="font-weight: 600">时间：</span>{{courseDetailData && courseDetailData.appointment_time}}</div>
+            <div class=""><span>课程名称：</span>{{courseDetailData && courseDetailData.course_name}}</div>
+            <!-- <div><span style="font-weight: 600">进度：</span>0%</div> -->
         </div>
         <div class="box-start workInfoItem">
-            <div class="workInfoItemRight"><span>课程名称：</span>{{courseDetailData && courseDetailData.course_name}}</div>
-            <!-- <div><span style="font-weight: 600">进度：</span>0%</div> -->
+            <div><span>时间：</span>{{courseDetailData && courseDetailData.appointment_time | timeFormat}}</div>
         </div>
     </div>
     <div style="padding: 0.2rem 0rem">
         <div style="font-weight: 600;margin-bottom: 0.2rem">全部作业</div>
         <div class="workInfoItem2 displayflex mtop20" v-for="course in courseDetailData && courseDetailData.coursewareList" v-if="course.fileType === '1'">
             <div class="left-title">作业名称：</div>
-            <div class="flex-start mleft10">
+            <div class="flex-start">
                 <div>{{course.APPENDIX_NAME}}</div>
                 <div class="mtop10">
                     <!-- <router-link to="/courseDetail"><span class="green">查看</span></router-link> -->
-                    <a target="_blank" :href="item.h5_file_url"><span class="green">查看</span></a>
+                    <a target="_blank" :href="course.h5_file_url"><span class="green">查看</span></a>
                     <a class="mleft20 green" target="_blank" :href="course.h5_file_url"><span class="green">下载</span></a>
                 </div>
             </div>
@@ -292,7 +291,7 @@ body {
 
 .video {
     height: 100%;
-    margin: 0 0.3rem;
+    margin: 0 0.6rem;
     overflow: hidden;
 }
 

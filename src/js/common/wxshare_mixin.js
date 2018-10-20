@@ -19,19 +19,15 @@ export default {
         },
         getWxInfo() {
             let self = this;
-            if(self.$store.state.wxInfo !== null){
-                self.wxShareInit();
-            }else{
-                service.getWechatSign({
-                    params: {url: location.href.split('#')[0]}
-                }, (res) => {
-                    let data = res.data;
-                    if(data.code === '0'){
-                        self.wxInfo = self.$store.state.wxInfo = data.data;
-                        self.wxShareInit();
-                    }
-                })
-            }
+            service.getWechatSign({
+                params: {url: location.href.split('#')[0]}
+            }, (res) => {
+                let data = res.data;
+                if(data.code === '0'){
+                    self.wxInfo = self.$store.state.wxInfo = data.data;
+                    self.wxShareInit();
+                }
+            })
         },
         wxShareInit() {
             let self = this;

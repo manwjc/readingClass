@@ -24,7 +24,7 @@
 import constant from '@/js/common/constant'
 import utils from '@/js/common/utils'
 import shareImg from '@/assets/images/share_img.jpg'
-import shareVideo from '@/assets/images/756d3f19c68175a7cea23e96a4693677.mp4'
+import shareVideo from '@/assets/images/happy_halloween_final.mp4'
 import wx from 'weixin-js-sdk'
 import mixin from '@/js/common/wxshare_mixin'
 

@@ -2,9 +2,11 @@
 <div class="share-container relative">
     <div class="mask" v-show="maskShow" @click="hideMask"><img @click.prevent src="../assets/images/toShare.png"></div>
 	<div class="share-top">
+		<img  src="static/images/course/share-banner.jpg">
+		<img  src="static/images/course/video-bg-top.jpg">
 		<div class="video_box">
 			<div class="video">
-				<video id="video" controls="controls" poster="static/images/course/video-bg.jpg" :src="videoUrl"></video>
+				<video id="video" controls="controls" :src="videoUrl"></video>
 			</div>
 		</div>
 	</div>
@@ -13,12 +15,12 @@
 		<img  src="static/images/course/star-light.jpg">
 		<img  src="static/images/course/star-light.jpg">
 		<img  src="static/images/course/star-light.jpg">
-		<img  src="static/images/course/star-gray.jpg">		
+		<img  src="static/images/course/star-light.jpg">		
 	</div>
-	<div class="text">
+	<!-- <div class="text">
 		<p>阅读过程中，能够高度专注并有兴趣的完成所有阅读内容。能够清晰饱满完成所有词汇每个音节的发音。</p>
 		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
-	</div>
+	</div> -->
 	<div class="btn-wrapper" @click="showMask">
 		<button class="course-btn box-center text-center">分享</button>
 	</div>
@@ -29,6 +31,7 @@
 import constant from '@/js/common/constant'
 import utils from '@/js/common/utils'
 import shareImg from '@/assets/images/share_img.jpg'
+import shareVideo from '@/assets/images/happy_halloween_final.mp4'
 import wx from 'weixin-js-sdk'
 import mixin from '@/js/common/wxshare_mixin'
 
@@ -36,7 +39,7 @@ export default {
     data() {
         return {
             userData: null,
-            videoUrl: '',
+            videoUrl: shareVideo,
             maskShow: false,
         }
     },
@@ -77,7 +80,7 @@ export default {
                 // 微信分享的数据
                 var shareData = {
                     "imgUrl": self.shareImg, // 分享显示的缩略图地址
-                    "link": constant.chelchost + '/wx/index?id=' + self.$route.params.id + '&shareFrom=' + openId, // 分享地址
+                    "link": constant.chelchost + '/wx/classList', // 分享地址
                     "desc": '点亮乔希', // 分享描述
                     "title": '乔希家导读课' // 分享标题
                 }
@@ -97,14 +100,15 @@ body {
 }
 
 .video_box {
-    background: url(../assets/images/course/share-banner.jpg) no-repeat;
+    background: url(../assets/images/video-bg-repeat.jpg) repeat-y;
     background-size: 100% auto;
     width: 100%;
-    padding-top: 130px;
+    padding-bottom: 10px;
 }
 
 .video_box .video {
     width: 90%;
+    background: #000;
     margin: 0 auto;
     height: 100%;
     overflow: hidden;
