@@ -1,5 +1,5 @@
 <template>
-	<div class="box-v-start align-stretch" style="height: 100%;">
+	<div class="box-v-start align-stretch" style="height: 100%; min-height: 100%;">
 		<div class="box-v-start">
 			<img @click.prevent src="static/images/course/login-banner.jpg">
 			<img src="static/images/course/wx.jpg" class="user-avatar">
@@ -110,7 +110,7 @@
 				userData: null,
 				kidDate:'2018-10-16',
 				pickerValue:'',
-				sexValue:"男孩",
+				sexValue:"1",
 				isGirl:false,
 				isBoy:true,
 				hasSubmit: false,
@@ -199,11 +199,11 @@
                if(sex=="boy"){
                   that.isGirl=false;
 				  that.isBoy=true
-				  that.sexValue = '男孩'
+				  that.sexValue = '1'
                }else{
                   that.isGirl=true;
                   that.isBoy=false
-				  that.sexValue = '女孩'
+				  that.sexValue = '2'
                }
 		    },
 		    dateToString: function(date){ 
@@ -281,7 +281,7 @@
 	.leftInput{
 		border: none;
 		border-bottom: 1px solid #dadada;
-		font-size: 0.16rem;
+		font-size: 0.24rem;
 		padding: 0.06rem 0.04rem
 	}
 	.backIcon{

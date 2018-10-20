@@ -20,7 +20,7 @@
 		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
 	</div>
 	<div class="btn-wrapper" @click="showMask">
-		<button class="course-btn box-center">分享</button>
+		<button class="course-btn box-center text-center">分享</button>
 	</div>
 </div>
 </template>
@@ -78,8 +78,8 @@ export default {
                 var shareData = {
                     "imgUrl": self.shareImg, // 分享显示的缩略图地址
                     "link": constant.chelchost + '/wx/index?id=' + self.$route.params.id + '&shareFrom=' + openId, // 分享地址
-                    "desc": '原价699元，新生99元报名', // 分享描述
-                    "title": '暑假英文阅读戏剧表演营' // 分享标题
+                    "desc": '点亮乔希', // 分享描述
+                    "title": '乔希家导读课' // 分享标题
                 }
                 wx.onMenuShareTimeline(shareData)
                 wx.onMenuShareAppMessage(shareData)

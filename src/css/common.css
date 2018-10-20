@@ -36,6 +36,7 @@ button {
     font: inherit;
     background-color: transparent;
     color: inherit;
+    line-height: 22px;
 }
 
 /* 移除ios Android 上input type=number 时候的小箭头 */
@@ -762,4 +763,8 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
     width:30px;
     height:30px;
     margin:0 5px;
+}
+
+.icon-like {
+    width: 18px; height: 18px; padding-bottom: 5px;
 }

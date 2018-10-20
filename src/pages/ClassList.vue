@@ -60,8 +60,8 @@
                     <img  src="static/images/course/book.png">
                     <div class="introduce-right box-v-center align-start">
                         <div class="introduce-text">
+                            <p>{{courseListData.schoolName}}</p>
                             <p>{{courseListData.name}}</p>
-                            <!-- <p>{{courseListData.app_explain}}</p> -->
                             <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
                         </div>
                         <div class="btn-wrapper">
@@ -109,7 +109,7 @@
                                         <p>{{item.appointment_time | timeFormat}}</p>
                                         <p class="box-start">
                                             <img class="avatar" src="static/images/course/head-img.png">
-                                            <span class="box-center">{{item.english_name}}</span>
+                                            <span class="box-center">{{item.teacher_english_name || item.english_name}}</span>
                                             <!-- <span class="box-center">|</span>
                                             <span class="box-center">4.5分</span> -->
                                         </p>
@@ -139,12 +139,82 @@
                 dataLoaded: false,
                 studentList: [],
                 courseListData: [],     //可预约的导读课程
-                courseRecordData: [],   //已参加的导读课程
+                courseRecordData: [
+                /*     {
+	"type_name": "2",
+	"teacher_name": "钟导读测试老师",
+	"course_unit_id": "152776112074159801291420",
+	"classroom_name": "乔希家太古城教室",
+	"teacher_english_name": "test",
+	"truely_course_count": "0",
+	"classhour_type": "151663241406235092578752",
+	"english_name": "The Gull's Picnic",
+	"create_id": "152337614399459801341474",
+	"course_code": "G-04-22",
+	"appointment_type": "4",
+	"app_explain": "测试导读课",
+	"ID": "153011349286659801413064",
+	"SECRET_LEVEL": "",
+	"over_time": "2018-06-28 17:45:00",
+	"day": "2018-06-28",
+	"activity_number": 0,
+	"courseware": "1527762102773",
+	"fileList": [],
+	"classroom_id": "151747750802759801346523",
+	"appointment_time": "2018-06-28 17:00:00",
+	"course_name": "Gull的野餐",
+	"ETL_FLAG": "O",
+	"teacher_confirm_stateExp": "",
+	"student_english_name": "yuan",
+	"coid": "150760086241435091502172",
+	"routine_number": 0,
+	"NAME": "海鸥的野餐",
+	"name": null,
+	"course_appointment_id": "153002641705759801411182",
+	"sys_course_count": "1",
+	"main_number": 0,
+	"teacher_confirm_state": "1",
+	"gid": "-1",
+	"week": "星期四",
+	"teacher_id": "152337614404959801341487",
+	"line": 2,
+	"real_course_count": "0",
+	"class_time_package_id": "",
+	"consume": "1",
+	"grade_number": "2018062810733",
+	"student_name": "袁大宝",
+	"course_type": "0",
+	"coursewareId": "152776112074159801291420",
+	"file": "1527762102773",
+	"school_id": "151624329992235091733904",
+	"use_timePackage_way": "2",
+	"course_id": "152776112071759801291398",
+	"student_level": "4",
+	"subscribe": "2018-06-27 23:31:32",
+	"coursewareList": [{
+		"APPENDIX_NAME": "L1-T22 The Gulls' Picnic PDF.pdf",
+		"APPENDIX_URL": "appendix/M00/00/0B/rBLrN1s13ZuAJZctAC0BF7yRTrA854.pdf",
+		"h5_file_url": "https://www.chel-c.com/appendix/M00/00/0B/rBLrN1s13ZuAJZctAC0BF7yRTrA854.pdf",
+		"fileType": "1",
+		"fileId": "153025679588759802013615"
+	}, {
+		"APPENDIX_NAME": "L1-T22 The Gull's picnic-1.mp3",
+		"APPENDIX_URL": "appendix/M00/00/0B/rBLrN1s14MiAEfTMABlHSva-fRI291.mp3",
+		"h5_file_url": "https://www.chel-c.com/appendix/M00/00/0B/rBLrN1s14MiAEfTMABlHSva-fRI291.mp3",
+		"fileType": "0",
+		"fileId": "153025760878559802334885"
+	}],
+	"student_id": "152328200694459801411107",
+	"UPDATE_TIME": "2018-06-27T23:31:33.000+0000",
+	"time": "17:00-17:45"
+} */
+                ],   //已参加的导读课程
                 appointment_time: '',   //当前周的周一日期
                 curTabIndex: 0,
                 curStudentIndex: '',
                 curDateTime: '',
-                curYearMonth: ''
+                curYearMonth: '',
+                
             };
         },
         computed: {
@@ -352,7 +422,7 @@ p {
 
 .course-index .course-main .course-main-header .introduce .introduce-text p {
     line-height: 24px;
-    font-size: 14px;
+    font-size: 16px;
     color: #666;
 }
 

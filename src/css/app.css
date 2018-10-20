@@ -267,9 +267,12 @@ html {
   .red-btn{ width: 100px; height: 32px; line-height: 32px; background: #c5393c; color: #fff; border-radius: 50px; text-align: center;}
   .padding20{ padding: 20px;}
   .border-top{ border-top: 1px solid #eeeeee}
+  .border-bottom{ border-bottom: 1px solid #eeeeee}
   .p510{ padding: 5px 10px;}
   .pt10{ padding-top: 10px;}
   .pt20{ padding-top: 20px;}
+  .ptb10{ padding: 10px 0;}
+  .ptb20{ padding: 20px 0;}
   .m020{ margin: 0 20px;}
   
   

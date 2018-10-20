@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <mt-swipe :auto="0" :show-indicators="false" :continuous="false" style="height:24px;background: #00244C;padding: 0rem 0.2rem;">
+        <mt-swipe :auto="0" :show-indicators="false" :continuous="false" style="height:28px;background: #00244C;padding: 0rem 0.2rem;">
             <mt-swipe-item>
                 <div class="box-justify align-stretch">
                     <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index<7" @click="choseDate(item)">

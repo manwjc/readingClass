@@ -5,8 +5,8 @@
             <img src="static/images/book.png" class="bookImg"/>
             <div class="rest box-v-start align-stretch">
                 <div class="itemHeader">南山益田假日广场导读室</div>
-                <div class="timeCss">2018-08-08&nbsp;&nbsp;&nbsp;&nbsp;14:30</div>
-                <div style="margin-bottom:0.2rem">等级：<span style="font-weight:600">Pre-L1</span> &nbsp;&nbsp;学生：<span style="font-weight:600">8人</span> &nbsp;&nbsp;状态：<span style="font-weight:600">未上课</span></div>
+                <div class="timeCss"><span style="margin-right: 0.1rem">2018-08-08</span>14:30</div>
+                <div style="margin-bottom:0.2rem">等级：<span style="font-weight:600;margin-right: 0.1rem">Pre-L1</span> 学生：<span style="font-weight:600;margin-right: 0.1rem"">8人</span> 状态：<span style="font-weight:600">未上课</span></div>
             </div>
         </div>
     </div>
@@ -18,29 +18,29 @@
             <div class="box-start align-stretch">
                 <img src="static/images/course/head-img.png" class="smallStudentAvator"/>
                 <div>
-                    <div style="margin-bottom:0.2rem;margin-top:3px"><span style="color:blue">·</span>英文名字：{{item.name}}</div>
-                    <div style="margin-bottom:0.2rem"><span style="color:blue">·</span>中文名字：{{item.name2}}</div>
+                    <div style="margin:0.03rem 0 0.2rem 0.2rem;"><span style="color:blue"></span>英文名：{{item.name}}</div>
+                    <div style="margin:0.03rem 0 0.2rem 0.2rem;"><span style="color:blue"></span>中文名：{{item.name2}}</div>
                 </div>
-                <div style="margin-left:0.2rem">
-                    <div style="margin-bottom:0.2rem;margin-top:3px"><span style="color:blue">·</span>性别：{{item.sex}}</div>
-                    <div style="margin-bottom:0.2rem"><span style="color:blue">·</span>学生等级：{{item.level}}</div>
+                <div style="margin-left:0.3rem">
+                    <div style="margin-bottom:0.2rem;margin-top:3px"><span style="color:blue"></span>性别：{{item.sex}}</div>
+                    <div style="margin-bottom:0.2rem"><span style="color:blue"></span>等级：{{item.level}}</div>
                 </div>
             </div>
-            <div class="box-v-end" style="height:80px">
+            <div class="box-v-end">
                 <div class="box-start">
                     <div @click="changeLike(index)">
-                        <img v-if="!item.isLike" src="static/images/u73.png"/>
-                        <img v-else src="static/images/u74.png"/>		 
+                        <img v-if="!item.isLike" class="icon-like" src="static/images/unlike.png"/>
+                        <img v-else class="icon-like" src="static/images/like.png"/>
                     </div>
-                    <div class="remarkCss">
-                        <span v-if="!item.isRmark">作业</span>
-                        <span v-else >已点评</span>
+                        <div class="remarkCss">
+                            <span v-if="!item.isRmark">作业</span>
+                            <span v-else >已点评</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -154,6 +154,7 @@ body {
 
 .courseContent {
     color: black;
+    overflow-x: hidden;
 }
 
 .courseHeader {
@@ -162,8 +163,8 @@ body {
 }
 
 .smallStudentAvator {
-    width: 65px;
-    height: 65px;
+    width: 0.7rem;
+    height: 0.7rem;
 }
 
 .fontName {
@@ -173,10 +174,10 @@ body {
 }
 
 .subHeaderName {
-    background-color: #cae8ff;
+    background-color: #004c86;
     width: 100%;
     padding: 0.25rem 0.2rem;
-    color: #145192;
+	color:white;
     font-weight: 600;
 }
 
@@ -211,15 +212,16 @@ body {
 }
 
 .remarkCss {
-    border-radius: 10px;
-    background-color: aqua;
-    color: #145192;
+    border-radius: 30px;    
+    background-color: #e3f2ff;
+    border: 1px solid #bee1ff;
+	color: #3395F8;
     padding: 0.06rem 0.25rem;
     margin-left: 0.2rem;
 }
 
 .itemStu {
     border-bottom: 1px solid #dadada;
-    padding: 0.1rem 0rem;
+    padding: 0.2rem 0rem;
 }
 </style>

@@ -30,18 +30,6 @@
 			   <div class="smallTittle">周六</div>
 			   <div class="smallTittle">周日</div>
 			</div>
-			<!-- <div class="box-justify align-stretch"> -->
-            <!-- <v-touch v-on:swipeleft="SwipeNextWeek()" v-on:swiperight="onSwipeRight()" class="box-justify align-stretch" >
-			   <div class="bigWFont" v-for=" (item,index) in weekDateShow" @click="chooseDate(item)">
-                    <div>
-                    {{item.weekDate}}
-                    </div>
-                    <div style="width: 13px;height: 13px;margin-top:0.04rem;"><img v-if="+item.weekDate === activeDate" class="backIcon2" src="static/images/up.png"></div>
-			   </div>
-            </v-touch> -->
-			<!-- </div> -->
-
-            
             <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height:24px; background: #00244C; margin-top: -0.1rem; padding: 0.2rem 0.1rem 0;">
                 <mt-swipe-item >
                 <div class="box-justify align-stretch">
@@ -49,7 +37,7 @@
                     <div>
                         {{item.weekDate}}
                     </div>
-                    <img class="backIcon2" style="width: 13px;height: 13px;" src="static/images/up.png" v-if="+item.weekDate === activeDate">
+                    <img class="backIcon2" src="static/images/up.png" v-if="+item.weekDate === activeDate">
                     </div>
                 </div>
                 </mt-swipe-item>
@@ -59,13 +47,11 @@
                     <div>
                         {{item.weekDate}}
                     </div>
-                    <img class="backIcon2" style="width: 13px;height: 13px;" src="static/images/up.png" v-if="+item.weekDate === activeDate">
+                    <img class="backIcon2" src="static/images/up.png" v-if="+item.weekDate === activeDate">
                     </div>
                 </div>
                 </mt-swipe-item>
             </mt-swipe> 
-
-
 		  </div>
 	   </div>
 	   <div class="rest box-v-start align-stretch orderBody" >
@@ -265,7 +251,11 @@
             initActiveDate(curDate, sundayIndex) {
                 let hasActiveCourse = false;
                 let today = +curDate;
-                let leftDay = +this.weekDate[sundayIndex].weekDate - today;
+				let leftDay = +this.weekDate[sundayIndex].weekDate - today;
+				if(!this.courseListData.length) {
+					this.activeDate = today;
+					return;
+				}
                 for(let i=0; i<=leftDay; i++) {
                     this.courseListData.filter((item) => {
                         if(+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
@@ -424,8 +414,8 @@
 	margin-right:0.22rem;
 	}
 	.backIcon2{
-	width: 13px;
-    height: 13px;
+	width: 20px;
+    height: 20px;
     border-radius: 60px;
     display: block;
     margin-top:0.04rem;

@@ -20,6 +20,10 @@ const Homework = resolve => require(['../pages/Homework'], resolve)
 const CourseDetail = resolve => require(['../pages/CourseDetail'], resolve)
 const TeacherRemark = resolve => require(['../pages/TeacherRemark'], resolve)
 
+const SaSet = resolve => require(['../pages/SaSet'], resolve)
+const WeekChampion = resolve => require(['../pages/WeekChampion'], resolve)
+const MonthChampion = resolve => require(['../pages/MonthChampion'], resolve)
+
 export default new Router({
   routes: [
     //导读课路由
@@ -118,6 +122,33 @@ export default new Router({
       path: '/teacherRemark',
       name: 'teacherRemark',
       component: TeacherRemark,
+      meta: {
+        keepAlive: true,
+        title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/saSet',
+      name: 'saSet',
+      component: SaSet,
+      meta: {
+        keepAlive: true,
+        title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/weekChampion',
+      name: 'weekChampion',
+      component: WeekChampion,
+      meta: {
+        keepAlive: true,
+        title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/monthChampion',
+      name: 'monthChampion',
+      component: MonthChampion,
       meta: {
         keepAlive: true,
         title: '乔希家导读课预约'
