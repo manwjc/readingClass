@@ -10,13 +10,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="course-stars  box-center">
+	<!-- <div class="course-stars  box-center">
 		<img  src="static/images/course/star-light.jpg">
 		<img  src="static/images/course/star-light.jpg">
 		<img  src="static/images/course/star-light.jpg">
 		<img  src="static/images/course/star-light.jpg">
 		<img  src="static/images/course/star-light.jpg">		
-	</div>
+	</div> -->
 	<!-- <div class="text">
 		<p>阅读过程中，能够高度专注并有兴趣的完成所有阅读内容。能够清晰饱满完成所有词汇每个音节的发音。</p>
 		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
@@ -56,7 +56,7 @@ export default {
                     shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : 'oztvqvzIyMMsuxp93MXLQowPTTLE'
                 }
             }, (res) => {
-                if (res.data.code === '0') {
+                if (res.data.code === '0' && res.data.data.vidoUrl) {
                     self.videoUrl = utils.handleUrl(res.data.data.vidoUrl);
                 } else {
                     self.$showMsg(res.data.message);

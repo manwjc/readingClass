@@ -11,8 +11,8 @@
 		</div>
 	</div>
 	<div class="text">
-		<p>阅读过程中，能够高度专注并有兴趣的完成所有阅读内容。能够清晰饱满完成所有词汇每个音节的发音。</p>
-		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
+		<p>万圣节即将到来，故事中的主角Biscuit 和他的小伙伴要一同讨糖果去。让我们一起看看会发生什么有趣的事情呢？</p>
+		<p>Biscuit and the little girl are going trick-or-treating on his first Halloween. What kinds of silly surprises are in store for them?</p>
 	</div>
 	<div class="btn-wrapper" @click="showMask">
 		<button class="course-btn box-center text-center">分享</button>
@@ -37,7 +37,7 @@ export default {
         }
     },
     mounted() {
-        this.getUserInfo(this.getUserVideo)
+        this.getUserInfo()
     },
     mixins: [mixin],
     methods: {
