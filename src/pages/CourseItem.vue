@@ -33,7 +33,9 @@
                         <img v-else class="icon-like" src="static/images/like.png"/>
                     </div>
                         <div class="remarkCss">
-                            <span v-if="!item.isRmark">作业</span>
+                            <router-link v-if="!item.isRmark" to="/teacherRemark">
+                                <span>作业</span>
+                            </router-link>
                             <span v-else >已点评</span>
                         </div>
                     </div>

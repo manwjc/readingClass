@@ -58,8 +58,9 @@ export default {
                     }else if(!resDate.data){
 					    this.$showMsg(resDate.message)
                     }else if(!resDate.data.length){
-                        let message = '未查找到用户信息'
-					    this.$showMsg(message)
+                        // let message = '未查找到用户信息'
+					    // this.$showMsg(message)
+						this.$router.push({name:"hasDated"})
                     }
                 },
                 error => {

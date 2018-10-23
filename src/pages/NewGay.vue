@@ -2,46 +2,47 @@
 	<div class="box-v-start align-stretch" style="height: 100%; min-height: 100%;">
 		<div class="box-v-start">
 			<img @click.prevent src="static/images/course/login-banner.jpg">
-			<img src="static/images/course/head-img.png" class="user-avatar">
-			<div style="margin-top: 0.2rem">为了您孩子更好地进行体验课程，请先填写孩子的信息</div>
-			<div style="margin-top: 0.5rem">
+			<div class="flex-center"><img src="static/images/course/head-img.png" class="user-avatar"></div>
+			<div v-if="hasDated" style="margin-top: 0.2rem">您已申请成功<br>稍候会有客服人员联系您，请保持电话畅通</div>
+			<div v-if="!hasDated" style="margin-top: 0.2rem">为了您孩子更好地进行体验课程，请先填写孩子的信息</div>
+			<div v-if="!hasDated" style="margin-top: 0.5rem">
 				<div class="box-start infoItem">
-                   <div class="rightName">孩子姓名</div>
-                   <input type="text" name="" placeholder="孩子姓名" class="leftInput" v-model="userName" />
+				<div class="rightName">孩子姓名</div>
+				<input type="text" name="" placeholder="孩子姓名" class="leftInput" v-model="userName" />
 				</div>
 				<div class="box-start infoItem">
-                   <div class="rightName">孩子生日</div>
-                   <input type="text" name="" placeholder="孩子姓名" class="leftInput" v-model="kidDate" @click="openPicker"/>
+				<div class="rightName">孩子生日</div>
+				<input type="text" name="" placeholder="孩子姓名" class="leftInput" v-model="kidDate" @click="openPicker"/>
 				</div>
 				<mt-datetime-picker
-				    ref="picker"
-				    type="date"
-				    v-model="pickerValue"
-				    @confirm="sureDate"
-				    year-format="{value} 年"
+					ref="picker"
+					type="date"
+					v-model="pickerValue"
+					@confirm="sureDate"
+					year-format="{value} 年"
 					month-format="{value} 月"
 					date-format="{value} 日"
-				    >
+					>
 				</mt-datetime-picker>
 				<div class="box-start infoItem">
-                   <div class="rightName">孩子性别</div>
-                   <div class="box-justify rest">
-                   	<div class="box-start" @click="chooseSex('boy')">
-                   		<img v-if="!isBoy" src="static/images/course/star-gray.jpg" class="backIcon" />
-                   		<img v-if="isBoy" src="static/images/course/star-light.jpg" class="backIcon" />
-                   	    <div>男孩</div>
-                   	</div>
-                   	<div class="box-start" @click="chooseSex('girl')">
-                   		<img v-if="!isGirl" src="static/images/course/star-gray.jpg" class="backIcon"/>
-                   		<img v-if="isGirl" src="static/images/course/star-light.jpg" class="backIcon" />
-                   	    <div>女孩</div>
-                   	</div>
-                   </div>
-                     
+				<div class="rightName">孩子性别</div>
+				<div class="box-justify rest">
+					<div class="box-start" @click="chooseSex('boy')">
+						<img v-if="!isBoy" src="static/images/course/star-gray.jpg" class="backIcon" />
+						<img v-if="isBoy" src="static/images/course/star-light.jpg" class="backIcon" />
+						<div>男孩</div>
+					</div>
+					<div class="box-start" @click="chooseSex('girl')">
+						<img v-if="!isGirl" src="static/images/course/star-gray.jpg" class="backIcon"/>
+						<img v-if="isGirl" src="static/images/course/star-light.jpg" class="backIcon" />
+						<div>女孩</div>
+					</div>
+				</div>
+					
 				</div>
 				<div class="box-start infoItem">
-                   <div class="rightName">英&nbsp;&nbsp;文&nbsp;&nbsp;名</div>
-                   <input type="text" name="" placeholder="孩子英文名" class="leftInput" v-model="englishName" />
+				<div class="rightName">英&nbsp;&nbsp;文&nbsp;&nbsp;名</div>
+				<input type="text" name="" placeholder="孩子英文名" class="leftInput" v-model="englishName" />
 				</div>
 				<div class="box-start infoItem">
 					<label class="rightName" for="defaultRoom">阅&nbsp;&nbsp;读&nbsp;&nbsp;馆</label>
@@ -53,35 +54,6 @@
 					<div class="submitBtn" @click="submitForm">提交信息</div>
 				</div>
 			</div>
-			<!-- <div class="form_list">
-				<div class="form_box">
-					<form id="FormBox" method="post">
-						<p class="displaybox">
-							<label class="label_name" for="userName">学员姓名</label><span>：</span>
-							<input class="input_normal boxflex01" type="text" name="userName" v-model="userName">
-						</p>
-						<p class="displaybox">
-							<label class="label_name" for="userAge">宝贝年龄</label><span>：</span>
-							<input class="input_normal boxflex01" type="number" name="userAge" v-model.number="userAge" @change="getTermNumList">
-						</p>
-						<p class="displaybox">
-							<label class="label_name" for="defaultRoom">阅读馆</label><span>：</span>
-							<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="getTermNumList" v-if="userData && userData.data && userData.data.utmSource === 'cmb'" >
-								<option v-for="(item,index) in readingRooms"  :value="index+1" v-if="index < 5">{{ item.name }}</option>
-							</select>
-							<select class="input_normal boxflex01" v-model="defaultRoom" name="defaultRoom" @change="getTermNumList" v-else >
-								<option v-for="(item,index) in readingRooms"  :value="index+1">{{ item.name }}</option>
-							</select>
-						</p>
-						<p class="displaybox">
-							<label class="label_name" for="partNum">期数</label><span>：</span>
-							<select class="input_normal boxflex01" v-model="defaultTerm" name="defaultTerm" >
-								<option v-for="(item,index) in termList"  :value="index+1">{{ item.time }}</option>
-							</select>
-						</p>
-					</form>
-				</div>
-			</div> -->
 		</div>
 		<div class="rest displayflex flex-end">
 			<img @click.prevent src="../assets/images/p_a_08.jpg">
@@ -114,6 +86,7 @@
 				isGirl:false,
 				isBoy:true,
 				hasSubmit: false,
+				hasDated: false,
 			}
 		},
 		mounted() {
@@ -148,7 +121,8 @@
 				self.$service.addStudent(dataParams, (res) => {
 					let data = res.data;
 					if(data.code === '0'){
-						self.$router.push({name:"classList"})
+						this.$router.push({name:"hasDated"})
+						// self.hasDated = true;
 					}else{
 						this.hasSubmit = false;
 						const msg = data.message || '接口异常';

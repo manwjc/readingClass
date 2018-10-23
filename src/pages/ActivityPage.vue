@@ -73,7 +73,7 @@ export default {
                 // 微信分享的数据
                 var shareData = {
                     "imgUrl": self.shareImg, // 分享显示的缩略图地址
-                    "link": constant.chelchost + '/wx/classList', // 分享地址
+                    "link": constant.chelchost + '/wx/index', // 分享地址
                     "desc": '点亮乔希', // 分享描述
                     "title": '乔希家导读课' // 分享标题
                 }

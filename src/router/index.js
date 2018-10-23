@@ -25,6 +25,8 @@ const WeekChampion = resolve => require(['../pages/WeekChampion'], resolve)
 const MonthChampion = resolve => require(['../pages/MonthChampion'], resolve)
 
 const ActivityPage = resolve => require(['../pages/ActivityPage'], resolve)
+const SchoolAdress = resolve => require(['../pages/SchoolAdress'], resolve)
+const HasDated = resolve => require(['../pages/HasDated'], resolve)
 
 export default new Router({
   routes: [
@@ -163,6 +165,24 @@ export default new Router({
       meta: {
         keepAlive: true,
         title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/schooladress',
+      name: 'schooladress',
+      component: SchoolAdress,
+      meta: {
+      keepAlive: true,
+      title: '乔希家导读课预约'
+      }
+    },
+    {
+      path: '/hasDated',
+      name: 'hasDated',
+      component: HasDated,
+      meta: {
+      keepAlive: true,
+      title: '乔希家导读课预约'
       }
     },
 
