@@ -57,6 +57,7 @@
         <div class="course-main-header">
             <h3>线下导读</h3>
             <p class="des">老师带领细读经典英文课本</p>
+            <!-- status: '-1':未预约  '4':已取消预约 '1':已预约 -->
             <div v-if="courseListData.status === '-1' || courseListData.status === '4'">
                 <div class="introduce box-start">
                     <img  src="static/images/course/book.png">
@@ -91,7 +92,7 @@
                 </div>
                 <div class="displaybox border-top mtop10 pt10">
                     <div class="left boxflex01" target="_blank" @click="cancelCourse(courseListData.gradeNumber)"><button class="box-center">取消课程</button></div>
-                    <div v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div>
+                    <div class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div>
                     <!-- <a target="_blank" v-for="course in courseListData.file" v-if="course.fileType === '1'" class="right boxflex01" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
                 </div>
             </div>

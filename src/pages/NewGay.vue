@@ -241,8 +241,8 @@
 		height: 100%
 	}
 	.user-avatar{
-		width: 60px;
-	    height: 60px;
+		width: 40px;
+	    height: 40px;
 	    border-radius: 60px;
 	    display: block;
 	}
