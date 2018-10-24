@@ -6,7 +6,7 @@
 <div class="homeWorkCotent box-v-start align-stretch">
     <div style="border-bottom: 1px solid #dadada;margin-top: 0.5rem">
         <div class="box-start workInfoItem">
-            <div class=""><span>课程名称：</span>{{courseDetailData && courseDetailData.course_name}}</div>
+            <div class=""><span>课程名称：</span>{{courseDetailData && courseDetailData.english_name}}</div>
             <!-- <div><span style="font-weight: 600">进度：</span>0%</div> -->
         </div>
         <div class="box-start workInfoItem">
@@ -15,20 +15,20 @@
     </div>
     <div style="padding: 0.2rem 0rem">
         <div style="font-weight: 600;margin-bottom: 0.2rem">全部作业</div>
-        <div class="workInfoItem2 displayflex mtop20" v-for="course in courseDetailData && courseDetailData.coursewareList" v-if="course.fileType === '1'">
+        <div class="workInfoItem2 displayflex mtop20" v-for="course in courseDetailData && courseDetailData.fileList" v-if="course.homeworkState === '0'">
             <div class="left-title">作业名称：</div>
             <div class="flex-start">
                 <div>{{course.APPENDIX_NAME}}</div>
                 <div class="mtop10">
-                    <!-- <router-link to="/courseDetail"><span class="green">查看</span></router-link> -->
-                    <a target="_blank" :href="course.h5_file_url"><span class="green">查看</span></a>
-                    <a class="mleft20 green" target="_blank" :href="course.h5_file_url"><span class="green">下载</span></a>
+                   <span v-if="course.APPENDIX_NAME.indexOf('pdf') > -1" @click="viewCourseDetail(courseDetailData)" class="green">查看</span>
+                    <!-- <a target="_blank" :href="course.h5_file_url"><span class="green">查看</span></a> -->
+                    <a class="green" :class="{'mleft20' : course.APPENDIX_NAME.indexOf('pdf') > -1}" target="_blank" :href="course.APPENDIX_URL"><span class="green">下载</span></a>
                 </div>
             </div>
         </div>
         <div class="displayflex mtop20">
             <div class="pt10 left-title">上传作业：</div>
-            <div class="relative mleft10 flex-start">
+            <div class="relative flex-start">
                 <el-upload ref="upload" action="" :limit="1" :file-list="fileList" :upload-error="uploadError" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-change="(file)=>{return handleChange(file, 22)}" :auto-upload="true">
                     <el-button class="select-file" slot="trigger" size="small" type="primary">
                         <div class="upload-text">{{uploadText}}</div>
@@ -43,7 +43,7 @@
         <video id="video" controls="controls" poster="static/images/black_bg.png" :src="uploadVideo"></video>
     </div>
     <!-- </div> -->
-    <router-link :to="'/VideoShare?homeworkRecordId=' + homeworkRecordId" v-if="uploadVideo">
+    <router-link :to="'/VideoShare?id=' + homeworkRecordId" v-if="uploadVideo">
         <div class="rest box-v-end">
             <div class="submitBtn">提交作业</div>
         </div>
@@ -102,6 +102,11 @@ export default {
     },
     mixins: [mixin],
     methods: {
+        //查看课件详情
+        viewCourseDetail(item) {
+            sessionStorage.setItem('courseDetailData', JSON.stringify(item));
+            this.$router.push({path: 'courseDetail', query: {'pageFrom': 'homework'}});
+        },
         openFullScreenLoading() {
             this.loading = this.$loading({
                 lock: true,
@@ -146,7 +151,8 @@ export default {
                     if (data.code === "0") {
                         let host = constant.chelchost;
                         self.uploadVideo = host + '/' + data.data.APPENDIX_URL;
-                        self.homeworkRecordId = data.data.ID;
+                        // self.homeworkRecordId = data.data.ID;
+                        self.homeworkRecordId = self.courseDetailData.coursewareId;
                         this.$showMsg("文件上传成功");
                     } else {
                         let message = data.message || "上传失败!";
@@ -361,9 +367,9 @@ a.el-upload-list__item-name {
 .select-file,
 .select-file:hover {
     background: url(../../static/images/video.png) no-repeat;
-    width: 30px;
+    background-size: 30px 30px;
+    width: 100px;
     height: 30px;
-    background-size: 100% 100%;
     border: none;
 }
 
@@ -373,6 +379,6 @@ a.el-upload-list__item-name {
 }
 
 .left-title {
-    width: 85px;
+    min-width: 75px;
 }
 </style>

@@ -22,7 +22,7 @@
 		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
 	</div> -->
 	<div class="btn-wrapper" @click="showMask">
-		<button class="course-btn box-center text-center">分享</button>
+		<div class="course-btn box-center text-center">分享</div>
 	</div>
 </div>
 </template>
@@ -41,6 +41,7 @@ export default {
             userData: null,
             videoUrl: shareVideo,
             maskShow: false,
+            shareImg: shareImg,
         }
     },
     mounted() {
@@ -52,13 +53,13 @@ export default {
             let self = this;
             self.$service.getUserVideo({
                 params: {
-                    id: self.$route.query.homeworkRecordId,
-                    shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : 'oztvqvzIyMMsuxp93MXLQowPTTLE'
+                    id: self.$route.query.id,
+                    shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : ''
                 }
             }, (res) => {
                 if (res.data.code === '0' && res.data.data.vidoUrl) {
                     self.videoUrl = utils.handleUrl(res.data.data.vidoUrl);
-                } else {
+                } else if(res.data.code !== '0'){
                     self.$showMsg(res.data.message);
                 }
             })
@@ -79,10 +80,10 @@ export default {
             wx.ready(function () {
                 // 微信分享的数据
                 var shareData = {
-                    "imgUrl": self.shareImg, // 分享显示的缩略图地址
-                    "link": constant.chelchost + '/wx/classList', // 分享地址
+                    "imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
+                    "link": constant.chelchost + '/wx/index?sharePage=videoShare&shareFrom=' + openId + '&id=' + self.$route.query.id, // 分享地址
                     "desc": '点亮乔希', // 分享描述
-                    "title": '乔希家导读课' // 分享标题
+                    "title": '乔希家阅读馆' // 分享标题
                 }
                 wx.onMenuShareTimeline(shareData)
                 wx.onMenuShareAppMessage(shareData)

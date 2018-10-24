@@ -49,4 +49,15 @@ export default {
     queryAllSchool: '/wx/homepage/queryAllSchool',
     //添加孩子
     addStudent: '/wx/homepage/addStudent',
+    
+    //查看导读场次
+    queryTeacherAppointment: '/mock/wx/GuideTeacher/queryTeacherAppointment',
+    //查看导读场次学员集合
+    queryTeacherAppointmentByStudent: '/mock/wx/GuideTeacher/queryTeacherAppointmentByStudent',
+    //保存周冠军候选人
+    updateStudentWeekStatus: '/mock/wx/GuideTeacher/updateStudentWeekStatus',
+    //获取评价
+    getEvaluate: '/mock/wx/GuideTeacher/getEvaluate',
+    //保存学员作业评价
+    addEvaluate: '/mock/wx/GuideTeacher/addEvaluate',
 }

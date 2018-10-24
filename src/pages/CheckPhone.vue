@@ -109,10 +109,10 @@
 						if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === true){
 							self.$router.push({name:"classList"})
 						}else if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === false){
-							// self.$showMsg('请先绑定手机');
 							self.$router.push({name:"newGay"})
 						}else{
-							self.$showMsg(data.message);
+							self.$showMsg('请先绑定手机');
+							// self.$showMsg(data.message);
 						}
 					}else{
 						self.$showMsg(data.message);

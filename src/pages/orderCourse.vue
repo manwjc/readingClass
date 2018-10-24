@@ -11,7 +11,7 @@
 		  </div>
 		  <div class="topItem">
 		    <div class="smallTittle">当前预约课程</div>
-			<div class="bigWFont box-start" style="height: 20px;">{{activeDateCourse[0] && activeDateCourse[0].NAME}}</div>
+			<div class="bigWFont box-start" style="height: 20px;">{{activeDateCourse[0] && activeDateCourse[0].english_name}}</div>
 		  </div>
 		  <div class="topItem" style="margin-top:0.45rem">
 		    <div class="smallTittle">上课馆区名称</div>
@@ -73,7 +73,7 @@
                             
                             <img class="user-avatar" src="static/images/course/head-img.png">
                             <div class="box-v-justify align-stretch" style="padding:0.12rem; margin-top: 6px;">
-                                    <div class="sirName">老师：{{item.english_name}}</div>
+                                    <div class="sirName">老师：{{item.teacher_english_name}}</div>
                                     <!-- <div>5分</div> -->
                             </div>
                             <!-- <div v-if="item.isFollow" class="panlFollow">
@@ -98,13 +98,13 @@
 			  <div class="popupBody box-v-start align-stretch">
 			    <div class="box-justify popupItem">
 				  <div class="popupSamallT">课程</div>
-				  <div class="popupSamallT2">{{confirmCourse.NAME}}</div>
+				  <div class="popupSamallT2">{{confirmCourse.english_name}}</div>
 				</div>
 			    <div class="box-justify popupItem">
 				  <div class="popupSamallT">老师</div>
 				  <div class="popupSamallT2 box-start">
 				  <img class="user-avatar" style="width:20px;height:20px;margin-right:0.10rem" src="static/images/course/head-img.png">
-				  <div>{{confirmCourse.english_name}}</div>
+				  <div>{{confirmCourse.teacher_english_name}}</div>
 				  </div>
 				</div>
 				<div class="box-justify popupItem">

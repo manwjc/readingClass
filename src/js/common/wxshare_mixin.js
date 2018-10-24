@@ -24,7 +24,7 @@ export default {
             }, (res) => {
                 let data = res.data;
                 if(data.code === '0'){
-                    self.wxInfo = self.$store.state.wxInfo = data.data;
+                    self.wxInfo = data.data;
                     self.wxShareInit();
                 }
             })
@@ -49,7 +49,7 @@ export default {
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，
                 // 具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，
                 //对于SPA可以在这里更新签名。 
-                //alert("好像出错了！！");
+                // alert(JSON.stringify(res));
             });
         },
         setShareData() {
@@ -58,7 +58,7 @@ export default {
             wx.ready (function () {
                 // 微信分享的数据
                 var shareData = {
-                    "imgUrl" : self.shareImg,    // 分享显示的缩略图地址
+                    "imgUrl" : 'https://www.chel-c.com/wx/index/' + self.shareImg,    // 需要绝对地址，否则无法显示。分享显示的缩略图地址constant.chelchost + '/wx/index/' + self.shareImg, 
                     "link" : 'https://www.chel-c.com/wx/index?sharePage=' + self.$route.path === '/' ? '' : self.$route.path + '&shareFrom=' + openId,    // 分享地址/* location.href.split('#')[0] +  */
                     "desc" : '原价699元，新生99元报名',   // 分享描述
                     "title" : '暑假英文阅读戏剧表演营'   // 分享标题

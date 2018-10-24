@@ -219,4 +219,50 @@ export default {
             fail && fail(error);
         })
     },
+
+    //查看导读场次
+    queryTeacherAppointment: function(params, success, fail) {
+        axios.post(api.queryTeacherAppointment, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //查看导读场次学员集合
+    queryTeacherAppointmentByStudent: function(params, success, fail) {
+        axios.post(api.queryTeacherAppointmentByStudent, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //保存周冠军候选人
+    updateStudentWeekStatus: function(params, success, fail) {
+        axios.post(api.updateStudentWeekStatus, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //获取评价
+    getEvaluate: function(success, fail) {
+        axios.get(api.getEvaluate).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //保存学员作业评价
+    addEvaluate: function(params, success, fail) {
+        axios.post(api.addEvaluate, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
 }

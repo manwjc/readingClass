@@ -53,7 +53,7 @@
             </div>
         </div> -->
     </div>
-    <div class="course-main " v-if="curStudent.member !== '-1'">
+    <div class="course-main " v-if="curStudent && curStudent.member !== '-1'">
         <div class="course-main-header">
             <h3>线下导读</h3>
             <p class="des">老师带领细读经典英文课本</p>
@@ -62,8 +62,8 @@
                     <img  src="static/images/course/book.png">
                     <div class="introduce-right box-v-center align-start">
                         <div class="introduce-text">
-                            <p class="bold">{{courseListData.name}}</p>
-                            <p>{{courseListData.schoolName}}</p>
+                            <p class="bold" style="font-size: 16px !important">{{courseListData.english_name}}</p>
+                            <p style="font-size: 14px !important">{{courseListData.schoolName}}</p>
                             <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
                         </div>
                         <div class="btn-wrapper">
@@ -79,19 +79,20 @@
                     <img class="list-img" src="static/images/course/book.png">
                     <div class="boxflex01 boxalign mleft15">
                         <div class="course-item-info">
-                            <p class="f26 bold">{{courseListData.name}}</p>
+                            <p class="f26 bold">{{courseListData.english_name}}</p>
+                            <p class="f20 mtop10">{{courseListData.classroomName}}</p>
                             <p class="mtop10">{{courseListData.appointmentTime | timeFormat}}</p>
                             <p class="box-start mtop10">
                                 <img class="user-avatar" src="static/images/course/head-img.png">
-                                <span class="mleft15">老师：{{courseListData.englishName}}</span>
+                                <span class="mleft15">老师：{{courseListData.teacher_english_name}}</span>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="displaybox border-top mtop10 pt10">
                     <div class="left boxflex01" target="_blank" @click="cancelCourse(courseListData.gradeNumber)"><button class="box-center">取消课程</button></div>
-                    <!-- <div v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div> -->
-                    <a target="_blank" v-for="course in courseListData.file" v-if="course.fileType === '1'" class="right boxflex01" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a>
+                    <div v-for="item in courseListData.file" v-if="item.fileType === '1'" class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div>
+                    <!-- <a target="_blank" v-for="course in courseListData.file" v-if="course.fileType === '1'" class="right boxflex01" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
                 </div>
             </div>
         </div>
@@ -108,11 +109,12 @@
                                 <img class="course-img" src="static/images/course/book.png">
                                 <div class="course-item-right box-v-center align-start">
                                     <div class="course-item-text">
-                                        <p>{{item.course_name}}</p>
-                                        <p>{{item.appointment_time | timeFormat}}</p>
+                                        <p>{{item.english_name}}</p>
+                                        <p v-if="curTabIndex === 0">{{item.appointment_time | timeFormat}}</p>
+                                        <p v-if="curTabIndex === 1">{{item.start_date}}</p>
                                         <p class="box-start">
                                             <img class="avatar" src="static/images/course/head-img.png">
-                                            <span class="box-center">{{item.teacher_english_name || item.english_name}}</span>
+                                            <span class="box-center">{{item.teacher_english_name}}</span>
                                             <!-- <span class="box-center">|</span>
                                             <span class="box-center">4.5分</span> -->
                                         </p>
@@ -120,9 +122,10 @@
                                 </div>
                             </div>
                             <div class="item-bot box-center">
-                                <a target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a>
-                                <!-- <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button> -->
-                                <button v-for="course in item.coursewareList" v-if="course.fileType === '0' && curTabIndex === 0" class="red-btn" @click="doHomework(item)">做作业</button>
+                                <!-- <a target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
+                                <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button>
+                                <button v-if="item.fileList && item.fileList.length && curTabIndex === 0 && item.fileList[0].homeworkState === '0'" class="red-btn" @click="doHomework(item)">做作业</button>
+                                <button v-if="item.fileList && item.fileList.length && curTabIndex === 0 && item.fileList[0].homeworkState === '1'" class="red-btn" @click="viewHomework(item)">查看作业</button>
                             </div>
                         </div>
                     </div>
@@ -195,6 +198,10 @@
             doHomework(item) {
                 sessionStorage.setItem('courseDetailData', JSON.stringify(item));
                 this.$router.push({name: 'homework'})
+            },
+            //查看作业
+            viewHomework(item) {
+                this.$router.push({path: 'videoShare', query: {'id': item.coursewareId}});
             },
             setCurStudentIndex() {
                 this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;

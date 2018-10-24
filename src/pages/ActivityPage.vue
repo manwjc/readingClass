@@ -14,8 +14,10 @@
 		<p>万圣节即将到来，故事中的主角Biscuit 和他的小伙伴要一同讨糖果去。让我们一起看看会发生什么有趣的事情呢？</p>
 		<p>Biscuit and the little girl are going trick-or-treating on his first Halloween. What kinds of silly surprises are in store for them?</p>
 	</div>
-	<div class="btn-wrapper" @click="showMask">
-		<button class="course-btn box-center text-center">分享</button>
+	<div class="btn-wrapper">
+        <router-link to="/">
+		    <div class="course-btn box-center text-center">立即参与</div>
+        </router-link>
 	</div>
 </div>
 </template>
@@ -34,6 +36,7 @@ export default {
             userData: null,
             videoUrl: shareVideo,
             maskShow: false,
+            shareImg: shareImg,
         }
     },
     mounted() {
@@ -41,21 +44,6 @@ export default {
     },
     mixins: [mixin],
     methods: {
-        getUserVideo() {
-            let self = this;
-            self.$service.getUserVideo({
-                params: {
-                    id: self.$route.query.homeworkRecordId,
-                    shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : 'oztvqvzIyMMsuxp93MXLQowPTTLE'
-                }
-            }, (res) => {
-                if (res.data.code === '0') {
-                    // self.videoUrl = utils.handleUrl(res.data.data.vidoUrl);
-                } else {
-                    self.$showMsg(res.data.message);
-                }
-            })
-        },
         showMask() {
             this.maskShow = true;
             document.body.scrollTop = 0;
@@ -72,10 +60,10 @@ export default {
             wx.ready(function () {
                 // 微信分享的数据
                 var shareData = {
-                    "imgUrl": self.shareImg, // 分享显示的缩略图地址
-                    "link": constant.chelchost + '/wx/index', // 分享地址
-                    "desc": '点亮乔希', // 分享描述
-                    "title": '乔希家导读课' // 分享标题
+                    "imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
+                    "link": constant.chelchost + '/wx/index?sharePage=activityPage', // 分享地址
+                    "desc": '万圣节即将到来，故事中的主角Biscuit 和他的小伙伴要一同讨糖果去。让我们一起看看会发生什么有趣的事情呢？', // 分享描述
+                    "title": '乔希家阅读馆' // 分享标题
                 }
                 wx.onMenuShareTimeline(shareData)
                 wx.onMenuShareAppMessage(shareData)

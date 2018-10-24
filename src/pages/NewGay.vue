@@ -1,6 +1,6 @@
 <template>
-	<div class="box-v-start align-stretch" style="height: 100%; min-height: 100%;">
-		<div class="box-v-start">
+	<div class="box-v-start align-stretch" style="min-height: 100%;">
+		<div class="box-v-start pb20">
 			<img @click.prevent src="static/images/course/login-banner.jpg">
 			<div class="flex-center"><img src="static/images/course/head-img.png" class="user-avatar"></div>
 			<div v-if="hasDated" style="margin-top: 0.2rem">您已申请成功<br>稍候会有客服人员联系您，请保持电话畅通</div>
