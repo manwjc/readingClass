@@ -126,14 +126,14 @@ export default {
                         title: "深圳福田虹湾阅读馆",
                         content: "福田区梅林街道绿景佐阾虹湾购物中心L3022（梅景站A1出口）"
                     },
-                    {
-                        src: "http://www.chel-c.com/img/shenzhen5.6aa2200.png",
-                        title: "深圳龙华cococity阅读馆",
-                        content: "龙华区星河盛世cococity COCO童堡L2s-07/08（白石龙D出口）"
-                    },
+                    // {
+                    //     src: "http://www.chel-c.com/img/shenzhen5.6aa2200.png",
+                    //     title: "深圳龙华cococity阅读馆",
+                    //     content: "龙华区星河盛世cococity COCO童堡L2s-07/08（白石龙D出口）"
+                    // },
                     {
                         src: "http://www.chel-c.com/img/shenzhen6.f9c2437.png",
-                        title: "深圳龙华壹方天地(即将开业)",
+                        title: "深圳龙华壹方天地阅读馆",
                         content: "龙华区人民路壹方天地A区乐聚公园L3层008/009号"
                     }
                 ],
@@ -149,11 +149,18 @@ export default {
                     content: "宁波市中山东路2266号宁波东部新城银泰城352铺"
                 }],
 
-                index3: [{
-                    src: "http://www.chel-c.com/img/hangzhou1.1206c74.png",
-                    title: "杭州新天地阅读馆",
-                    content: "杭州市下城区东新街道长滨路718号杭州新天地L329"
-                }],
+                index3: [
+                    {
+                        src: "http://www.chel-c.com/img/hangzhou1.1206c74.png",
+                        title: "杭州新天地阅读馆",
+                        content: "杭州市下城区东新街道长滨路718号杭州新天地L329"
+                    },
+                    {
+                        src: "http://www.chel-c.com/img/hangzhou1.1206c74.png",
+                        title: "杭州大悦城分馆",
+                        content: "浙江省杭州市拱墅区隐秀路1号大悦城3楼L308"
+                    },
+                ],
 
                 index4: [{
                     src: "http://www.chel-c.com/img/meizhou1.eaff571.png",

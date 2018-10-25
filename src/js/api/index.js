@@ -51,13 +51,13 @@ export default {
     addStudent: '/wx/homepage/addStudent',
     
     //查看导读场次
-    queryTeacherAppointment: '/mock/wx/GuideTeacher/queryTeacherAppointment',
+    queryTeacherAppointment: '/wx/guide/teacher/queryTeacherAppointment',
     //查看导读场次学员集合
-    queryTeacherAppointmentByStudent: '/mock/wx/GuideTeacher/queryTeacherAppointmentByStudent',
+    queryTeacherAppointmentByStudent: '/wx/guide/teacher/queryTeacherAppointmentByStudent',
     //保存周冠军候选人
-    updateStudentWeekStatus: '/mock/wx/GuideTeacher/updateStudentWeekStatus',
+    updateStudentWeekStatus: '/wx/guide/teacher/updateStudentWeekStatus',
     //获取评价
-    getEvaluate: '/mock/wx/GuideTeacher/getEvaluate',
+    getEvaluate: '/wx/guide/teacher/getEvaluate',
     //保存学员作业评价
-    addEvaluate: '/mock/wx/GuideTeacher/addEvaluate',
+    addEvaluate: '/wx/guide/teacher/addEvaluate',
 }

@@ -15,24 +15,14 @@ module.exports = {
       //统一替换baseapi
       '/baseApi': {
         // target: 'https://www.chel-c.com',
-        // target: 'https://www.easy-mock.com/mock/5bceb6874b7def525102a419',
-        // target: 'http://456422bb.ngrok.io',
-      	target: 'http://192.168.1.116',
-      	changeOrigin: true,
-      	pathRewrite: {
-      		'^/baseApi': ''
-      	}
-      },
-      '/baseApi/mock': {
-        // target: 'https://www.chel-c.com',
         target: 'https://www.easy-mock.com/mock/5bceb6874b7def525102a419',
         // target: 'http://456422bb.ngrok.io',
       	// target: 'http://192.168.1.116',
       	changeOrigin: true,
       	pathRewrite: {
-      		'^/baseApi/mock': ''
+      		'^/baseApi': ''
       	}
-      }
+      },
     },
 
     // Various Dev Server settings

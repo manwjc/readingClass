@@ -125,8 +125,8 @@
                             <div class="item-bot box-center">
                                 <!-- <a target="_blank" v-for="course in item.coursewareList" v-if="course.fileType === '1'" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
                                 <button class="red-btn" @click="viewCourseDetail(item)">查看课件</button>
-                                <button v-if="item.fileList && item.fileList.length && curTabIndex === 0 && item.fileList[0].homeworkState === '0'" class="red-btn" @click="doHomework(item)">做作业</button>
-                                <button v-if="item.fileList && item.fileList.length && curTabIndex === 0 && item.fileList[0].homeworkState === '1'" class="red-btn" @click="viewHomework(item)">查看作业</button>
+                                <button v-if="item.fileList && item.fileList.length && curTabIndex === 0 && item.videoStatus === '0'" class="red-btn" @click="doHomework(item)">做作业</button>
+                                <button v-if="item.fileList && item.fileList.length && curTabIndex === 0 && item.videoStatus === '1'" class="red-btn" @click="viewHomework(item)">查看作业</button>
                             </div>
                         </div>
                     </div>

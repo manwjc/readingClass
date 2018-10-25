@@ -422,7 +422,7 @@
 	}
 	.headerTittle{
 	color:white;
-	font-size: 0.36rem;
+	font-size: 0.3rem;
 	}
 	.topItem{
 	   margin-top:0.3rem;

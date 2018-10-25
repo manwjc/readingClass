@@ -3,7 +3,7 @@
     <div class="">
         <div class="courseItem box-start align-stretch">
             <img src="static/images/book.png" class="bookImg"/>
-            <div class="rest box-v-start align-stretch">
+            <div class="rest box-v-start align-stretch relative">
                 <div class="itemHeader bold f16">{{courseDetailData.english_name}}</div>
                 <div class="itemHeader" v-if="courseDetailData.classroom_name || courseDetailData.classroomName">{{courseDetailData.classroom_name || courseDetailData.classroomName}}</div>
                 <div class="timeCss">{{courseDetailData.start_date || courseDetailData.appointment_time || courseDetailData.appointmentTime | timeFormat}}</div>
@@ -11,6 +11,10 @@
                     <img src="static/images/course/head-img.png" class="smallAvator"/>
                     <div class="fontName">{{courseDetailData.teacher_english_name}}</div>
                     <!-- <div style="color:#dadada;margin-left:0.2rem; border-left: 1px solid #dadada;">4.5分</div> -->
+                </div>
+                <div>
+                    <img @click="playAudio" v-if="!isPlaying && hasMp3" :src="trumpet01" class="icon-trumpet"/>
+                    <img @click="playAudio" v-if="isPlaying && hasMp3" :src="trumpet02" class="icon-trumpet"/>
                 </div>
             </div>
         </div>
@@ -23,18 +27,18 @@
 		<!-- 已参加课程 -->
 		<div class="mleft20" v-if="courseDetailData.coursewareList">
 			<div class="mtop20" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '1'" @click="setPdfUrl(course.h5_file_url)">{{course.APPENDIX_NAME}} <span class="blue mleft10">查看该课件</span></div>
-			<div class="hide" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '0'"><video id="video" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></video></div>
+			<div class="hide" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '0'"><video ref="video" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></video></div>
 		</div>
 		<!-- 可预约课程 -->
 		<div class="mleft20" v-else-if="courseDetailData.file">
 			<div class="mtop20" v-for="course in courseDetailData.file" v-if="course.fileType === '1'" @click="setPdfUrl(course.h5_file_url)">{{course.fileName}} <span class="blue mleft10">查看该课件</span></div>
-			<div class="hide" v-for="course in courseDetailData.file" v-if="course.fileType === '0'"><video id="video" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></video></div>
+			<div class="hide" v-for="course in courseDetailData.file" v-if="course.fileType === '0'"><video ref="video" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></video></div>
 		</div>
 	</div>
     <div v-if="pageFrom === 'homework'" class="pb10">
 		<!-- 已参加课程 -->
 		<div class="mleft20" v-if="courseDetailData.fileList">
-			<div class="mtop20" v-for="course in courseDetailData.fileList" v-if="course.homeworkState === '0' && course.APPENDIX_NAME.indexOf('pdf') > -1" @click="setPdfUrl(course.APPENDIX_URL)">{{course.APPENDIX_NAME}} <span class="blue mleft10">查看该作业</span></div>
+			<div class="mtop20" v-for="course in courseDetailData.fileList" v-if="courseDetailData.videoStatus === '0' && course.APPENDIX_NAME.indexOf('pdf') > -1" @click="setPdfUrl(course.APPENDIX_URL)">{{course.APPENDIX_NAME}} <span class="blue mleft10">查看该作业</span></div>
 			<!-- <div class="mtop10" v-for="course in courseDetailData.fileList" v-if="course.homeworkState === '0' && course.APPENDIX_NAME.indexOf('pptx') > -1"><a target="_blank" :href="course.APPENDIX_URL">{{course.APPENDIX_NAME}} <span class="blue mleft10">下载ppt</span></a></div> -->
 		</div>
 	</div>
@@ -57,6 +61,9 @@
 </template>
 
 <script>
+import wx from 'weixin-js-sdk'
+import trumpet01 from '@/assets/images/trumpet01.png'
+import trumpet02 from '@/assets/images/trumpet02.gif'
 import utils from '@/js/common/utils'
 import Vue from 'vue'
 import PDFJS from 'pdfjs-dist'
@@ -72,13 +79,39 @@ export default {
 			// pdfUrl: 'https://www.chel-c.com/appendix/M00/00/0B/rBLrN1s3TTSAWdJmABiTNykDYAE515.pdf'
             pageFrom: '',
             loadingTip: false,
+            isPlaying: false,
+            trumpet01: trumpet01,
+            trumpet02: trumpet02,
+
         }
     },
     mounted() {
         this.initCourseDetail()
 		if(this.pdfUrl) {
-			this.showPdf(this.num);
-		}
+            this.showPdf(this.num);
+        }
+        // setTimeout(() => {
+        //     this.gotoPlay();
+        // },100)
+    },
+    computed: {
+        hasMp3() {
+            let hasMp3Type = false;
+            if(this.courseDetailData.coursewareList && this.courseDetailData.coursewareList.length) {
+                this.courseDetailData.coursewareList.forEach(item => {
+                    if(item.fileType === '0') {
+                        hasMp3Type = true;
+                    }
+                })
+            }else if(this.courseDetailData.file && this.courseDetailData.file.length) {
+                this.courseDetailData.file.forEach(item => {
+                    if(item.fileType === '0') {
+                        hasMp3Type = true;
+                    }
+                })
+            }
+            return hasMp3Type;
+        },
     },
     methods: {
         setPdfUrl(url) {
@@ -132,6 +165,21 @@ export default {
                 return
             }
 
+        },
+        playAudio() {
+            if(!this.isPlaying) {
+                this.gotoPlay();
+            }else{
+                this.$refs.video[0].pause();
+                this.isPlaying = !this.isPlaying;
+            }
+        },
+        gotoPlay() {
+            // wx.ready (function() {
+                // document.getElementById("videoID").play();
+                this.$refs.video[0].play();
+                this.isPlaying = !this.isPlaying;
+            // },false);
         }
     }
 }
@@ -257,4 +305,6 @@ body {
 .bg-grey {
     background: #d2d2d2
 }
+
+.icon-trumpet{ position: absolute; width: 24px; height: 24px; top: 10px; right: 40px;}
 </style>

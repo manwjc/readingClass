@@ -8,10 +8,11 @@
     <div class="topOrder box-v-start align-stretch">
         <div class="topHeader box-justify">
             <div class="topItem" style="margin-top:0.45rem">
-                <div class="smallTittle">选择上课地点</div>
+                <div class="smallTittle">上课地点：</div>
                 <div class="bigWFont box-start">
                     <div style="margin-right:0.1rem">{{courseData.schoolName}}</div>
-                    <img class="backIcon" style="width: 15px;height: 15px;" src="static/images/down.png">		</div>
+                    <!-- <img class="backIcon" style="width: 15px;height: 15px;" src="static/images/down.png">		 -->
+                </div>
                 </div>
             </div>
             <div class="topItem " style="margin-top:0.25rem">
@@ -33,8 +34,9 @@
                         <div>
                             {{item.weekDate}}
                         </div>
-                        <img class="backIcon2" style="width: 13px;height: 13px;" src="static/images/up.png" v-if="activeDate === item.weekDate">		    </div>
+                        <img class="backIcon2" src="static/images/up.png" v-if="activeDate === item.weekDate">		    
                     </div>
+                </div>
             </mt-swipe-item>
             <mt-swipe-item>
                 <div class="box-justify align-stretch">
@@ -42,7 +44,7 @@
                         <div>
                             {{item.weekDate}}
                         </div>
-                        <img class="backIcon2" style="width: 13px;height: 13px;" src="static/images/up.png" v-if="item.isChose">		    </div>
+                        <img class="backIcon2" src="static/images/up.png" v-if="activeDate === item.weekDate">		    </div>
                     </div>
             </mt-swipe-item>
         </mt-swipe>
@@ -64,6 +66,7 @@
 </template>
 
 <script>
+import mixin from '@/js/common/student_mixin'
 import utils from "@/js/common/utils";
 export default {
     name: "courseList",
@@ -77,6 +80,9 @@ export default {
             orderSuccess: false,
             checkedValue: true,
             activeDate: '',
+            appointment_time: '',   //当前周的周一日期
+            curDateTime: '',
+            curYearMonth: '',
             courseList: [{
                     adrress: "南山益田假日广场导读室",
                     time: "2018-08-08  14:30",
@@ -438,7 +444,9 @@ export default {
     mounted() {
         this.getweekDate();
         this.initActiveDate(new Date().getDate(), 6);
+        this.queryTeacherAppointment();
     },
+    mixins: [mixin],
     methods: {
         //计算当前可预约日期
         initActiveDate(curDate, sundayIndex) {
@@ -446,10 +454,11 @@ export default {
             let today = +curDate;
             let leftDay = +this.weekDate[sundayIndex].weekDate - today;
             for(let i=0; i<=leftDay; i++) {
-                this.courseListData.filter((item) => {
+                this.courseData.courseList.filter((item) => {
                     if(+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
                         //设置当前可预约日期
                         this.activeDate = today;
+                        console.log(this.activeDate)
                         hasActiveCourse = true;
                     }
                 });
@@ -498,6 +507,24 @@ export default {
                 name: "courseItem",
                 path: "/courseItem"
             });
+        },
+        //查看导读场次
+        queryTeacherAppointment() {
+            let dataParams = this.$qs.stringify({
+                appointment_time : this.curDateTime
+            });
+
+            this.$service.queryTeacherAppointment(
+                dataParams,
+                res => {
+                    if (res.data.code === "0") {
+                        this.courseData = res.data.data;
+                    }
+                },
+                error => {
+                    console.error(error);
+                }
+            );
         },
     }
 };
@@ -587,5 +614,12 @@ body {
     border-radius: 60px;
     display: block;
     margin-right: 0.22rem;
+}
+
+.backIcon2{
+    width: 8px;
+    height: 8px;
+    display: block;
+    margin:0.04rem auto 0;
 }
 </style>
