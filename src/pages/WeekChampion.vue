@@ -34,21 +34,22 @@
 		</div>
 		
 		<div class="course-stars box-center">
+				<img src="static/images/award-grey.png" class="yinClass">
 			<div v-for="(item,index) in 5">
-				<img  src="static/images/course/star-light.jpg" v-if="index < curStudentData.star_count">
-				<img  src="static/images/course/star-gray.jpg" v-if="index >= curStudentData.star_count">
+				<img src="static/images/course/star-light.jpg" v-if="index < curStudentData.star_count">
+				<img src="static/images/course/star-gray.jpg" v-if="index >= curStudentData.star_count">
 			</div>
 		</div>
 		
 		<div class="text">
 			<p><span class="bold">{{curStudentData.fluency && curStudentData.fluency.item_name}}：</span>{{curStudentData.fluency && curStudentData.fluency.evaluation}}</p>
-			<p>{{curStudentData && curStudentData.fluency.english_evaluation}}</p>
+			<p>{{curStudentData.fluency && curStudentData.fluency.english_evaluation}}</p>
 			<p><span class="bold">{{curStudentData.focus && curStudentData.focus.item_name}}：</span>{{curStudentData.focus && curStudentData.focus.evaluation}}</p>
-			<p>{{curStudentData && curStudentData.focus.english_evaluation}}</p>
+			<p>{{curStudentData.focus && curStudentData.focus.english_evaluation}}</p>
 			<p><span class="bold">{{curStudentData.voca && curStudentData.voca.item_name}}：</span>{{curStudentData.voca && curStudentData.voca.evaluation}}</p>
-			<p>{{curStudentData && curStudentData.voca.english_evaluation}}</p>
+			<p>{{curStudentData.voca && curStudentData.voca.english_evaluation}}</p>
 			<p><span class="bold">{{curStudentData.voice && curStudentData.voice.item_name}}：</span>{{curStudentData.voice && curStudentData.voice.evaluation}}</p>
-			<p>{{curStudentData && curStudentData.voice.english_evaluation}}</p>
+			<p>{{curStudentData.voice && curStudentData.voice.english_evaluation}}</p>
 		</div>
 		<div class="btn-wrapper" @click="showMask">
 			<div class="course-btn box-center text-center">分享</div>
@@ -150,10 +151,10 @@ body {
   min-height: 100%;
 }
 .video_box {
-  background: url(../assets/images/course/share-banner.jpg) no-repeat;
+  background: url(../assets/images/course/week_banner.png) no-repeat;
   background-size: 100% auto;
   width: 100%;
-  padding-top:130px;
+  padding-top:100px;
 }
 .video_box  .video{ 
 	width:70%;
@@ -202,10 +203,10 @@ body {
 .yinClass{
 	position: absolute;
     width: 0.9rem;
-    height: 0.9rem;
+    height: 1.2rem;
     left: 0.45rem;
     /*left: 0.5rem;
     top: -1.4rem;*/
 }
-.active{ border: 2px solid #febb08;}
+.active{ border: 2px solid #febb08; border-radius: 60px;}
 </style>

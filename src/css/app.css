@@ -151,6 +151,9 @@ html {
   }
   .bold{ font-weight: bold;}
   
+  .w20 {
+    width: 20px;
+  }
   .w54 {
     width: 0.54rem;
   }
@@ -235,7 +238,7 @@ html {
   }
   
   .input_normal {
-    border: 1px solid #9e9fa1;
+    border: 1px solid #dadada;
     border-radius: 0.02rem;
     text-indent: 0.5em;
     height: 0.6rem;

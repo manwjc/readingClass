@@ -44,14 +44,14 @@
 	</div>
 
     <div class="box-justify pdsTool" v-if="pdfUrl && pdfNumMax > 1">
-        <div @click="lastPage" class="pdfBtn">上一页</div>
-        <div @click="nextPage" class="pdfBtn">下一页</div>
+        <!-- <div @click="lastPage" class="pdfBtn">上一页</div>
+        <div @click="nextPage" class="pdfBtn">下一页</div> -->
 
-        <!-- <div @click="lastPage" class="pdfBtn" v-if="num > 1">上一页</div>
+        <div @click="lastPage" class="pdfBtn" v-if="num > 1">上一页</div>
         <div class="pdfBtn bg-grey" v-else>上一页</div>
 
         <div @click="nextPage" class="pdfBtn" v-if="num < pdfNumMax">下一页</div>
-        <div class="pdfBtn bg-grey" v-else>下一页</div> -->
+        <div class="pdfBtn bg-grey" v-else>下一页</div>
     </div>
 
 	<canvas id="canvas1" style="width: 100%;" ></canvas>

@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import mixin from '@/js/common/student_mixin'
 import utils from "@/js/common/utils";
 export default {
@@ -219,6 +220,8 @@ export default {
                     if (res.data.code === "0") {
                         this.courseData = res.data.data;
                         this.initActiveDate(monday, sundayIndex);
+                    }else{
+                        this.$showMsg(res.data.message)
                     }
                 },
                 error => {

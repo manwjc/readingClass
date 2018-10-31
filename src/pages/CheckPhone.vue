@@ -1,266 +1,255 @@
 <template>
-	<div id="check-container" class="box-v-start align-stretch">
-		<div class="check-main rest">
-			<img  src="static/images/course/login-banner.jpg">
-			<div class="input-wrapper">
-				<div class="input-row box-start">
-					<img  src="static/images/course/login-mobile.jpg">
-					<input v-model="mobile" placeholder="输入手机号" class="box-start rest" type="text" />
-				</div>
-				<div class="input-row box-start">
-					<img  src="static/images/course/login-verify.jpg">
-					<input v-model="code" placeholder="输入验证码"  class="box-start rest" type="text" />
-					<p style="font-size: 16px;" @click="getCode">验证码</p>
-				</div>
-			</div>
-			<div @click="submitForm" class="course-btn box-center text-center">登录</div>
-
-			<!-- <div class="m020">
-				<div class="swiper-container" id="swiper">
-					<div class="swiper-wrapper mtop20">
-					<div class="swiper-slide displaybox" v-for="(item1, $index) in dateList">
-						<div @click="queryCourseForDate(item2)" class="boxflex01 text-center arrow" v-for="(item2, $index) in dateList">
-							<div>{{item2.day}}</div>
-							<div>{{item2.date}}</div>
-						</div>
-					</div>
-					</div>
-					<div class="swiper-pagination"></div>
-				</div>
-			</div> -->
-
-		</div>
-		<img class="check-bot" src="static/images/course/bottom.jpg">
-	</div>
+<div id="check-container" class="box-v-start align-stretch">
+    <div class="check-main box-v-start rest pb20">
+        <img  src="static/images/course/login-banner.jpg">
+        <div class="input-wrapper">
+            <div class="input-row box-start">
+                <img  src="static/images/course/login-mobile.jpg">
+                <input v-model="mobile" placeholder="输入手机号" class="box-start rest" type="text" />		</div>
+                <div class="input-row box-start">
+                    <img  src="static/images/course/login-verify.jpg">
+                    <input v-model="code" placeholder="输入验证码"  class="box-start rest" type="text" />
+                    <p style="font-size: 16px;" v-if="canClick" @click="getCode">验证码</p>
+                    <p style="font-size: 16px;" v-else>{{content}}</p>
+                </div>
+            </div>
+            <div @click="submitForm" class="course-btn box-center text-center">登录</div>
+        </div>
+        <div>
+            <img class="check-bot" src="static/images/course/bottom.jpg">		</div>
+        </div>
 </template>
 
 <script>
-	import Valid from '@/js/common/validate'
-	// import Swiper from 'swiper';
-	// import 'swiper/dist/css/swiper.min.css';
+import Valid from '@/js/common/validate'
 
-	export default {
-		data() {
-			return {
-				mobile: '',
-				code: '',
-				checkedValue: true,
-
-				dateList: [
-					{
-						date: '01',
-						day: '周日'
-					},
-					{
-						date: '02',
-						day: '周一'
-					},
-					{
-						date: '03',
-						day: '周二'
-					},
-					{
-						date: '04',
-						day: '周三'
-					},
-					{
-						date: '05',
-						day: '周四'
-					},
-					{
-						date: '06',
-						day: '周五'
-					},
-					{
-						date: '07',
-						day: '周六'
-					},
-				]
+export default {
+    data() {
+        return {
+            mobile: '',
+            code: '',
+			checkedValue: true,
+			canClick: true,
+			totalTime: 60,
+			content: '验证码'
+        }
+    },
+    mounted() {},
+    methods: {
+        countDown() {
+            if (!this.canClick) {
+				return 
 			}
-		},
-		mounted() {
+            this.canClick = false
+            this.content = this.totalTime + 's'
+            let clock = window.setInterval(() => {
+                this.totalTime--
+                this.content = this.totalTime + 's'
+                if (this.totalTime < 1) {
+                    window.clearInterval(clock)
+                    this.content = '重新发送验证码'
+                    this.totalTime = 60
+                    this.canClick = true //这里重新开启
+                }
+            }, 1000)
+        },
+        queryCourseForDate(item) {
+            console.log(item)
+        },
 
-			// this.getUserInfo()
+        getUserInfo() {
+            let self = this;
+            self.$service.getUserInfo((res) => {
+                let data = res.data;
+                /**
+                 * 正常用户 * member: '-1' 非会员   '\d\d\d\d\d' 会员id
+                 * 教师 * isTeacher: true
+                 * 学管sa * isSa: true
+                 */
+                if (data.code === '0') {
+                    if (data.data && data.data.isBindPhone === true) {
+                        if (data.data.member) {
+                            if (data.data.member !== '-1' && data.data.member !== '0') {
+                                self.$router.push({
+                                    name: "classList"
+                                })
+                            } else if (data.data.member === '-1') {
+                                self.$router.push({
+                                    name: "hasDated"
+                                })
+                            } else if (data.data.member === '0') {
+                                self.$router.push({
+                                    name: "newGay"
+                                })
+                            }
+                        } else if (data.data.isTeacher) {
+                            self.$router.push({
+                                name: "courseList"
+                            })
+                        } else if (data.data.isSa) {
+                            self.$router.push({
+                                name: "courseList"
+                            })
+                        }
+                    } else {
+                        self.$showMsg(data.message);
+                        // self.$router.push({name:"newGay"})
+                    }
+                } else {
+                    self.$showMsg(data.message);
+                }
+            }, (error) => {
+                self.$showMsg(error)
+            })
+        },
+        submitForm() {
+            let self = this;
+            let validateMsg = self.validateResult();
+            let dataParams = self.$qs.stringify({
+                signMobile: self.mobile,
+                validateCode: self.code,
+                isOldStudent: self.checkedValue
+            });
+            if (validateMsg) {
+                self.$showMsg(validateMsg);
+                return;
+            }
 
-			/* setTimeout(function () {
-				let swiperObj = new Swiper('#swiper', {
-					loop: true,
-					pagination: '.swiper-pagination',
-					autoplay: 2000,
-					paginationClickable: true,
-					on:{
-						slideChange: function(){
-							console.log('slide change');
-						},
-					},
-				});
-			}, 100) */
-		},
-		methods: { 
-			queryCourseForDate(item) {
-				console.log(item)
-			},
+            self.$service.bindMobile(dataParams, (res) => {
+                if (res.data.code === '0') {
+                    self.getUserInfo();
+                } else {
+                    self.$showMsg(res.data.message);
+                }
+            }, (error) => {
+                self.$showMsg(error)
+            })
+        },
+        validateResult() {
+            var self = this,
+                names = [{
+                        name: 'mobile',
+                        reg: Valid.validateMobile
+                    },
+                    {
+                        name: 'code'
+                    }
+                ],
+                message;
+            var messages = {
+                mobile: {
+                    require: '手机号不能为空',
+                    regex: '手机号不合法，请重新输入'
+                },
+                code: {
+                    require: '验证码不能为空',
+                    regex: '验证码不正确，请重新输入'
+                }
+            };
 
-			getUserInfo() {
-				let self = this;
-				self.$service.getUserInfo((res) => {
-					let data = res.data;
-					/**
-					 * 正常用户 * member: '-1' 非会员   '\d\d\d\d\d' 会员id
-					 * 教师 * isTeacher: true
-					 * 学管sa * isSa: true
-					 */
-					if(data.code === '0'){
-						if(data.data && data.data.isBindPhone === true) {
-							if(data.data.member) {
-								if(data.data.member !== '-1' && data.data.member !== '0'){
-									self.$router.push({name:"classList"})
-								}else if(data.data.member === '-1'){
-									self.$router.push({name:"hasDated"})
-								}else if(data.data.member === '0'){
-									self.$router.push({name:"newGay"})
-								}
-							}else if(data.data.isTeacher) {
-								self.$router.push({name:"courseList"})
-							}else if(data.data.isSa) {
-								self.$router.push({name:"courseList"})
-							}
-						}else{
-							self.$showMsg(data.message);
-							// self.$router.push({name:"newGay"})
-						}
-					}else{
-						self.$showMsg(data.message);
-					}
-				}, (error) => {
-					self.$showMsg(error)
-				})
-			},
-			submitForm() {
-				let self = this;
-				let validateMsg = self.validateResult();
-				let dataParams = self.$qs.stringify({
-						signMobile:self.mobile,
-						validateCode:self.code,
-						isOldStudent:self.checkedValue
-					});
-				if(validateMsg){
-					self.$showMsg(validateMsg);
-					return;
-				}
-
-				self.$service.bindMobile(dataParams, (res) => {
-					if(res.data.code === '0'){
-						self.getUserInfo();
-					}else{
-						self.$showMsg(res.data.message);
-					}
-				}, (error) => {
-					self.$showMsg(error)
-				})
-			},
-			validateResult() {
-                var self = this,
-                    names = [
-                        {name:'mobile', reg:Valid.validateMobile},
-                        {name:'code'}
-                    ],
-                    message;
-                var messages = {
-                    mobile: {require: '手机号不能为空', regex: '手机号不合法，请重新输入'},
-                    code: {require: '验证码不能为空', regex: '验证码不正确，请重新输入'}
+            for (var i = 0; i < names.length; i++) {
+                var item = names[i];
+                var name = item.name;
+                if (!self[name]) {
+                    message = messages[name].require;
+                    break;
+                }
+                if (item.reg && !item.reg(self[name])) {
+                    message = messages[name].regex;
+                    break;
+                }
+            }
+            return message;
+        },
+        getCode() {
+            let self = this;
+            let mobile = self.mobile,
+                dataParams = {
+                    mobile: mobile
                 };
 
-                for (var i = 0; i < names.length; i++) {
-                    var item = names[i];
-                    var name = item.name;
-                    if (!self[name]) {
-                        message = messages[name].require;
-                        break;
-                    }
-                    if (item.reg && !item.reg(self[name])) {
-                        message = messages[name].regex;
-                        break;
-                    }
-                }
-                return message;
-			},
-			getCode(){
-				let self = this;
-				let mobile = self.mobile,
-					dataParams = {
-						mobile:mobile
-					};
+            if (!mobile) {
+                self.$showMsg('请输入手机号');
+                return;
+            }
+            if (!Valid.validateMobile(mobile)) {
+                self.$showMsg('手机号不合法，请重新输入');
+                return;
+            }
 
-				if(!mobile){
-					self.$showMsg('请输入手机号');
-					return;
-				}
-				if(!Valid.validateMobile(mobile)){
-					self.$showMsg('手机号不合法，请重新输入');
-					return;
-				}
+            self.$showMsg('验证码已发送');
+            self.$service.sendValidateCode({
+                params: dataParams
+            }, (res) => {
+                var validCode = res.data.data;
+                // if (validCode) {
+                //     self.code = validCode;
+				// }
+				this.countDown();
+            }, (error) => {
+                self.$showMsg(error)
+            })
+        }
 
-				self.$showMsg('验证码已发送');
-				self.$service.sendValidateCode({params: dataParams}, (res) => {
-					var validCode = res.data.data;
-					if(validCode){
-						self.code = validCode;
-					}
-				}, (error) => {
-					self.$showMsg(error)
-				})
-			}
-
-		}
-	}
+    }
+}
 </script>
 
-<style scope>
-	html, body{height:100%; min-height: 100%;}
-	#app{
-		height:100%;
-	}
-	#check-container{
-		height:100%;
-	}
-	#check-container .input-wrapper{
-		width:80%;
-		margin:30px auto;
-	}
-	#check-container .input-wrapper .input-row{
+<style>
+html,
+body {
+    min-height: 100%;
+}
 
-		border-bottom:solid 1px #999;
-	}
-	#check-container .input-wrapper .input-row input{
-		margin-right:10px;
-		height:50px;
-		border:none;
-		font-size:14px;
-	}
-	
-	#check-container .input-wrapper .input-row img{
-		width:17px;
-		height:27px;
-		margin-right:10px;
-	}
-	#check-container .input-wrapper .input-row a{
-		color:#9B9B9B;
-	}
-	
-	#check-container .check-bot{
-		width:100%;
-	}
-	
-	.arrow:after{
-		content:"";
-		width:0;
-		height:0;
-		position:absolute;
-		left:100px;
-		top:20px;
-		border-top:solid 10px transparent;
-		border-left:solid 10px black;     /* 白色小三角形 */
-		border-bottom:solid 10px transparent;
-	}
+#app {
+    min-height: 100%;
+}
+
+#check-container {
+    min-height: 100%;
+}
+
+#check-container .input-wrapper {
+    width: 80%;
+    margin: 30px auto;
+}
+
+#check-container .input-wrapper .input-row {
+
+    border-bottom: solid 1px #999;
+}
+
+#check-container .input-wrapper .input-row input {
+    margin-right: 10px;
+    height: 50px;
+    border: none;
+    font-size: 14px;
+}
+
+#check-container .input-wrapper .input-row img {
+    width: 17px;
+    height: 27px;
+    margin-right: 10px;
+}
+
+#check-container .input-wrapper .input-row a {
+    color: #9B9B9B;
+}
+
+#check-container .check-bot {
+    width: 100%;
+}
+
+.arrow:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 100px;
+    top: 20px;
+    border-top: solid 10px transparent;
+    border-left: solid 10px black;
+    /* 白色小三角形 */
+    border-bottom: solid 10px transparent;
+}
 </style>
