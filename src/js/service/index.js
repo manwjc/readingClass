@@ -1,3 +1,10 @@
+/**
+ * @author weijianchang
+ * @email manwjc@163.com
+ * @create date 2018-10-07 10:20:05
+ * @modify date 2018-10-28 13:52:11
+ * @desc [description]
+*/
     
 import axios from 'axios'
 import api from '@/js/api'
@@ -136,6 +143,10 @@ export default {
     },
 
 
+/** 
+ * 添加孩子、预约课程页面
+ * 20181007
+ */
     //导读课
     //获取学生信息
     queryStudentAll: function(success, fail) {
@@ -220,6 +231,10 @@ export default {
         })
     },
 
+/** 
+ * 导读师页面
+ * 20181024
+ */
     //查看导读场次
     queryTeacherAppointment: function(params, success, fail) {
         axios.post(api.queryTeacherAppointment, params).then((res)=>{
@@ -239,8 +254,17 @@ export default {
         })
     },
     //保存周冠军候选人
-    updateStudentWeekStatus: function(params, success, fail) {
-        axios.post(api.updateStudentWeekStatus, params).then((res)=>{
+    addStudentWeekCandidateStatus: function(params, success, fail) {
+        axios.post(api.addStudentWeekCandidateStatus, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //取消周冠军候选人
+    updateStudentWeekCandidateStatus: function(params, success, fail) {
+        axios.post(api.updateStudentWeekCandidateStatus, params).then((res)=>{
             success && success(res);
         })
         .catch((error) => {
@@ -248,8 +272,8 @@ export default {
         })
     },
     //获取评价
-    getEvaluate: function(success, fail) {
-        axios.get(api.getEvaluate).then((res)=>{
+    getEvaluate: function(params, success, fail) {
+        axios.get(api.getEvaluate + '/' + params.grade).then((res)=>{
             success && success(res);
         })
         .catch((error) => {
@@ -265,4 +289,93 @@ export default {
             fail && fail(error);
         })
     },
+
+/** 
+ * sa学管页面
+ * 20181028
+ */
+    //查询课程等级
+    queryGradeAll: function(success, fail) {
+        axios.get(api.queryGradeAll).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //查询导读室
+    queryClassroomByStudentAdmin: function(success, fail) {
+        axios.get(api.queryClassroomByStudentAdmin).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //根据导读室和课程等级查询所有课程
+    queryCourseByClassAndGrade: function(params, success, fail) {
+        axios.post(api.queryCourseByClassAndGrade, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //查询周冠军候选人
+    queryWeekChampionCandidate: function(params, success, fail) {
+        axios.post(api.queryWeekChampionCandidate, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //查询月冠军候选人
+    queryMonthChampionCandidate: function(params, success, fail) {
+        axios.post(api.queryMonthChampionCandidate, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //保存周冠军
+    addWeekChampion: function(params, success, fail) {
+        axios.post(api.addWeekChampion, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //保存月冠军
+    addMonthChampion: function(params, success, fail) {
+        axios.post(api.addMonthChampion, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+
+
+    //查询周冠军
+    queryStudentWeekStatusByClassroomId: function(params, success, fail) {
+        axios.post(api.queryStudentWeekStatusByClassroomId, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+    //查询月冠军
+    queryStudentMonthStatus: function(params, success, fail) {
+        axios.post(api.queryStudentMonthStatus, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+
 }

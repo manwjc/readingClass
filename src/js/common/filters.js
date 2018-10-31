@@ -23,5 +23,15 @@ export default {
             return '';
         }
         return chArray[str];
+    },
+    gradeFormat: (str) => {
+        if (str === '' || str === undefined) {
+            return '';
+        }
+        if(+str < 4) {
+            return 'Pre-L' + str;
+        }else{
+            return 'L' + (+str-3);
+        }
     }
 }

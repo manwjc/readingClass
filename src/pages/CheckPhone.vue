@@ -13,7 +13,7 @@
 					<p style="font-size: 16px;" @click="getCode">验证码</p>
 				</div>
 			</div>
-			<button @click="submitForm" class="course-btn box-center">登录</button>
+			<div @click="submitForm" class="course-btn box-center text-center">登录</div>
 
 			<!-- <div class="m020">
 				<div class="swiper-container" id="swiper">
@@ -80,7 +80,7 @@
 		},
 		mounted() {
 
-			this.getUserInfo()
+			// this.getUserInfo()
 
 			/* setTimeout(function () {
 				let swiperObj = new Swiper('#swiper', {
@@ -105,14 +105,29 @@
 				let self = this;
 				self.$service.getUserInfo((res) => {
 					let data = res.data;
+					/**
+					 * 正常用户 * member: '-1' 非会员   '\d\d\d\d\d' 会员id
+					 * 教师 * isTeacher: true
+					 * 学管sa * isSa: true
+					 */
 					if(data.code === '0'){
-						if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === true){
-							self.$router.push({name:"classList"})
-						}else if(data.data && data.data.isBindPhone === true && data.data.isBuyUser === false){
-							self.$router.push({name:"newGay"})
+						if(data.data && data.data.isBindPhone === true) {
+							if(data.data.member) {
+								if(data.data.member !== '-1' && data.data.member !== '0'){
+									self.$router.push({name:"classList"})
+								}else if(data.data.member === '-1'){
+									self.$router.push({name:"hasDated"})
+								}else if(data.data.member === '0'){
+									self.$router.push({name:"newGay"})
+								}
+							}else if(data.data.isTeacher) {
+								self.$router.push({name:"courseList"})
+							}else if(data.data.isSa) {
+								self.$router.push({name:"courseList"})
+							}
 						}else{
-							self.$showMsg('请先绑定手机');
-							// self.$showMsg(data.message);
+							self.$showMsg(data.message);
+							// self.$router.push({name:"newGay"})
 						}
 					}else{
 						self.$showMsg(data.message);

@@ -5,270 +5,184 @@
             <div class="box-start user-img-wrapper">
                 <img class="user-img" src="static/images/course/wx.jpg">
                 <div class="box-v-center align-start">
-                    <p>周慧佳</p>
-                    <p>L3 </p>
+                    <p>{{studentData && studentData.name}}</p>
+                    <p>{{courseData && courseData.student_grade}} </p>
                 </div>
             </div>
-            <div  @click="changeStudent" class="box-end user-right">
+            <!-- <div  @click="changeStudent" class="box-end user-right">
                 <p>其他孩子 &gt;</p>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="videoItemClass">
-      <div class="videoClass">
-      	  <video src="http://www.w3school.com.cn/i/movie.ogg" controls="controls" style="width: 100%;height: 3rem"></video>
-      </div>
+        <div class="videoClass">
+            <video :src="studentData && studentData.videoUrl" controls="controls" style="width: 100%;height: 3rem"></video>
+        </div>
     </div>
     <div class="remarkItem">
-    	<div class="remarkItemDetail">
-    		<el-rate v-model="value1" class="box-justify"></el-rate>
-    	</div>
+        <div class="remarkItemDetail">
+            <el-rate v-model="starValue" class="box-justify"></el-rate>
+        </div>
     </div>
     <div class="remarkItem box-start">
-      <div style="width: 20%;visibility: hidden;">
-      	专注力
-      </div>
-      <div class="rest box-start" style="font-weight: 600">
-      	<span style="width: 20%;margin-left: 8px">A</span>
-      	<span style="width: 20%;margin-left: 8px">B</span>
-      	<span style="width: 20%;margin-left: 8px">C</span>
-      	<span style="width: 20%;margin-left: 8px">D</span>
-      	<span style="width: 20%;margin-left: 8px">E</span>
-      </div>
+        <div style="width: 20%;visibility: hidden;">
+            专注力
+        </div>
+        <div class="rest box-start" style="font-weight: 600">
+            <span style="width: 20%;margin-left: 8px">A</span>
+            <span style="width: 20%;margin-left: 8px">B</span>
+            <span style="width: 20%;margin-left: 8px">C</span>
+            <span style="width: 20%;margin-left: 8px">D</span>
+            <span style="width: 20%;margin-left: 8px">E</span>
+        </div>
     </div>
-    <div class="remarkItem box-start align-stretch">
-      <div class="remarkItemLeft">
-      	<div style="margin-top: 4px">专注力</div>
-      </div>
-      <div class="rest box-v-start align-stretch">
-      	<div class="box-start" style="margin-bottom: 0.15rem">
-      		<div class="box-start" style="width: 20%" v-for="(item,index) in remarkArr1" @click="choseScore(index,'remarkArr1')">
-      			<img src="static/images/circleT.png" style="width: 20px;height: 20px" v-if="item.ig">
-      			<img src="static/images/circleF.png" style="width: 20px;height: 20px" v-if="!item.ig">
-      			<div style="height: 1px;background-color: #DADADA" class="rest" v-if="index!=4"></div>
-      		</div>
-      	</div>
-      	<div class="TipsFont">you can complete all reading</div>
-      </div>
-    </div>
-    <div class="remarkItem box-start align-stretch">
-      <div class="remarkItemLeft">
-      	<div style="margin-top: 4px">语音</div>
-      </div>
-      <div class="rest box-v-start align-stretch">
-      	<div class="box-start" style="margin-bottom: 0.15rem">
-      		<div class="box-start" style="width: 20%" v-for="(item,index) in remarkArr2" @click="choseScore(index,'remarkArr2')">
-      			<img src="static/images/circleT.png" style="width: 20px;height: 20px" v-if="item.ig">
-      			<img src="static/images/circleF.png" style="width: 20px;height: 20px" v-if="!item.ig">
-      			<div style="height: 1px;background-color: #DADADA" class="rest" v-if="index!=4"></div>
-      		</div>
-      	</div>
-      	<div class="TipsFont">you can complete all reading</div>
-      </div>
-    </div>
-    <div class="remarkItem box-start align-stretch">
-      <div class="remarkItemLeft">
-      	<div style="margin-top: 4px">词汇</div>
-      </div>
-      <div class="rest box-v-start align-stretch">
-      	<div class="box-start" style="margin-bottom: 0.15rem">
-      		<div class="box-start" style="width: 20%" v-for="(item,index) in remarkArr3" @click="choseScore(index,'remarkArr3')">
-      			<img src="static/images/circleT.png" style="width: 20px;height: 20px" v-if="item.ig">
-      			<img src="static/images/circleF.png" style="width: 20px;height: 20px" v-if="!item.ig">
-      			<div style="height: 1px;background-color: #DADADA" class="rest" v-if="index!=4"></div>
-      		</div>
-      	</div>
-      	<div class="TipsFont">you can complete all reading</div>
-      </div>
-    </div>
-    <div class="remarkItem box-start align-stretch">
-      <div class="remarkItemLeft">
-      	<div style="margin-top: 4px">满意度</div>
-      </div>
-      <div class="rest box-v-start align-stretch">
-      	<div class="box-start" style="margin-bottom: 0.15rem">
-      		<div class="box-start" style="width: 20%" v-for="(item,index) in remarkArr4" @click="choseScore(index,'remarkArr4')">
-      			<img src="static/images/circleT.png" style="width: 20px;height: 20px" v-if="item.ig">
-      			<img src="static/images/circleF.png" style="width: 20px;height: 20px" v-if="!item.ig">
-      			<div style="height: 1px;background-color: #DADADA" class="rest" v-if="index!=4"></div>
-      		</div>
-      	</div>
-      	<div class="TipsFont">you can complete all reading</div>
-      </div>
+    <div class="remarkItem box-start align-stretch" v-for="markObj in markArray">
+        <div class="remarkItemLeft">
+            <div style="margin-top: 4px">{{markObj.markName}}</div>
+        </div>
+        <div class="rest box-v-start align-stretch">
+            <div class="box-start" style="margin-bottom: 0.15rem">
+                <div class="box-start" style="width: 20%" v-for="(item,index) in markObj.flagNum" @click="choseScore(item, index, markObj)">
+                    <img class="icon-circle" src="static/images/circleT.png" v-if="markObj.selectedIndex !== '' && markObj.selectedIndex >= index">
+                    <img class="icon-circle" src="static/images/circleF.png" v-else>
+                    <div class="rest split-line" v-if="index!=4"></div>
+                </div>
+            </div>
+            <div class="TipsFont">{{markObj.selectedText}}</div>        
+        </div>
     </div>
     <div class="remarkItem rest" style="margin-top: 0.1rem">
-    	<div class=" box-v-end">
-			<div class="submitBtn" >提交作业</div>
-	</div>
+        <div class=" box-v-end">
+            <div class="submitBtn" @click="addEvaluate">提交评价</div>
+        </div>
     </div>
-    
+
 </div>
 </template>
 
 <script>
-	import Vue from 'vue'
-	import Element from 'element-ui'
-	import 'element-ui/lib/theme-chalk/index.css'
-	Vue.use(Element)
+import Vue from 'vue'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(Element)
 export default {
     data() {
         return {
-            dataLoaded: false,
-            studentList: [],
-            curStudentIndex: 2,
-            //可预约的导读课程
-            courseListData: [], 
-            //已参加的导读课程
-            courseRecordData: [],
-            //当前周的周一日期
-            appointment_time: '',
-            curTabIndex: 0,
-            value1:null,
-            remarkArr1:[{ig:false},{ig:false},{ig:false},{ig:false},{ig:false}],
-            remarkArr2:[{ig:false},{ig:false},{ig:false},{ig:false},{ig:false}],
-            remarkArr3:[{ig:false},{ig:false},{ig:false},{ig:false},{ig:false}],
-            remarkArr4:[{ig:false},{ig:false},{ig:false},{ig:false},{ig:false}],
-            remarkArr5:[{ig:false},{ig:false},{ig:false},{ig:false},{ig:false}],
+            starValue: 0,
+            markArray: [
+                {
+                    markName: '专注力',
+                    flagNum: ['A', 'B', 'C', 'D', 'E'],
+                    selectedIndex: '',
+                    selectedText: '',
+                    markList: []
+                },
+                {
+                    markName: '语音',
+                    flagNum: ['A', 'B', 'C', 'D', 'E'],
+                    selectedIndex: '',
+                    selectedText: '',
+                    markList: []
+                },
+                {
+                    markName: '词汇',
+                    flagNum: ['A', 'B', 'C', 'D', 'E'],
+                    selectedIndex: '',
+                    selectedText: '',
+                    markList: []
+                },
+                {
+                    markName: '流畅度',
+                    flagNum: ['A', 'B', 'C', 'D', 'E'],
+                    selectedIndex: '',
+                    selectedText: '',
+                    markList: []
+                }
+            ],
+
+            evaluateList: [],
+            courseData: null,
+            studentData: null,
         };
     },
-    computed: {
-        curStudent() {
-            return this.studentList[this.curStudentIndex];
-        }
-    },
-    watch: {
-        curStudentIndex: function() {
-            //获取线下导读课程
-            this.queryReadCourseAppointment();
-            //获取已参加课程
-            this.queryClassRecord();
-        },
-        curTabIndex: function(val) {
-            if(val === 0) {
-                //获取已参加课程
-                this.queryClassRecord();
-            }else{
-                //获取未参加课程
-                this.queryClassMissing();
-            }
-        }
-    },
     mounted() {
-        this.initPage();
-        this.getDate();
+        this.initcourseData();
+        this.getEvaluate();
     },
     methods: {
-    	choseScore(index,type){
-           var that=this;
-           if(type=="remarkArr1"){
-           	for(var i=0;i<5;i++){
-           		if(index>=i){
-                  that.remarkArr1[i].ig=true;
-           		}else{
-           		  that.remarkArr1[i].ig=false;	
-           		}
-           	}
-           	console.log(that.remarkArr1)
-           }else if(type=="remarkArr2"){
-           		for(var i=0;i<5;i++){
-           		if(index>=i){
-                  that.remarkArr2[i].ig=true;
-           		}else{
-           		  that.remarkArr2[i].ig=false;	
-           		}
-           	}
-           }else if(type=="remarkArr3"){
-           		for(var i=0;i<5;i++){
-           		if(index>=i){
-                  that.remarkArr3[i].ig=true;
-           		}else{
-           		  that.remarkArr3[i].ig=false;	
-           		}
-           	}
-           }else if(type=="remarkArr4"){
-           		for(var i=0;i<5;i++){
-           		if(index>=i){
-                  that.remarkArr4[i].ig=true;
-           		}else{
-           		  that.remarkArr4[i].ig=false;	
-           		}
-           	}
-           }
-    	},
-        initPage() {
-            //获取学生信息
-            this.queryStudentAll();
-        },
-        cancelCourse(item) {
-            console.log(item)
-        },
-        changeCourseTab(index) {
-            this.curTabIndex = index
-        },
-        changeStudent() {
-            if(this.curStudentIndex+1 < this.studentList.length) {
-                this.curStudentIndex++
-            }else{
-                this.curStudentIndex = 0
-            }
-        },
-        getDate() {
-            let now = new Date();
-            let nowTime = now.getTime() ;
-            let day = now.getDay();
-            let oneDayTime = 24*60*60*1000 ;
-            let MondayTime = nowTime - (day-1)*oneDayTime ;//显示周一
-            let formatDate = this.getNowFormatDate(new Date(MondayTime))
-            this.appointment_time = formatDate;
-            return formatDate;
-
-        },
-        getNowFormatDate(date) {
-            let seperator1 = "-";
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let strDate = date.getDate();
-            if (month >= 1 && month <= 9) {
-                month = "0" + month;
-            }
-            if (strDate >= 0 && strDate <= 9) {
-                strDate = "0" + strDate;
-            }
-            let currentdate = year + seperator1 + month + seperator1 + strDate;
-            return currentdate;
-        },
-        //获取学生信息
-        queryStudentAll() {
-            this.$service.queryStudentAll((res) => {
-                    this.dataLoaded = true;
-                    if (res.data.code === "0" && res.data.data) {
-                        this.studentList = res.data.data;
-                        //获取线下导读课程
-                        this.queryReadCourseAppointment();
-                        //获取已参加课程
-                        this.queryClassRecord();
-                    }else if(!res.data.data){
-					    this.$showMsg(res.data.message)
-                    }
-                },
-                error => {
-                    console.error(error);
-                }
+        //查看课件详情
+        initcourseData() {
+            this.courseData = JSON.parse(
+                sessionStorage.getItem("courseData")
+            );
+            this.studentData = JSON.parse(
+                sessionStorage.getItem("studentData")
             );
         },
-        //获取线下导读课程
-        queryReadCourseAppointment() {
+        choseScore(item, index, markObj) {
+            markObj.selectedIndex = index;
+            markObj.selectedText = index;
+            this.getLevelText(item, markObj);
+        },
+        //选择评价等级，筛选对应等级文案
+        getLevelText(item, markObj) {
+            markObj.markList.forEach(mark => {
+                if(mark.grade === item) {
+                    markObj.selectedText = mark.english_evaluation;
+                    return;
+                }
+            })
+        },
+        //获取评价文案
+        getEvaluate() {
+            this.$service.getEvaluate({
+                params: {
+                    grade: this.studentData.grade
+                }
+            }, (res) => {
+                if (res.data.code === "0" && res.data.data) {
+                    this.evaluateList = res.data.data;
+                    this.evaluateList.forEach(itemEvaluate => {
+                        this.markArray.forEach(itemMark => {
+                            if(itemEvaluate.item_name === itemMark.markName) {
+                                itemMark.markList.push(itemEvaluate)
+                            }
+                        });
+                    });
+                } else if (!res.data.data) {
+                    this.$showMsg(res.data.message)
+                }
+            },
+            error => {
+                console.error(error);
+            });
+        },
+        //提交评价
+        addEvaluate() {
+
+            if(!this.hasEvaluated()) {
+                this.$showMsg('请先完成评价');
+                return false;
+            }
+
             let dataParams = this.$qs.stringify({
-                school_id: this.curStudent.schoolId,
-                appointment_time: this.appointment_time,
-                student_id: this.curStudent.studentId
+                studentId: this.$route.query.studentId,
+                gradeNumber: this.$route.query.gradeNumber,
+                star: this.starValue,
+                focus: this.markArray[0].markList[this.markArray[0].selectedIndex].ID,
+                voice: this.markArray[1].markList[this.markArray[1].selectedIndex].ID,
+                voca: this.markArray[2].markList[this.markArray[2].selectedIndex].ID,
+                fluency: this.markArray[3].markList[this.markArray[3].selectedIndex].ID,
             });
 
-            this.$service.queryReadCourseAppointment(
+            this.$service.addEvaluate(
                 dataParams,
                 res => {
                     if (res.data.code === "0") {
-                        this.courseListData = res.data.data;
+                        this.$showMsg('评价成功！')
+                        this.$router.push({path: '/courseItem', query: {gradeNumber: this.$route.query.gradeNumber}})
+                    }else{
+                        this.$showMsg(res.data.message)
                     }
                 },
                 error => {
@@ -276,42 +190,21 @@ export default {
                 }
             );
         },
-        //获取已参加课程
-        queryClassRecord() {
-            let dataParams = this.$qs.stringify({
-                student_id: this.curStudent.studentId
-            });
-
-            this.$service.queryClassRecord(
-                dataParams,
-                res => {
-                    if (res.data.code === "0") {
-                        this.courseRecordData = res.data.data;
-                    }
-                },
-                error => {
-                    console.error(error);
+        //校验是否已评价
+        hasEvaluated() {
+            if(this.starValue === 0) {
+                return false;
+            }
+            let isMarked = true;
+            this.markArray.find(item => {
+                if(item.selectedIndex === '') {
+                    isMarked = false;
                 }
-            );
-        },
-        //获取未参加课程
-        queryClassMissing() {
-            let dataParams = this.$qs.stringify({
-                school_id: this.curStudent.schoolId,
-                student_id: this.curStudent.studentId
-            });
-
-            this.$service.queryClassMissing(
-                dataParams,
-                res => {
-                    if (res.data.code === "0") {
-                        this.courseRecordData = res.data.data;
-                    }
-                },
-                error => {
-                    console.error(error);
-                }
-            );
+            })
+            if(!isMarked) {
+                return false;
+            }
+            return true;
         },
     }
 };
@@ -470,6 +363,7 @@ p.text-bg {
     width: 40px;
     height: 40px;
 }
+
 .avatar-img {
     width: 40px;
     height: 40px;
@@ -640,39 +534,52 @@ p.text-bg {
         opacity: 0;
     }
 }
-.videoClass{
-	padding: 0.15rem;
-	background-color: #C01920
-	
-}
-.videoItemClass{
-	padding: 0.2rem 1rem;
-}
-.remarkItem{
-	padding: 0.1rem 1rem;
-}
-.remarkItemDetail{
-	border-radius: 5px;
-	box-shadow: 2px 2px 15px #dadada;
-	padding: 0.1rem 0.6rem
-}
-.remarkItemLeft{
-	width: 20%;
-}
-.TipsFont{
-	color: #dadada;
-	font-size: 0.14rem;
-}
-.submitBtn{
-		/*padding: 0.1rem 1rem;*/
-		color: white;
-		background-color: #C01920;
-		text-align: center;
-        border-radius: 25px;
-        margin-bottom: 0.1rem;
-        width: 100%;
-        padding: 0.2rem;
-        font-size: 0.24rem
 
-	}
+.videoClass {
+    padding: 0.15rem;
+    background-color: #C01920
+}
+
+.videoItemClass {
+    padding: 0.2rem 1rem;
+}
+
+.remarkItem {
+    padding: 0.1rem 1rem;
+}
+
+.remarkItemDetail {
+    border-radius: 5px;
+    box-shadow: 2px 2px 15px #dadada;
+    padding: 0.1rem 0.6rem
+}
+
+.remarkItemLeft {
+    width: 20%;
+}
+
+.TipsFont {
+    color: #afafaf;
+    font-size: 0.14rem;
+}
+
+.submitBtn {
+    /*padding: 0.1rem 1rem;*/
+    color: white;
+    background-color: #C01920;
+    text-align: center;
+    border-radius: 25px;
+    margin-bottom: 0.1rem;
+    width: 100%;
+    padding: 0.2rem;
+    font-size: 0.24rem
+}
+
+.split-line {
+    height: 1px;
+    background-color: #DADADA
+}
+.icon-circle{
+    width: 20px; height: 20px;
+}
 </style>

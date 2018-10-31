@@ -6,7 +6,7 @@
 		<img  src="static/images/course/video-bg-top.jpg">
 		<div class="video_box">
 			<div class="video">
-				<video id="video" controls="controls" :src="videoUrl"></video>
+				<video id="video" controls="controls" :src="videoUrl" poster="../assets/images/video-preview.jpg"></video>
 			</div>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
 import constant from '@/js/common/constant'
 import utils from '@/js/common/utils'
 import shareImg from '@/assets/images/share_img.jpg'
-import shareVideo from '@/assets/images/happy_halloween_final.mp4'
+// import shareVideo from '@/assets/images/happy_halloween_final.mp4'
 import wx from 'weixin-js-sdk'
 import mixin from '@/js/common/wxshare_mixin'
 
@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             userData: null,
-            videoUrl: shareVideo,
+            videoUrl: 'https://www.chel-c.com/wx/static/media/happy_halloween_final.a339296.mp4',
             maskShow: false,
             shareImg: shareImg,
         }
@@ -62,8 +62,8 @@ export default {
                 var shareData = {
                     "imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
                     "link": constant.chelchost + '/wx/index?sharePage=activityPage', // 分享地址
+                    "title": '乔希家阅读馆', // 分享标题
                     "desc": '万圣节即将到来，故事中的主角Biscuit 和他的小伙伴要一同讨糖果去。让我们一起看看会发生什么有趣的事情呢？', // 分享描述
-                    "title": '乔希家阅读馆' // 分享标题
                 }
                 wx.onMenuShareTimeline(shareData)
                 wx.onMenuShareAppMessage(shareData)
@@ -115,4 +115,5 @@ body {
 .btn-wrapper {
     margin: 30px 0;
 }
+
 </style>

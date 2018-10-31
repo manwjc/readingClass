@@ -92,7 +92,7 @@
 		   <div v-if="!orderSuccess" style="width:100%;height:250px;background-color:white" class="box-v-justify align-stretch">
 		      <div class="box-justify popupHeader" > 
 				<img class="backIcon" style="visibility:hidden" src="static/images/leftBack.png">
-				<div class="headerTittle" style="color:black">课程信息确认</div>
+				<div class="headerTittle" style="color:black; font-size: 0.24rem;">课程信息确认</div>
 			    <div @click="closePopup" class="p510"><img class="backIcon" src="static/images/close2c.png"></div>
 			  </div>
 			  <div class="popupBody box-v-start align-stretch">
@@ -130,7 +130,7 @@
 			 <div class="popupSamallT" style="margin-bottom:0.5rem">
 			   请提醒孩子尽快学习课前教材哦
 			 </div>
-			 <router-link to="/classList"><div class="red-btn">确定</div></router-link>
+			 <router-link to="/classList"><div class="red-btn" style="width: 60%; margin: 0 auto;">确定</div></router-link>
 			 <!-- <a target="_blank" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
 			 <!-- <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a> -->
            </div>
@@ -153,7 +153,7 @@
                 appointment_time: '',   //当前周的周一日期
                 courseListData: [],   //可预约的导读课程
                 studentList: [],
-                activeDate: 1,   //当前可预约日期
+                activeDate: 0,   //当前可预约日期
                 activeDateCourse: [],   //当前可预约日期的课程
                 confirmCourse: {},  //确认预约课程信息
                 curYearMonth: '',
@@ -189,17 +189,24 @@
 		methods: { 
             setCurStudentIndex() {
                 this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
-            },
+			},
+			//切换周日期
             handleChange(index) {
 				let activeWeekMonday;
 				if(index === 0) {
-					activeWeekMonday = this.weekDate[0].weekDate;
+					activeWeekMonday = new Date().getDate();
                     this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 6)
 				}else{
 					activeWeekMonday = this.weekDate[7].weekDate;
                     this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
 				}
                 console.log(index, activeWeekMonday)
+            },
+            //切换周日期
+            changeWeekCourse(weekTime, monday, sundayIndex) {
+                this.appointment_time = weekTime;
+                sessionStorage.removeItem('courseListData')
+                this.queryReadCourseAppointment(monday, sundayIndex);
             },
             goback() {
                 history.go(-1)
@@ -252,20 +259,34 @@
                 let hasActiveCourse = false;
                 let today = +curDate;
 				let leftDay = +this.weekDate[sundayIndex].weekDate - today;
+				
+				this.activeDate = '';
 				if(!this.courseListData.length) {
 					this.activeDate = today;
 					return;
 				}
-                for(let i=0; i<=leftDay; i++) {
-                    this.courseListData.filter((item) => {
-                        if(+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
+				//计算当周剩余天数
+				if(leftDay <= 0) {
+					this.weekDateShow.forEach((item,index) => {
+						if(item.weekDate == today) {
+							leftDay = 6 - index;
+						}
+					})
+				}
+				//从今日开始，遍历当周课程，显示最近日期的课程
+				for(let i=0; i<=leftDay; i++) {
+					this.courseListData.filter((item) => {
+						if(+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
 							//设置当前可预约日期
-                            this.activeDate = today;
-                            hasActiveCourse = true;
-                        }
-                    });
-                    today++
-                }
+							this.activeDate = today;
+							hasActiveCourse = true;
+						}
+					});
+					today++
+				}
+				if(this.activeDate === '') {
+					this.activeDate = +curDate;
+				}
             },
 			getweekDate(){
 			   var that=this;
@@ -338,12 +359,6 @@
 			     that.weekDateShow.push(that.weekDate[i])
 			  }
               this.changeWeekCourse(this.curYearMonth + that.weekDate[0].weekDate, new Date().getDate(), 6)
-            },
-            //切换周日期
-            changeWeekCourse(weekTime, monday, sundayIndex) {
-                this.appointment_time = weekTime;
-                sessionStorage.removeItem('courseListData')
-                this.queryReadCourseAppointment(monday, sundayIndex);
             },
 			//提交预约课程
 			addAppointment() {

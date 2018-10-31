@@ -30,8 +30,8 @@
 <script>
 import constant from '@/js/common/constant'
 import utils from '@/js/common/utils'
+
 import shareImg from '@/assets/images/share_img.jpg'
-import shareVideo from '@/assets/images/happy_halloween_final.mp4'
 import wx from 'weixin-js-sdk'
 import mixin from '@/js/common/wxshare_mixin'
 
@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             userData: null,
-            videoUrl: shareVideo,
+            videoUrl: 'https://www.chel-c.com/wx/static/media/happy_halloween_final.a339296.mp4',
             maskShow: false,
             shareImg: shareImg,
         }
@@ -82,8 +82,8 @@ export default {
                 var shareData = {
                     "imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
                     "link": constant.chelchost + '/wx/index?sharePage=videoShare&shareFrom=' + openId + '&id=' + self.$route.query.id, // 分享地址
-                    "desc": '点亮乔希', // 分享描述
-                    "title": '乔希家阅读馆' // 分享标题
+                    "title": '乔希家"Happy Halloween-Trick or Treat？"', // 分享标题
+                    "desc": '每馆限50名额，适合3-12岁孩子，边玩边学', // 分享描述
                 }
                 wx.onMenuShareTimeline(shareData)
                 wx.onMenuShareAppMessage(shareData)

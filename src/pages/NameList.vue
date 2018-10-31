@@ -62,7 +62,7 @@
 				self.$service.getUserInfo((res) => {
 					self.userData = res.data;
 					if(self.userData.code === '0'){
-						if(self.userData.data.isBuyUser === true){
+						if(self.userData.data.member !== '-1'){
 							self.isBuyUser = true;
 						}
 					}else{

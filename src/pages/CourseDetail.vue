@@ -27,12 +27,12 @@
 		<!-- 已参加课程 -->
 		<div class="mleft20" v-if="courseDetailData.coursewareList">
 			<div class="mtop20" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '1'" @click="setPdfUrl(course.h5_file_url)">{{course.APPENDIX_NAME}} <span class="blue mleft10">查看该课件</span></div>
-			<div class="hide" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '0'"><video ref="video" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></video></div>
+			<div class="hide" v-for="course in courseDetailData.coursewareList" v-if="course.fileType === '0'"><audio ref="audio" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></audio></div>
 		</div>
 		<!-- 可预约课程 -->
 		<div class="mleft20" v-else-if="courseDetailData.file">
 			<div class="mtop20" v-for="course in courseDetailData.file" v-if="course.fileType === '1'" @click="setPdfUrl(course.h5_file_url)">{{course.fileName}} <span class="blue mleft10">查看该课件</span></div>
-			<div class="hide" v-for="course in courseDetailData.file" v-if="course.fileType === '0'"><video ref="video" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></video></div>
+			<div class="hide" v-for="course in courseDetailData.file" v-if="course.fileType === '0'"><audio ref="audio" controls="controls" autoplay="autoplay" :src="course.h5_file_url"></audio></div>
 		</div>
 	</div>
     <div v-if="pageFrom === 'homework'" class="pb10">
@@ -170,14 +170,13 @@ export default {
             if(!this.isPlaying) {
                 this.gotoPlay();
             }else{
-                this.$refs.video[0].pause();
+                this.$refs.audio[0].pause();
                 this.isPlaying = !this.isPlaying;
             }
         },
         gotoPlay() {
             // wx.ready (function() {
-                // document.getElementById("videoID").play();
-                this.$refs.video[0].play();
+                this.$refs.audio[0].play();
                 this.isPlaying = !this.isPlaying;
             // },false);
         }

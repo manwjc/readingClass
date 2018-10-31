@@ -1,67 +1,91 @@
 <template>
-	<div class="share-container">
+	<div class="share-container relative">
+    	<div class="mask" v-show="maskShow" @click="hideMask"><img @click.prevent src="../assets/images/toShare.png"></div>
 		<div class="share-top">
 			<div class="video_box">
-				<img src="static/images/course/index-top.png">
+				<!-- <img src="static/images/course/index-top.png"> -->
+				<div style="margin: 0.1rem 0.25rem;background-color: white;padding: 0.1rem" class="box-start">
+					<div :class="[{'mleft10': index !== 0},{'active': index === activeIndex}]" v-for="(item,index) in 5" @click="choseChampionKid(index)">
+						<img src="static/images/course/head-img.png">
+					</div>
+				</div>
 				<div class="video" >
-					<video id="video" controls="controls" poster="static/images/course/video-bg.jpg" :src="videoUrl"></video>
+					<video id="video" controls="controls" poster="../assets/images/video-preview.jpg" :src="curStudentData && curStudentData.videoUrl"></video>
 				</div>
 			</div>
 		</div>
 		<div class="box-justify shareItem">
 			<div class="box-v-start">
                 <div style="color: #dadada;margin-bottom: 0.10rem">宝贝姓名</div>
-                <div>周佳Joe</div>
+                <div>{{curStudentData && curStudentData.name}}</div>
 			</div>
 			<div class="box-v-start">
                 <div style="color: #dadada;margin-bottom: 0.10rem">宝贝年龄</div>
-                <div>10岁</div>
+                <div>{{curStudentData && curStudentData.age}}</div>
 			</div>
 			<div class="box-v-start">
                 <div style="color: #dadada;margin-bottom: 0.10rem">宝贝级别</div>
-                <div>L1</div>
+                <div>{{curStudentData && curStudentData.course_acronym}}</div>
 			</div>
-			<div class="box-v-start">
+			<!-- <div class="box-v-start">
                 <div style="color: #dadada;margin-bottom: 0.10rem">导读主题</div>
-                <div>自然</div>
+                <div>{{curStudentData && curStudentData.courseName}}</div>
+			</div> -->
+		</div>
+		
+		<div class="course-stars box-center">
+			<div v-for="(item,index) in 5">
+				<img  src="static/images/course/star-light.jpg" v-if="index < curStudentData.star_count">
+				<img  src="static/images/course/star-gray.jpg" v-if="index >= curStudentData.star_count">
 			</div>
 		</div>
-		
-		<div class="course-stars  box-center" >
-			<img src="static/images/gold2.png" class="yinClass">
-			<img  src="static/images/course/star-light.jpg">
-			<img  src="static/images/course/star-light.jpg">
-			<img  src="static/images/course/star-light.jpg">
-			<img  src="static/images/course/star-light.jpg">
-			<img  src="static/images/course/star-gray.jpg">
-		</div>
-		
 		
 		<div class="text">
-			<p>阅读过程中，能够高度专注并有兴趣的完成所有阅读内容。能够清晰饱满完成所有词汇每个音节的发音。</p>
-			<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
+			<p><span class="bold">{{curStudentData.fluency && curStudentData.fluency.item_name}}：</span>{{curStudentData.fluency && curStudentData.fluency.evaluation}}</p>
+			<p>{{curStudentData && curStudentData.fluency.english_evaluation}}</p>
+			<p><span class="bold">{{curStudentData.focus && curStudentData.focus.item_name}}：</span>{{curStudentData.focus && curStudentData.focus.evaluation}}</p>
+			<p>{{curStudentData && curStudentData.focus.english_evaluation}}</p>
+			<p><span class="bold">{{curStudentData.voca && curStudentData.voca.item_name}}：</span>{{curStudentData.voca && curStudentData.voca.evaluation}}</p>
+			<p>{{curStudentData && curStudentData.voca.english_evaluation}}</p>
+			<p><span class="bold">{{curStudentData.voice && curStudentData.voice.item_name}}：</span>{{curStudentData.voice && curStudentData.voice.evaluation}}</p>
+			<p>{{curStudentData && curStudentData.voice.english_evaluation}}</p>
 		</div>
-		<div class="btn-wrapper">
-			<button class="course-btn box-center">分享</button>
+		<div class="btn-wrapper" @click="showMask">
+			<div class="course-btn box-center text-center">分享</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import utils from '@/js/common/utils'
+import constant from '@/js/common/constant'
+import utils from '@/js/common/utils'
+import shareImg from '@/assets/images/share_img.jpg'
+import wx from 'weixin-js-sdk'
+import mixin from '@/js/common/wxshare_mixin'
 
 	export default {
 		data() {
 			return {
+				activeIndex: 0,
 				userData: null,
 				videoUrl: '',
+				studentList: [],
+				curStudentData: {},
+            	maskShow: false,
+            	shareImg: shareImg,
 			}
 		},
 		mounted() {
-			let self = this;
-			self.init();
+			this.queryStudentWeekStatusByClassroomId();
+			this.getUserInfo();
 		},
+    	mixins: [mixin],
 		methods: { 
+			choseChampionKid(index){
+                var that=this;
+				that.curStudentData = that.studentList[index]
+				this.activeIndex = index;
+			},
 			init() {
 				const self = this
 				self.$service.getUserInfo((res) => {
@@ -69,34 +93,51 @@
 					self.getUserVideo();
 				})
 			},
-			getUserVideo() {
-				let self = this;
-				self.$service.getUserVideo({
-					params: { 
-						id: self.$route.query.id, 
-						shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : ''
+			//查询周冠军
+			queryStudentWeekStatusByClassroomId() {
+				let dataParams = this.$qs.stringify({
+					classroomId: this.$route.query.classroomId
+				});
+				this.studentList = [];
+				this.$service.queryStudentWeekStatusByClassroomId(
+					dataParams,
+					res => {
+						if (res.data.code === "0") {
+							this.studentList = res.data.data;
+							this.curStudentData = this.studentList[0];
+						}else{
+							this.$showMsg(res.data.message)
+						}
+					},
+					error => {
+						console.error(error);
 					}
-				}, (res) => {
-					if(res.data.code === '0'){
-						self.videoUrl = utils.handleUrl(res.data.data.vidoUrl);
-					}else{
-						self.$showMsg(res.data.message);
-					}
-				})
+				);
 			},
-			JoinIn() {
+			showMask() {
+				this.maskShow = true;
+				document.body.scrollTop = 0;
+				document.documentElement.scrollTop = 0;
+				document.body.style = 'overflow: hidden';
+			},
+			hideMask() {
+				this.maskShow = false;
+				document.body.style = 'overflow: inherit';
+			},
+			setShareData() {
 				let self = this;
-				if(self.userData.code === '0'){
-					if(self.userData.data.isBindPhone === true && self.userData.data.isBuyUser === true){
-						self.$router.push({name:"sceneList"})
-					}else if(self.userData.data && self.userData.data.isBindPhone === true && self.userData.data.isBuyUser === false){
-						self.$router.push({name:"newGay"})
-					}else if(self.userData.data && self.userData.data.isBindPhone === false){
-						self.$router.push({name:"checkPhone"})
+				let openId = self.userData.data && self.userData.data !== null ? self.userData.data.openId : '';
+				wx.ready(function () {
+					// 微信分享的数据
+					var shareData = {
+						"imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
+						"link": constant.chelchost + '/wx/index?sharePage=weekChampion&classroomId=' + this.$route.query.classroomId, // 分享地址
+						"title": '乔希家"Happy Halloween-Trick or Treat？"', // 分享标题
+						"desc": '每馆限50名额，适合3-12岁孩子，边玩边学', // 分享描述
 					}
-				}else{
-					self.$showMsg(self.userData.message);
-				}
+					wx.onMenuShareTimeline(shareData)
+					wx.onMenuShareAppMessage(shareData)
+				})
 			},
 		}
 	}
@@ -166,4 +207,5 @@ body {
     /*left: 0.5rem;
     top: -1.4rem;*/
 }
+.active{ border: 2px solid #febb08;}
 </style>

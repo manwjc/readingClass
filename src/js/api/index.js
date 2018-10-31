@@ -55,9 +55,31 @@ export default {
     //查看导读场次学员集合
     queryTeacherAppointmentByStudent: '/wx/guide/teacher/queryTeacherAppointmentByStudent',
     //保存周冠军候选人
-    updateStudentWeekStatus: '/wx/guide/teacher/updateStudentWeekStatus',
+    addStudentWeekCandidateStatus: '/wx/guide/teacher/addStudentWeekCandidateStatus',
+    //取消周冠军候选人
+    updateStudentWeekCandidateStatus: '/wx/guide/teacher/updateStudentWeekCandidateStatus',
     //获取评价
     getEvaluate: '/wx/guide/teacher/getEvaluate',
     //保存学员作业评价
     addEvaluate: '/wx/guide/teacher/addEvaluate',
+    
+    //查询课程等级
+    queryGradeAll: '/wx/guide/sa/queryGradeAll',
+    //查询导读室
+    queryClassroomByStudentAdmin: '/wx/guide/sa/queryClassroomByStudentAdmin',
+    //根据导读室和课程等级查询所有课程
+    queryCourseByClassAndGrade: '/wx/guide/sa/queryCourseByClassAndGrade',
+    //查询周冠军候选人
+    queryWeekChampionCandidate: '/wx/guide/sa/queryStudentWeekCompetitorStatus',
+    //查询月冠军候选人
+    queryMonthChampionCandidate: '/wx/guide/sa/queryStudentWeekStatus',
+    //保存周冠军
+    addWeekChampion: '/wx/guide/sa/updateStudentWeekStatus',
+    //保存月冠军
+    addMonthChampion: '/wx/guide/sa/updateStudentMonthStatus',
+
+    //查询周冠军
+    queryStudentWeekStatusByClassroomId: '/wx/guide/sa/queryStudentWeekStatusByClassroomId',
+    //查询月冠军
+    queryStudentMonthStatus: '/wx/guide/sa/queryStudentMonthStatus',
 }
