@@ -140,6 +140,7 @@
 
 <script>
     import mixin from '@/js/common/student_mixin'
+    import utils from '@/js/common/utils'
     export default {
         data() {
             return {
@@ -183,13 +184,46 @@
             }
         },
         mounted() {
-            this.setCurStudentIndex();
-            this.initPage();
-            this.getMonday();
-            this.getYearMonth();
+			if(this.$route.query.pageSource === 'chelcApp') {
+                // alert('phone:' + utils.getCookie('phone'));
+                this.initPage();
+                // console.log('app进入' + utils.getCookie('chel_userName'))
+                // this.getUserInfoFromApp();
+			}else{
+                this.initPage();
+			}
         },
         mixins: [mixin],
-        methods: {
+        methods: { 
+            //从app进入导读课页面
+			getUserInfoFromApp() {
+                let dataParams = this.$qs.stringify({
+                    phone: utils.getCookie('phone'),
+                });
+				this.$service.getUserInfoFromApp(
+                    dataParams,
+                    (res) => {
+					this.userData = res.data;
+					// this.userData.data.openId && sessionStorage.setItem('openId', this.userData.data.openId);
+					this.goToRouter(this.userData);
+				}, (error) => {
+					this.$showMsg(error)
+				})
+			},
+			goToRouter(data){
+				if(data.data && data.data.isBindPhone === true) {
+					if(data.data.member !== '-1' && data.data.member !== '0'){
+                        this.initPage();
+                    }else if(data.data.member === '-1'){
+                        this.$router.push({name:"hasDated"})
+                    }else if(data.data.member === '0'){
+                        this.$router.push({name:"newGay"})
+                    }
+				}else{
+					this.$showMsg(data.message);
+				}
+            },
+            
             //查看课件详情
             viewCourseDetail(item) {
                 sessionStorage.setItem('courseDetailData', JSON.stringify(item));
@@ -208,8 +242,11 @@
                 this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
             },
             initPage() {
+                this.setCurStudentIndex();
                 //获取学生信息
                 this.queryStudentAll();
+                this.getMonday();
+                this.getYearMonth();
             },
             cancelCourse(grade_number) {
 

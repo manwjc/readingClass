@@ -370,7 +370,7 @@ export default {
             }
             this.hasSubmit = true;
             this.confirmCourse.student_id = this.curStudent.studentId;
-            this.confirmCourse.classroom_type = 1;
+            this.confirmCourse.classroom_type =  this.curStudent.classroom_type || 2;
             let dataParams = this.$qs.stringify(this.confirmCourse);
             this.$service.addAppointment(
                 dataParams,

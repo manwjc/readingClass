@@ -29,21 +29,12 @@
 				})
 			},
 			goToRouter(data){
-				/* if(userData.code === '0'){
-					if(userData.data.isBindPhone === true && userData.data.member !== '-1' && userData.data.member !== '0'){
-						this.$router.push({name:"classList"})
-					}else if(userData.data.isBindPhone === true && userData.data.member === '-1'){
-						this.$router.push({name:"hasDated"})
-					}else if(userData.data.isBindPhone === true && userData.data.member === '0'){
-						this.$router.push({name:"newGay"})
-					}else{
-						this.$router.push({name:"checkPhone"})
-					}
-				}else{
-					this.$showMsg(userData.message); 
-				} */
 				if(data.data && data.data.isBindPhone === true) {
-					if(data.data.member) {
+					if(data.data.isTeacher) {
+						this.$router.push({name:"courseList"})
+					}else if(data.data.isSa) {
+						this.$router.push({name:"saSet"})
+					}else if(data.data.member) {
 						if(data.data.member !== '-1' && data.data.member !== '0'){
 							this.$router.push({name:"classList"})
 						}else if(data.data.member === '-1'){
@@ -51,10 +42,6 @@
 						}else if(data.data.member === '0'){
 							this.$router.push({name:"newGay"})
 						}
-					}else if(data.data.isTeacher) {
-						this.$router.push({name:"courseList"})
-					}else if(data.data.isSa) {
-						this.$router.push({name:"saSet"})
 					}
 				}else if(data.data && data.data.isBindPhone === false){
 					this.$router.push({name:"checkPhone"})

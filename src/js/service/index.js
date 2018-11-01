@@ -378,4 +378,14 @@ export default {
         })
     },
 
+    //app进入页面
+    getUserInfoFromApp: function(params, success, fail) {
+        axios.post(api.getUserInfoFromApp, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
+
 }

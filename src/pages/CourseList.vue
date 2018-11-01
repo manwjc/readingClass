@@ -49,12 +49,13 @@
         </mt-swipe-item>
     </mt-swipe>
     <div class="courseBody box-v-start rest">
-        <div v-if="!activeDateCourse.length" class="ptb20 text-center" style="margin-top: 30%">该日期没有可预约课程</div>
+        <div v-if="!activeDateCourse.length" class="ptb20 text-center" style="margin-top: 30%">该日期没有课程信息</div>
         <div v-else @click="goCourseDetail(item)" class="courseItem box-start align-stretch" v-for="item in activeDateCourse">
             <img src="static/images/book.png" class="bookImg"/>
             <div class="rest box-v-center align-stretch">
+                <div class="itemHeader">{{item.course_name}}</div>
                 <div class="itemHeader">{{item.classroomName}}</div>
-                <div class="timeCss">{{item.appointment_time | timeFormat}}</div>
+                <div class="timeCss mtop5">{{item.appointment_time | timeFormat}}</div>
                      <div style="margin-bottom:0.2rem">
                         等级：<span class="bold">{{item.course_acronym}}</span> &nbsp;&nbsp;
                         学生：<span class="bold">{{item.classStudentSize}}人</span> &nbsp;&nbsp;
@@ -88,7 +89,7 @@ export default {
             orderSuccess: false,
             checkedValue: true,
             activeDate: '',
-            appointment_time: '', //当前周的周一日期
+            curWeekMonday: '', //当前周的周一日期
             curDateTime: '',
             curYearMonth: '',
             courseData: null,
@@ -109,8 +110,9 @@ export default {
         this.getweekDate();
         this.getYearMonth()
         this.getMonday();
+        this.curWeekMonday = this.weekDate[0].yearMonth + '-' + this.weekDate[0].weekDate;
         setTimeout(() => {
-            this.queryTeacherAppointment(new Date().getDate(), 6);
+            this.queryTeacherAppointment(this.weekDate[0].weekDate, 6);
         }, 100)
     },
     mixins: [mixin],
@@ -118,74 +120,74 @@ export default {
         //计算当前可预约日期
         initActiveDate(curDate, sundayIndex) {
             let hasActiveCourse = false;
-            let today = +curDate;
-            let leftDay = +this.weekDate[sundayIndex].weekDate - today;
+            let initDate = +curDate;
+            let leftDay = +this.weekDate[sundayIndex].weekDate - initDate;
 
             this.activeDate = '';
             if(!this.courseData.courseList.length) {
-                this.activeDate = today;
+                this.activeDate = initDate;
                 return;
             }
-            //计算当周剩余天数
-            if(leftDay <= 0) {
-                this.weekDateShow.forEach((item,index) => {
-                    if(item.weekDate == today) {
-                        leftDay = 6 - index;
-                    }
-                })
-            }
-            for (let i = 0; i <= leftDay; i++) {
+            //比对当周有课程的日期
+            for (let i = 0; i <= 7; i++) {
                 this.courseData && this.courseData.courseList.filter((item) => {
-                    if (+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
+                    let hoverDate = this.weekDate[sundayIndex - 6 + i] && +this.weekDate[sundayIndex - 6 + i].weekDate;
+                    if (+item.appointment_time.substr(8, 2) == hoverDate && !hasActiveCourse) {
                         //设置当前日期
-                        this.activeDate = today;
+                        this.activeDate = hoverDate;
                         hasActiveCourse = true;
+                        return false;
                     }
                 });
-                today++
             }
+            //如果当周没有课程，则取首日
             if(this.activeDate === '') {
-                this.activeDate = +curDate;
+                if(sundayIndex === 6) {
+                    this.activeDate = +this.weekDate[0].weekDate;
+                }else{
+                    this.activeDate = +this.weekDate[7].weekDate;
+                }
             }
+
         },
         //切换周日期
         handleChange(index) {
-            let activeWeekMonday;
             if (index === 0) {
-                activeWeekMonday = new Date().getDate();
-                this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 6)
+                this.curWeekMonday = this.weekDate[0].yearMonth + '-' + this.weekDate[0].weekDate
+                this.changeWeekCourse(this.weekDate[0].weekDate, 6)
             } else {
-                activeWeekMonday = this.weekDate[7].weekDate;
-                this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
+                this.curWeekMonday = this.weekDate[7].yearMonth + '-' + this.weekDate[7].weekDate
+                this.changeWeekCourse(this.weekDate[7].weekDate, 13)
             }
         },
-        changeWeekCourse(weekTime, monday, sundayIndex) {
-            this.appointment_time = weekTime;
+        changeWeekCourse(monday, sundayIndex) {
             this.queryTeacherAppointment(monday, sundayIndex);
         },
+        //导读师查看已上课程（上周及本周）
         getweekDate() {
             var that = this;
             that.weekDate = [];
             var Nowdate = new Date();
             var WeekFirstDay = new Date(Nowdate - (Nowdate.getDay() - 1) * 86400000);
             var oneTime = WeekFirstDay.getDate()
-            if (oneTime < 10) {
-                oneTime = '0' + oneTime
-            } else {
-                oneTime = "" + oneTime
-            }
-            that.weekDate.push({
-                weekDate: oneTime 
-            })
-            for (let i = 1; i < 14; i++) {
+
+            for (let i = 6; i > -8; i--) {
                 var tempTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getDate();
+                var monthTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getMonth() + 1;
+                var yearTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getFullYear();
                 if (tempTime < 10) {
                     tempTime = '0' + tempTime
                 } else {
                     tempTime = '' + tempTime
                 }
-                that.weekDate.push({
-                    weekDate: tempTime  
+                if (monthTime < 10) {
+                    monthTime = '0' + monthTime 
+                } else {
+                    monthTime = '' + monthTime
+                }
+                that.weekDate.unshift({
+                    weekDate: tempTime,
+                    yearMonth: yearTime + '-' + monthTime
                 });
             }
 
@@ -211,7 +213,7 @@ export default {
         //查看导读场次
         queryTeacherAppointment(monday, sundayIndex) {
             let dataParams = this.$qs.stringify({
-                weekBefore: this.appointment_time
+                weekBefore: this.curWeekMonday
             });
 
             this.$service.queryTeacherAppointment(
@@ -280,7 +282,7 @@ body {
 }
 
 .itemHeader {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
     margin-top: 5px;
     font-size: 0.26rem;
 }

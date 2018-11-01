@@ -22,6 +22,7 @@
 
 <script>
 import Valid from '@/js/common/validate'
+import utils from '@/js/common/utils'
 
 export default {
     data() {
@@ -34,7 +35,9 @@ export default {
 			content: '验证码'
         }
     },
-    mounted() {},
+    mounted() {
+		console.log(utils.setCookie('chel-account', 'admin'))
+	},
     methods: {
         countDown() {
             if (!this.canClick) {
@@ -53,10 +56,6 @@ export default {
                 }
             }, 1000)
         },
-        queryCourseForDate(item) {
-            console.log(item)
-        },
-
         getUserInfo() {
             let self = this;
             self.$service.getUserInfo((res) => {

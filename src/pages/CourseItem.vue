@@ -5,7 +5,7 @@
             <img src="static/images/book.png" class="bookImg"/>
             <div class="rest box-v-center align-stretch">
                 <div class="itemHeader">{{$route.query.classroomName}}</div>
-                <div class="timeCss"><span style="margin-right: 0.1rem">{{courseData && courseData.studentList[0].appointment_time | timeFormat}}</span></div>
+                <div class="timeCss"><span style="margin-right: 0.1rem">{{courseData && courseData.studentList[0] && courseData.studentList[0].appointment_time | timeFormat}}</span></div>
                 <div style="margin-bottom:0.2rem">
                     等级：<span class="bold" style="margin-right: 0.1rem">{{$route.query.student_grade}}</span> 
                     学生：<span class="bold" style="margin-right: 0.1rem">{{courseData && courseData.classStudentSize}}人</span> 
@@ -36,7 +36,7 @@
                     <span v-if="item.sex === '1'">男</span>
                     <span v-else>女</span>
                 </div>
-                <!-- <div style="margin-bottom:0.2rem">等级：{{item.level}}</div> -->
+                <div style="margin-bottom:0.2rem">等级：{{item.grade | gradeFormat}}</div>
             </div>
         </div>
         <div class="box-v-end">
@@ -47,7 +47,7 @@
                     <img v-else class="icon-like" src="static/images/unlike.png"/>
                 </div>
                     <div class="remarkCss">
-                        <span v-if="item.status === '1'" @click="gotoEvaluate(item)">作业</span>
+                        <span v-if="item.status === '1'" @click="gotoEvaluate(item)">评价</span>
                         <span v-else-if="item.status === '-1'" >未提交</span>
                         <span v-else-if="item.status === '2'" >已点评</span>
                     </div>
