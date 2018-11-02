@@ -21,13 +21,13 @@
             </div>
             <div class="topItem " style="margin-top:0.25rem">
                 <div class="box-justify">
+                    <div class="smallTittle">周日</div>
                     <div class="smallTittle">周一</div>
                     <div class="smallTittle">周二</div>
                     <div class="smallTittle">周三</div>
                     <div class="smallTittle">周四</div>
                     <div class="smallTittle">周五</div>
                     <div class="smallTittle">周六</div>
-                    <div class="smallTittle">周日</div>
                 </div>
                 <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height:24px; background: #00244C; margin-top: -0.1rem; padding: 0.2rem 0 0;">
                     <mt-swipe-item>
@@ -196,15 +196,16 @@ export default {
             let activeWeekMonday;
             if (index === 0) {
                 activeWeekMonday = new Date().getDate();
-                this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 6)
+				this.appointment_time = this.weekDate[0].yearMonth + '-' + this.weekDate[0].weekDate;
+                this.changeWeekCourse(activeWeekMonday, 6)
             } else {
-                activeWeekMonday = this.weekDate[7].weekDate;
-                this.changeWeekCourse(this.curYearMonth + activeWeekMonday, activeWeekMonday, 13)
+				activeWeekMonday = this.weekDate[7].weekDate;
+				this.appointment_time = this.weekDate[7].yearMonth + '-' + activeWeekMonday;
+                this.changeWeekCourse(activeWeekMonday, 13)
             }
         },
         //切换周日期
-        changeWeekCourse(weekTime, monday, sundayIndex) {
-            this.appointment_time = weekTime;
+        changeWeekCourse(monday, sundayIndex) {
             sessionStorage.removeItem('courseListData')
             this.queryReadCourseAppointment(monday, sundayIndex);
         },
@@ -254,68 +255,84 @@ export default {
                 }
             );
         },
+		//比对当周有课程的日期
+		calcDate(num, sundayIndex) {
+			let hasActiveCourse = false;
+			for (let i = num; i <= 7; i++) {
+				this.courseListData.filter((item) => {
+					let hoverDate = this.weekDate[sundayIndex - 6 + i] && +this.weekDate[sundayIndex - 6 + i].weekDate;
+					if (+item.appointment_time.substr(8, 2) == hoverDate && !hasActiveCourse) {
+						//设置当前日期
+						this.activeDate = hoverDate;
+						hasActiveCourse = true;
+						return false;
+					}
+				});
+			}
+		},
         //计算当前可预约日期
         initActiveDate(curDate, sundayIndex) {
-            let hasActiveCourse = false;
-            let today = +curDate;
-            let leftDay = +this.weekDate[sundayIndex].weekDate - today;
+			let initDate = +curDate;
 
             this.activeDate = '';
-            if (!this.courseListData.length) {
-                this.activeDate = today;
+            if(!this.courseListData.length) {
+                this.activeDate = initDate;
                 return;
+			}
+
+			//第一周，先取当天及未来的课程
+			if(sundayIndex === 6) {
+				let dateIndex;
+				this.weekDate.forEach((item,index) => {
+					if(item.weekDate == initDate) {
+						dateIndex = index;
+					}
+				})
+				this.calcDate(dateIndex, sundayIndex)
+			//第二周，先取首日课程
+			}else{
+				this.calcDate(0, sundayIndex)
+			}
+            //如果当周没有课程，则取首日
+            if(this.activeDate === '') {
+                if(sundayIndex === 6) {
+                    this.activeDate = +this.weekDate[0].weekDate;
+                }else{
+                    this.activeDate = +this.weekDate[7].weekDate;
+                }
             }
-            //计算当周剩余天数
-            if (leftDay <= 0) {
-                this.weekDateShow.forEach((item, index) => {
-                    if (item.weekDate == today) {
-                        leftDay = 6 - index;
-                    }
-                })
-            }
-            //从今日开始，遍历当周课程，显示最近日期的课程
-            for (let i = 0; i <= leftDay; i++) {
-                this.courseListData.filter((item) => {
-                    if (+item.appointment_time.substr(8, 2) === today && !hasActiveCourse) {
-                        //设置当前可预约日期
-                        this.activeDate = today;
-                        hasActiveCourse = true;
-                    }
-                });
-                today++
-            }
-            if (this.activeDate === '') {
-                this.activeDate = +curDate;
-            }
+
         },
+        //导读师查看已上课程（上周及本周）
         getweekDate() {
             var that = this;
             that.weekDate = [];
             var Nowdate = new Date();
             var WeekFirstDay = new Date(Nowdate - (Nowdate.getDay() - 1) * 86400000);
             var oneTime = WeekFirstDay.getDate()
-            if (oneTime < 10) {
-                oneTime = '0' + oneTime
-            } else {
-                oneTime = "" + oneTime
-            }
-            that.weekDate.push({
-                weekDate: oneTime
-            })
-            for (let i = 1; i < 14; i++) {
+
+            for (let i = -1; i < 13; i++) {
                 var tempTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getDate();
+                var monthTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getMonth() + 1;
+                var yearTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getFullYear();
                 if (tempTime < 10) {
                     tempTime = '0' + tempTime
                 } else {
                     tempTime = '' + tempTime
                 }
+                if (monthTime < 10) {
+                    monthTime = '0' + monthTime 
+                } else {
+                    monthTime = '' + monthTime
+                }
                 that.weekDate.push({
-                    weekDate: tempTime
+                    weekDate: tempTime,
+                    yearMonth: yearTime + '-' + monthTime
                 });
             }
 
-            for (let i = 0; i < 7; i++) {
-                that.weekDateShow.push(that.weekDate[i])
+            for (let j = 0; j < 7; j++) {
+                that.weekDateShow.push(that.weekDate[j])
             }
         },
         orderCourse(item) {

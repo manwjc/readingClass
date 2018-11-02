@@ -243,18 +243,23 @@ export default {
             }else{
                 this.queryMonthChampionCandidate();
             }
-        }
+        },
+        weekChampionArray(val) {
+            let isAllSet = true;
+            if(val.length < 5) {
+                isAllSet = false;
+            }
+            this.hasSelectedWeekChampion = isAllSet;
+        },
+        monthChampionArray(val) {
+            let isAllSet = true;
+            if(val.length < 5) {
+                isAllSet = false;
+            }
+            this.hasSelectedMonthChampion = isAllSet;
+        },
     },
     computed: {
-        hasSelectedWeekChampion() {
-            let isAllSet = true;
-            this.weekChampionArray.forEach(item => {
-                if(item.student_id === '') {
-                    isAllSet = false;
-                }
-            })
-            return isAllSet;
-        },
         isSettedWeek() {
             let isSettedWeek = '-1';
             this.roomArr.forEach(item => {
@@ -487,6 +492,10 @@ export default {
         addMonthChampion() {
             // let dataParams = this.$qs.stringify(this.monthChampionArray);
             let dataParams = this.monthChampionArray;
+            if(!this.hasSelectedMonthChampion) {
+                this.$showMsg('请选择5个等级的月冠军');
+                return false;
+            }
 
             this.$service.addMonthChampion(
                 dataParams,

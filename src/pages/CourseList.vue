@@ -17,17 +17,17 @@
         </div>
         <div class="topItem " style="margin-top:0.25rem">
             <div class="box-justify">
+                <div class="smallTittle">周日</div>
                 <div class="smallTittle">周一</div>
                 <div class="smallTittle">周二</div>
                 <div class="smallTittle">周三</div>
                 <div class="smallTittle">周四</div>
                 <div class="smallTittle">周五</div>
                 <div class="smallTittle">周六</div>
-                <div class="smallTittle">周日</div>
             </div>
         </div>
     </div>
-    <mt-swipe :auto="0" :show-indicators="false" @change="handleChange" :continuous="false" style="height:28px;background: #00244C;padding: 0rem 0.2rem;">
+    <mt-swipe :auto="0" :show-indicators="false" @change="handleChange" :continuous="false" style="height:0.50rem;background: #00244C;padding: 0 0.2rem 0.05rem;">
         <mt-swipe-item>
             <div class="box-justify align-stretch">
                 <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index<7" @click="choseDate(item)">
@@ -171,7 +171,7 @@ export default {
             var WeekFirstDay = new Date(Nowdate - (Nowdate.getDay() - 1) * 86400000);
             var oneTime = WeekFirstDay.getDate()
 
-            for (let i = 6; i > -8; i--) {
+            for (let i = 5; i > -9; i--) {
                 var tempTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getDate();
                 var monthTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getMonth() + 1;
                 var yearTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getFullYear();
