@@ -169,7 +169,7 @@ export default {
                 }]
             },
             tabs: [{
-                    type: "深圳总部",
+                    type: "深圳",
                     view: "child1"
                 },
                 {

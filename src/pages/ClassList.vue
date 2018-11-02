@@ -186,9 +186,9 @@
         mounted() {
 			if(this.$route.query.pageSource === 'chelcApp') {
                 // alert('phone:' + utils.getCookie('phone'));
-                this.initPage();
+                // this.initPage();
                 // console.log('app进入' + utils.getCookie('chel_userName'))
-                // this.getUserInfoFromApp();
+                this.getUserInfoFromApp();
 			}else{
                 this.initPage();
 			}
@@ -197,14 +197,15 @@
         methods: { 
             //从app进入导读课页面
 			getUserInfoFromApp() {
-                let dataParams = this.$qs.stringify({
-                    phone: utils.getCookie('phone'),
-                });
+				let dataParams = {
+					params: {
+						phone: utils.getCookie('phone')
+					}
+				}
 				this.$service.getUserInfoFromApp(
                     dataParams,
                     (res) => {
 					this.userData = res.data;
-					// this.userData.data.openId && sessionStorage.setItem('openId', this.userData.data.openId);
 					this.goToRouter(this.userData);
 				}, (error) => {
 					this.$showMsg(error)

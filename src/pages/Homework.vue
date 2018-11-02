@@ -149,8 +149,11 @@ export default {
                     let data = res.data;
 
                     if (data.code === "0") {
-                        let host = constant.chelchost;
-                        self.uploadVideo = host + '/' + data.data.APPENDIX_URL;
+                        if(data.data.APPENDIX_URL.indexOf('http') > -1) {
+                            self.uploadVideo = data.data.APPENDIX_URL;
+                        }else{
+                            self.uploadVideo = location.origin + '/' + data.data.APPENDIX_URL;
+                        }
                         // self.homeworkRecordId = data.data.ID;
                         self.homeworkRecordId = self.courseDetailData.coursewareId;
                         this.$showMsg("文件上传成功");

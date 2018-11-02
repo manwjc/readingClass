@@ -53,7 +53,7 @@
         <div v-else @click="goCourseDetail(item)" class="courseItem box-start align-stretch" v-for="item in activeDateCourse">
             <img src="static/images/book.png" class="bookImg"/>
             <div class="rest box-v-center align-stretch">
-                <div class="itemHeader">{{item.course_name}}</div>
+                <div class="itemHeader">{{item.course_english_name}}</div>
                 <div class="itemHeader">{{item.classroomName}}</div>
                 <div class="timeCss mtop5">{{item.appointment_time | timeFormat}}</div>
                      <div style="margin-bottom:0.2rem">
@@ -161,7 +161,8 @@ export default {
             }
         },
         changeWeekCourse(monday, sundayIndex) {
-            this.queryTeacherAppointment(monday, sundayIndex);
+            // this.queryTeacherAppointment(monday, sundayIndex);
+            this.initActiveDate(monday, sundayIndex);
         },
         //导读师查看已上课程（上周及本周）
         getweekDate() {

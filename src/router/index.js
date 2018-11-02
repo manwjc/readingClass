@@ -28,6 +28,8 @@ const ActivityPage = resolve => require(['../pages/ActivityPage'], resolve)
 const SchoolAdress = resolve => require(['../pages/SchoolAdress'], resolve)
 const HasDated = resolve => require(['../pages/HasDated'], resolve)
 
+const NotLoginPage = resolve => require(['../pages/NotLoginPage'], resolve)
+
 export default new Router({
   routes: [
     //导读课路由
@@ -180,6 +182,16 @@ export default new Router({
       path: '/hasDated',
       name: 'hasDated',
       component: HasDated,
+      meta: {
+      keepAlive: true,
+      title: '乔希家导读课预约'
+      }
+    },
+    //app未登录状态
+    {
+      path: '/notLoginPage',
+      name: 'notLoginPage',
+      component: NotLoginPage,
       meta: {
       keepAlive: true,
       title: '乔希家导读课预约'

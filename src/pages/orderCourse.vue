@@ -29,20 +29,20 @@
                     <div class="smallTittle">周五</div>
                     <div class="smallTittle">周六</div>
                 </div>
-                <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height:24px; background: #00244C; margin-top: -0.1rem; padding: 0.2rem 0 0;">
+                <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height: 0.5rem; background: rgb(0, 36, 76); padding: 0 0.05rem 0.05rem;">
                     <mt-swipe-item>
                         <div class="box-justify align-stretch">
-                            <div class="bigWFont text-center w20" v-for=" (item,index) in weekDate" v-if="index<7" @click="chooseDate(item)">
+                            <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index<7" @click="chooseDate(item)">
                                 <div>
                                     {{item.weekDate}}
                                 </div>
                                 <img class="backIcon2" src="static/images/up.png" v-if="+item.weekDate === activeDate">
-                    </div>
-                            </div>
+                    		</div>
+						</div>
                     </mt-swipe-item>
                     <mt-swipe-item>
                         <div class="box-justify align-stretch">
-                            <div class="bigWFont text-center w20" v-for=" (item,index) in weekDate" v-if="index>6" @click="chooseDate(item)">
+                            <div class="bigWFont" v-for=" (item,index) in weekDate" v-if="index>6" @click="chooseDate(item)">
                                 <div>
                                     {{item.weekDate}}
                                 </div>
@@ -122,14 +122,14 @@
                     <div v-if="orderSuccess" style="width:100%;height:170px;background-color:white; padding: 20px 0;" class="box-v-center">
                         <div>
                             <img class="user-avatar" style="margin-bottom:0.3rem;width:45px;height:45px" src="static/images/success.png">		 </div>
-                            <div class="headerTittle" style="color:#c5393c;margin-bottom:0.4rem">
+                            <div class="headerTittle" style="color:#c5393c;margin-bottom:0.2rem">
                                 已成功预约该课程
                             </div>
-                            <div class="popupSamallT" style="margin-bottom:0.5rem">
+                            <div class="popupSamallT" style="margin-bottom:0.2rem">
                                 请提醒孩子尽快学习课前教材哦
                             </div>
                             <router-link to="/classList">
-                                <div class="red-btn" style="width: 60%; margin: 0 auto;">确定</div>
+                                <div class="red-btn" style="width: 2rem; margin: 0 auto;">确定</div>
                             </router-link>
                             <!-- <a target="_blank" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
                             <!-- <a target="_blank" :href="confirmCourse.coursewareList[0] && confirmCourse.coursewareList[0].h5_file_url"><div class="red-btn">查看课件</div></a> -->
@@ -432,7 +432,7 @@ body {
 }
 
 .topOrder {
-    padding: 0.1rem 0.2rem;
+    padding: 0.1rem 0.2rem 0rem;
     background: #00244C;
 }
 
@@ -454,11 +454,10 @@ body {
 }
 
 .backIcon2 {
-    width: 20px;
-    height: 20px;
-    border-radius: 60px;
+    width: 10px;
+	height: 10px;
     display: block;
-    margin-top: 0.04rem;
+    margin: 0.04rem auto 0;
 }
 
 .headerTittle {
@@ -472,7 +471,7 @@ body {
 
 .smallTittle {
     color: #CAD6DC;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.1rem;
 }
 
 .bigWFont {

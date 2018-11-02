@@ -8,17 +8,51 @@
 </template>
 
 <script>
+	import utils from '@/js/common/utils'
 	export default {
 		name: 'index',
 		data() {
 			return {
-				userData: null
+				userData: null,
+				phone: ''
 			}
 		},
 		mounted() {
-			this.getUserInfo()
+			utils.setCookie('phone', '13499998888')
+			if(this.$route.query.pageSource === 'chelcApp') {
+				this.phone = utils.getCookie('phone');
+				if(!this.phone) {
+					this.$router.push({path: 'notLoginPage'})
+				}else{
+					this.$router.push({path:"classList", query: {phone: this.phone, pageSource: 'chelcApp'}})
+					this.getUserInfoFromApp();
+				}
+			}else{
+				this.getUserInfo()
+			}
 		},
 		methods: { 
+			//app
+			getUserInfoFromApp() {
+				let dataParams = {
+					params: {
+						phone: this.phone
+					}
+				}
+				this.$service.getUserInfoFromApp(dataParams, (res) => {
+					let data = res.data;
+					if(data.data.member !== '-1' && data.data.member !== '0'){
+						this.$router.push({name:"classList", params: {phone: this.phone}})
+					}else if(data.data.member === '-1'){
+						this.$router.push({name:"hasDated"})
+					}else if(data.data.member === '0'){
+						this.$router.push({name:"newGay"})
+					}
+				}, (error) => {
+					this.$showMsg(error)
+				})
+			},
+			//wx
 			getUserInfo() {
 				this.$service.getUserInfo((res) => {
 					this.userData = res.data;

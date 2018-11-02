@@ -82,4 +82,8 @@ export default {
     queryStudentWeekStatusByClassroomId: '/wx/guide/sa/queryStudentWeekStatusByClassroomId',
     //查询月冠军
     queryStudentMonthStatus: '/wx/guide/sa/queryStudentMonthStatus',
+
+    //导读课接入app
+    //通过手机号查询app用户信息
+    getUserInfoFromApp: '/wx/wxApi/getUserInfo',
 }
