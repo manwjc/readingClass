@@ -63,8 +63,7 @@
                 <div v-else class="box-start timeCourse align-stretch" v-for=" (item,index) in activeDateCourse" :style="{'border':index+1==activeDateCourse.length?'none':''}">
                     <div class="pointTime"></div>
                     <div style="padding: 0.02rem 0.15rem 0;">
-                        <div style="padding-bottom:0.1rem">{{item.appointmentTime}}</div>
-                        <div>{{item.appointment_start_time}}-{{item.appointment_over_time}}</div>
+                        <div style="padding-bottom:0.1rem; width: 80px;">{{item.appointment_time}}</div>
                     </div>
                     <div class="rest">
                         <div class="panlInfo box-justify">
@@ -258,12 +257,12 @@ export default {
 		//比对当周有课程的日期
 		calcDate(num, sundayIndex) {
 			let hasActiveCourse = false;
-			for (let i = num; i <= 7; i++) {
+			for (let i = num; i <= 6; i++) {
 				this.courseListData.filter((item) => {
 					let hoverDate = this.weekDate[sundayIndex - 6 + i] && +this.weekDate[sundayIndex - 6 + i].weekDate;
 					if (+item.appointment_time.substr(8, 2) == hoverDate && !hasActiveCourse) {
 						//设置当前日期
-						this.activeDate = hoverDate;
+                        this.activeDate = hoverDate;
 						hasActiveCourse = true;
 						return false;
 					}
