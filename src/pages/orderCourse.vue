@@ -111,7 +111,7 @@
                             </div>
                             <div class="box-justify popupItem">
                                 <div class="popupSamallT">时间</div>
-                                <div class="popupSamallT2">{{confirmCourse.appointmentTime + ' ' + confirmCourse.appointment_start_time + '-' + confirmCourse.appointment_over_time}}</div>
+                                <div class="popupSamallT2">{{confirmCourse.appointment_time}}</div>
                             </div>
                         </div>
                         <div class="box-center popupFoot" @click="addAppointment">
