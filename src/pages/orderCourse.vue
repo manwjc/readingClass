@@ -21,13 +21,13 @@
             </div>
             <div class="topItem " style="margin-top:0.25rem">
                 <div class="box-justify">
-                    <div class="smallTittle">周日</div>
                     <div class="smallTittle">周一</div>
                     <div class="smallTittle">周二</div>
                     <div class="smallTittle">周三</div>
                     <div class="smallTittle">周四</div>
                     <div class="smallTittle">周五</div>
                     <div class="smallTittle">周六</div>
+                    <div class="smallTittle">周日</div>
                 </div>
                 <mt-swipe :auto="0" :show-indicators="false" :continuous="false" @change="handleChange" style="height: 0.5rem; background: rgb(0, 36, 76); padding: 0 0.05rem 0.05rem;">
                     <mt-swipe-item>
@@ -180,7 +180,7 @@ export default {
     },
     mounted() {
         this.setCurStudentIndex();
-        this.getMonday()
+        // this.getMonday()
         this.getweekDate()
         this.getYearMonth()
         this.queryStudentAll()
@@ -310,7 +310,7 @@ export default {
             var WeekFirstDay = new Date(Nowdate - (Nowdate.getDay() - 1) * 86400000);
             var oneTime = WeekFirstDay.getDate()
 
-            for (let i = -1; i < 13; i++) {
+            function initWeek(i) {
                 var tempTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getDate();
                 var monthTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getMonth() + 1;
                 var yearTime = new Date((WeekFirstDay / 1000 + i * 86400) * 1000).getFullYear();
@@ -329,6 +329,20 @@ export default {
                     yearMonth: yearTime + '-' + monthTime
                 });
             }
+
+            //当天为周日，获取当天之前一周，以及下周
+            if(Nowdate.getDay() === 0) {
+                for (let i = -7; i < 7; i++) {
+                    initWeek(i)
+                }
+            //当天为周一至周六，获取本周一至周日的一周，以及下周
+            }else{
+                for (let i = 0; i < 14; i++) {
+                    initWeek(i)
+                }
+            }
+            //首次请求课程，使用第一周的周一
+            this.appointment_time = this.weekDate[0].yearMonth + '-' + this.weekDate[0].weekDate; 
 
             for (let j = 0; j < 7; j++) {
                 that.weekDateShow.push(that.weekDate[j])
