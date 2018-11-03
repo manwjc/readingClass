@@ -5,7 +5,7 @@ export default {
         if (!str) {
             str = '';
         } else {
-            str = str.indexOf('http') > -1 ? str : ('https://www.chel-c.com/' + str);
+            str = str.indexOf('http') > -1 ? str : (location.origin + '/' + str);
         }
         return str;
     },

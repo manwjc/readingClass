@@ -124,7 +124,6 @@ export default {
         initCourseDetail() {
 			this.courseDetailData = JSON.parse(sessionStorage.getItem('courseDetailData'));
 			this.pageFrom = this.$route.query.pageFrom;
-			console.log('pageFrom:', this.pageFrom)
         },
         showPdf(num) {
             var url = this.pdfUrl;
@@ -132,7 +131,6 @@ export default {
             PDFJS.getDocument(url).promise.then((pdf) => {
                 this.loadingTip = false;
                 this.pdfNumMax = pdf.numPages;
-                console.log(pdf)
                 pdf.getPage(num).then((page) => {
                     var scale = 1;
                     var viewport = page.getViewport(scale);

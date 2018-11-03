@@ -1,5 +1,5 @@
 <template>
-	<div class="share-container relative">
+	<div class="share-container relative pb20">
     	<div class="mask" v-show="maskShow" @click="hideMask"><img @click.prevent src="../assets/images/toShare.png"></div>
 		<div class="share-top">
 			<div class="video_box">
@@ -10,7 +10,7 @@
 					</div>
 				</div>
 				<div class="video" >
-					<video id="video" controls="controls" poster="../assets/images/video-preview.jpg" :src="curStudentData && curStudentData.videoUrl"></video>
+					<video id="video" controls="controls" :src="curStudentData && curStudentData.videoUrl"></video>
 				</div>
 			</div>
 		</div>
@@ -150,11 +150,12 @@ body {
   height: 100%;
   min-height: 100%;
 }
+#video{ background: #000;}
 .video_box {
   background: url(../assets/images/course/week_banner.png) no-repeat;
   background-size: 100% auto;
   width: 100%;
-  padding-top:100px;
+  padding-top: 2.1rem;
 }
 .video_box  .video{ 
 	width:70%;
@@ -171,7 +172,7 @@ body {
 .text{
 	width:90%;
 	margin:0 auto;
-	font-size:0.16rem;
+	font-size:0.24rem;
 	line-height:0.26rem;
 }
 .text p{

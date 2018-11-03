@@ -289,6 +289,15 @@ export default {
             fail && fail(error);
         })
     },
+    //查询学员作业评价
+    queryStudentEvaluation: function(params, success, fail) {
+        axios.post(api.queryStudentEvaluation, params).then((res)=>{
+            success && success(res);
+        })
+        .catch((error) => {
+            fail && fail(error);
+        })
+    },
 
 /** 
  * sa学管页面

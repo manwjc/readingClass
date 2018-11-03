@@ -17,7 +17,7 @@
             <router-link to="/activityPage">
                 <img class="flash-mask" src="static/images/course/light-bg.png">
             </router-link>
-            <!-- <p id="flash-circle1" class="flash-circle"></p>
+                <!-- <p id="flash-circle1" class="flash-circle"></p>
             <p id="flash-circle2" class="flash-circle"></p>
             <p id="flash-circle3" class="flash-circle"></p>
             <p id="flash-circle4" class="flash-circle"></p>
@@ -58,42 +58,44 @@
             <h3>线下导读</h3>
             <p class="des">老师带领细读经典英文课本</p>
             <!-- status: '-1':未预约  '4':已取消预约 '1':已预约 -->
-            <div v-if="courseListData.status === '-1' || courseListData.status === '4'">
-                <div class="introduce box-start">
-                    <img  src="static/images/course/book.png">
-                    <div class="introduce-right box-v-center align-start">
-                        <div class="introduce-text">
-                            <p class="bold" style="font-size: 16px !important">{{courseListData.english_name}}</p>
-                            <p style="font-size: 14px !important">{{courseListData.schoolName}}</p>
-                            <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
-                        </div>
-                        <div class="btn-wrapper">
-                            <router-link to="/orderCourse">
-                                <button>立即预约</button>
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div v-else-if="courseListData.status === '1'" class="shadow mtop10 mright20 padding20">
-                <div class="displaybox">
-                    <img class="list-img" src="static/images/course/book.png">
-                    <div class="boxflex01 boxalign mleft15">
-                        <div class="course-item-info">
-                            <p class="f26 bold">{{courseListData.english_name}}</p>
-                            <p class="f20 mtop10">{{courseListData.classroomName}}</p>
-                            <p class="mtop10">{{courseListData.appointmentTime | timeFormat}}</p>
-                            <p class="box-start mtop10">
-                                <img class="user-avatar" src="static/images/course/head-img.png">
-                                <span class="mleft15">老师：{{courseListData.teacher_english_name}}</span>
-                            </p>
+            <div v-for="item in courseListData">
+                <div v-if="item.status === '-1' || item.status === '4'">
+                    <div class="introduce box-start">
+                        <img  src="static/images/course/book.png">
+                        <div class="introduce-right box-v-center align-start">
+                            <div class="introduce-text">
+                                <p class="bold" style="font-size: 16px !important">{{item.english_name}}</p>
+                                <p style="font-size: 14px !important">{{item.schoolName}}</p>
+                                <!-- <p class="text-bg">格林童话 | 经典阅读</p> -->
+                            </div>
+                            <div class="btn-wrapper">
+                                <router-link to="/orderCourse">
+                                    <button>立即预约</button>
+                                </router-link>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="displaybox border-top mtop10 pt10">
-                    <div class="left boxflex01" target="_blank" @click="cancelCourse(courseListData.gradeNumber)"><button class="box-center">取消课程</button></div>
-                    <div class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(courseListData)">预习课件</button></div>
-                    <!-- <a target="_blank" v-for="course in courseListData.file" v-if="course.fileType === '1'" class="right boxflex01" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
+                <div v-else-if="item.status === '1'" class="shadow mtop10 mright20 padding20">
+                    <div class="displaybox">
+                        <img class="list-img" src="static/images/course/book.png">
+                        <div class="boxflex01 boxalign mleft15">
+                            <div class="course-item-info">
+                                <p class="f26 bold">{{item.english_name}}</p>
+                                <p class="f20 mtop10">{{item.classroomName}}</p>
+                                <p class="mtop10">{{item.appointmentTime | timeFormat}}</p>
+                                <p class="box-start mtop10">
+                                    <img class="user-avatar" src="static/images/course/head-img.png">
+                                    <span class="mleft15">老师：{{item.teacher_english_name}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="displaybox border-top mtop10 pt10">
+                        <div class="left boxflex01" target="_blank" @click="cancelCourse(item.appointmentTime, item.gradeNumber)"><button class="box-center">取消课程</button></div>
+                        <div class="right boxflex01"><button class="red-btn" @click="viewCourseDetail(item)">预习课件</button></div>
+                        <!-- <a target="_blank" v-for="course in item.file" v-if="course.fileType === '1'" class="right boxflex01" :href="course.h5_file_url"><button class="red-btn">查看课件</button></a> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,175 +141,196 @@
 </template>
 
 <script>
-    import mixin from '@/js/common/student_mixin'
-    import utils from '@/js/common/utils'
-    export default {
-        data() {
-            return {
-                dataLoaded: false,
-                studentList: [],
-                dataTips: '暂无课程信息',
-                courseListData: [],     //可预约的导读课程
-                courseRecordData: [],   //已参加的导读课程
-                appointment_time: '',   //当前周的周一日期
-                curTabIndex: 0,
-                curStudentIndex: '',
-                curDateTime: '',
-                curYearMonth: '',
-                
-            };
+import moment from 'moment'
+import mixin from '@/js/common/student_mixin'
+import utils from '@/js/common/utils'
+export default {
+    data() {
+        return {
+            dataLoaded: false,
+            studentList: [],
+            dataTips: '暂无课程信息',
+            courseListData: [], //可预约的导读课程
+            courseRecordData: [], //已参加的导读课程
+            appointment_time: '', //当前周的周一日期
+            curTabIndex: 0,
+            curStudentIndex: '',
+            curDateTime: '',
+            curYearMonth: '',
+
+        };
+    },
+    computed: {
+        curStudent() {
+            return this.studentList[this.curStudentIndex];
         },
-        computed: {
-            curStudent() {
-                return this.studentList[this.curStudentIndex];
-            },
-        },
-        watch: {
-            curStudentIndex: function() {
-                if(this.studentList.length) {
-                    //获取线下导读课程
-                    this.queryThisWeekReadByUser();
-                    //获取已参加课程
-                    this.queryClassRecord();
-                }
-            },
-            curTabIndex: function(val) {
-                // this.dataTips = '加载中';
-                this.courseRecordData = [];
-                if(val === 0) {
-                    //获取已参加课程
-                    this.queryClassRecord();
-                }else{
-                    //获取未参加课程
-                    this.queryClassMissing();
-                }
+    },
+    watch: {
+        curStudentIndex: function () {
+            if (this.studentList.length) {
+                //获取线下导读课程
+                this.queryThisWeekReadByUser();
+                //获取已参加课程
+                this.queryClassRecord();
             }
         },
-        mounted() {
-			if(this.$route.query.pageSource === 'chelcApp') {
-                // alert('phone:' + utils.getCookie('phone'));
-                // this.initPage();
-                // console.log('app进入' + utils.getCookie('chel_userName'))
-                this.getUserInfoFromApp();
-			}else{
-                this.initPage();
-			}
-        },
-        mixins: [mixin],
-        methods: { 
-            //从app进入导读课页面
-			getUserInfoFromApp() {
-				let dataParams = {
-					params: {
-						phone: utils.getCookie('phone')
-					}
-				}
-				this.$service.getUserInfoFromApp(
-                    dataParams,
-                    (res) => {
-					this.userData = res.data;
-					this.goToRouter(this.userData);
-				}, (error) => {
-					this.$showMsg(error)
-				})
-			},
-			goToRouter(data){
-				if(data.data && data.data.isBindPhone === true) {
-					if(data.data.member !== '-1' && data.data.member !== '0'){
-                        this.initPage();
-                    }else if(data.data.member === '-1'){
-                        this.$router.push({name:"hasDated"})
-                    }else if(data.data.member === '0'){
-                        this.$router.push({name:"newGay"})
-                    }
-				}else{
-					this.$showMsg(data.message);
-				}
-            },
-            
-            //查看课件详情
-            viewCourseDetail(item) {
-                sessionStorage.setItem('courseDetailData', JSON.stringify(item));
-                this.$router.push({name: 'courseDetail'})
-            },
-            //做作业
-            doHomework(item) {
-                sessionStorage.setItem('courseDetailData', JSON.stringify(item));
-                this.$router.push({name: 'homework'})
-            },
-            //查看作业
-            viewHomework(item) {
-                this.$router.push({path: 'videoShare', query: {'id': item.coursewareId}});
-            },
-            setCurStudentIndex() {
-                this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
-            },
-            initPage() {
-                this.setCurStudentIndex();
-                //获取学生信息
-                this.queryStudentAll();
-                this.getMonday();
-                this.getYearMonth();
-            },
-            cancelCourse(grade_number) {
-
-                let dataParams = this.$qs.stringify({
-                    grade_number: grade_number,
-                    student_id: this.curStudent.studentId
-                });
-                
-                if(!window.confirm('确定取消该课程？')) {
-                    return;
-                }
-
-                this.$service.updateStudentAppointmentState(
-                    dataParams,
-                    res => {
-                        if (res.data.code === "0") {
-                            this.$showMsg('取消成功！')
-                            this.queryThisWeekReadByUser()
-                        }else{
-                            this.$showMsg(res.data.message)
-                        }
-                    },
-                    error => {
-                        console.error(error);
-                    }
-                );
-            },
-            changeCourseTab(index) {
-                this.curTabIndex = index
-            },
-            changeStudent() {
-                if(this.studentList.length && this.curStudentIndex+1 < this.studentList.length) {
-                    this.curStudentIndex++
-                }else{
-                    this.curStudentIndex = 0
-                }
-                sessionStorage.setItem('curStudentIndex', this.curStudentIndex)
-            },
-            //获取未参加课程
-            queryClassMissing() {
-                let dataParams = this.$qs.stringify({
-                    school_id: this.curStudent.schoolId,
-                    student_id: this.curStudent.studentId,
-                    appointment_time : this.curDateTime
-                });
-
-                this.$service.queryClassMissing(
-                    dataParams,
-                    res => {
-                        if (res.data.code === "0") {
-                            this.courseRecordData = res.data.data;
-                        }
-                    },
-                    error => {
-                        console.error(error);
-                    }
-                );
-            },
+        curTabIndex: function (val) {
+            // this.dataTips = '加载中';
+            this.courseRecordData = [];
+            if (val === 0) {
+                //获取已参加课程
+                this.queryClassRecord();
+            } else {
+                //获取未参加课程
+                this.queryClassMissing();
+            }
         }
-    };
+    },
+    mounted() {
+        console.log(moment().fromNow())
+        if (this.$route.query.pageSource === 'chelcApp') {
+            // alert('phone:' + utils.getCookie('phone'));
+            // this.initPage();
+            // console.log('app进入' + utils.getCookie('chel_userName'))
+            this.getUserInfoFromApp();
+        } else {
+            this.initPage();
+        }
+    },
+    mixins: [mixin],
+    methods: {
+        //从app进入导读课页面
+        getUserInfoFromApp() {
+            let dataParams = {
+                params: {
+                    phone: utils.getCookie('phone')
+                }
+            }
+            this.$service.getUserInfoFromApp(
+                dataParams,
+                (res) => {
+                    this.userData = res.data;
+                    this.goToRouter(this.userData);
+                }, (error) => {
+                    this.$showMsg(error)
+                })
+        },
+        goToRouter(data) {
+            if (data.data && data.data.isBindPhone === true) {
+                if (data.data.member !== '-1' && data.data.member !== '0') {
+                    this.initPage();
+                } else if (data.data.member === '-1') {
+                    this.$router.push({
+                        name: "hasDated"
+                    })
+                } else if (data.data.member === '0') {
+                    this.$router.push({
+                        name: "newGay"
+                    })
+                }
+            } else {
+                this.$showMsg(data.message);
+            }
+        },
+
+        //查看课件详情
+        viewCourseDetail(item) {
+            sessionStorage.setItem('courseDetailData', JSON.stringify(item));
+            this.$router.push({
+                name: 'courseDetail'
+            })
+        },
+        //做作业
+        doHomework(item) {
+            sessionStorage.setItem('courseDetailData', JSON.stringify(item));
+            this.$router.push({
+                name: 'homework'
+            })
+        },
+        //查看作业
+        viewHomework(item) {
+            this.$router.push({
+                path: 'videoShare',
+                query: {
+                    'id': item.coursewareId
+                }
+            });
+        },
+        setCurStudentIndex() {
+            this.curStudentIndex = +sessionStorage.getItem('curStudentIndex') || 0;
+        },
+        initPage() {
+            this.setCurStudentIndex();
+            //获取学生信息
+            this.queryStudentAll();
+            this.getMonday();
+            this.getYearMonth();
+        },
+        cancelCourse(time, grade_number) {
+
+            let dataParams = this.$qs.stringify({
+                grade_number: grade_number,
+                student_id: this.curStudent.studentId
+            });
+
+            /* var diffTime = moment(time).fromNow()
+            console.log(diffTime)
+            if(true) {
+
+            } */
+
+            if (!window.confirm('确定取消该课程？')) {
+                return;
+            }
+
+            this.$service.updateStudentAppointmentState(
+                dataParams,
+                res => {
+                    if (res.data.code === "0") {
+                        this.$showMsg('取消成功！')
+                        this.queryThisWeekReadByUser()
+                    } else {
+                        this.$showMsg(res.data.message)
+                    }
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+        },
+        changeCourseTab(index) {
+            this.curTabIndex = index
+        },
+        changeStudent() {
+            if (this.studentList.length && this.curStudentIndex + 1 < this.studentList.length) {
+                this.curStudentIndex++
+            } else {
+                this.curStudentIndex = 0
+            }
+            sessionStorage.setItem('curStudentIndex', this.curStudentIndex)
+        },
+        //获取未参加课程
+        queryClassMissing() {
+            let dataParams = this.$qs.stringify({
+                school_id: this.curStudent.schoolId,
+                student_id: this.curStudent.studentId,
+                appointment_time: this.curDateTime
+            });
+
+            this.$service.queryClassMissing(
+                dataParams,
+                res => {
+                    if (res.data.code === "0") {
+                        this.courseRecordData = res.data.data;
+                    }
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+        },
+    }
+};
 </script>
 
 <style scoped>
@@ -465,6 +488,7 @@ p.text-bg {
     width: 40px;
     height: 40px;
 }
+
 .avatar-img {
     width: 40px;
     height: 40px;

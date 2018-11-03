@@ -1,8 +1,8 @@
 <template>
 <div>
     <mt-navbar class="border-bottom" v-model="selected">
-        <mt-tab-item id="1">周冠军</mt-tab-item>
-        <mt-tab-item id="2">月冠军</mt-tab-item>
+        <mt-tab-item id="1"><span style="font-size: 18px !important">周冠军</span></mt-tab-item>
+        <mt-tab-item id="2"><span style="font-size: 18px !important">月冠军</span></mt-tab-item>
     </mt-navbar>
     <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
@@ -41,6 +41,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="p10">
+                    从以下等级划分区域选择5名学员进行评选：<div class="mleft10 mtop10">Pre-L1，Pre-L2，Pre-L3，L1-L3，L4及以上</div>
+                </div>
                 <div class="subHeaderName">
                     学生信息
                 </div>
@@ -50,7 +53,7 @@
                             <img src="static/images/course/head-img.png" class="smallStudentAvator"/>
                             <div class="box-v-start align-stretch rest mleft20">
                                 <div class="box-start">
-                                    <div style="margin-bottom:0.2rem;margin-top:3px;width: 56%">英文名：{{item.name}}</div>
+                                    <div style="margin-bottom:0.2rem;margin-top:3px;width: 56%">英文名：{{item.englishName}}</div>
                                     <div style="margin-bottom:0.2rem;margin-top:3px">性别：
 										<span v-if="item.sex === '1'">男</span>
 										<span v-else>女</span>
@@ -94,6 +97,9 @@
                     <div v-if="isSettedMonth === '-1'" class="setBtn" @click="checkChampion">设置为</div>
                     <div v-else class="setBtn" @click="viewMonthChampion">查看月冠军</div>
                 </div>
+                <div class="p10">
+                    从以下等级划分区域选择5名学员进行评选：<div class="mleft10 mtop10">Pre-L1，Pre-L2，Pre-L3，L1-L3，L4及以上</div>
+                </div>
                 <div class="subHeaderName">
                     本月周冠军信息
                 </div>
@@ -103,7 +109,7 @@
                             <img src="static/images/course/head-img.png" class="smallStudentAvator"/>
                             <div class="box-v-start align-stretch rest mleft10">
                                 <div class="box-start">
-                                    <div style="margin-bottom:0.2rem;margin-top:3px;width: 56%">英文名：{{item.name}}</div>
+                                    <div style="margin-bottom:0.2rem;margin-top:3px;width: 56%">英文名：{{item.englishName}}</div>
                                     <div style="margin-bottom:0.2rem;margin-top:3px">性别：
                                         <span v-if="item.sex === '1'">男</span>
                                         <span v-else>女</span>
@@ -113,12 +119,12 @@
                                     <div style="margin-bottom:0.2rem;;width: 56%">中文名：{{item.name}}</div>
                                     <div style="margin-bottom:0.2rem">等级：{{item.grade | gradeFormat}}</div>
                                 </div>
-                                <div>
-                                    <div style="margin-bottom:0.2rem;margin-top:3px;font-size: 0.24rem">课程主题：{{item.course_name}}</div>
-                                </div>
+                                <!-- <div>
+                                    <div style="margin-bottom:0.2rem;margin-top:3px;font-size: 0.24rem">课程主题：{{curCoursewareName}}</div>
+                                </div> -->
                             </div>
                         </div>
-                        <div class="box-v-start" style="height:80px">
+                        <div class="box-v-start">
                             <div class="box-start">
                                 <div @click="changeLike(index)">
 									<!-- <img v-if="!item.isLike" class="icon-like" src="../../static/images/unlike.png"/> -->
@@ -227,7 +233,22 @@ export default {
         }
 	},
 	watch: {
+		selectedLevel(val) {
+            if(!this.isPageInited) {
+                return false;
+            }
+            if(this.selected === '1') {
+                this.queryWeekChampionCandidate();
+            }else{
+                this.queryMonthChampionCandidate();
+            }
+        },
 		selectedCourse(val) {
+            this.courseArr.forEach(item => {
+                if(val == item.grade_number) {
+                    this.curCoursewareName = item.courseware_name
+                }
+            })
             if(!this.isPageInited) {
                 return false;
             }
@@ -394,6 +415,17 @@ export default {
         },
         //设置月冠军
 		setMonthChampion(item) {
+            let hasTheSameStudent = false;
+            this.monthChampionArray.find(student => {
+                if(student.student_id === item.student_id) {
+                    hasTheSameStudent = true;
+                }
+            })
+            if(hasTheSameStudent) {
+                this.$showMsg('该学生已选中')
+                return false;
+            }
+
             let obj = {};
             obj.classroomId = this.selectedRoom;
             obj.grade = item.grade;
@@ -421,6 +453,17 @@ export default {
         },
         //设置周冠军
 		setWeekChampion(item) {
+            let hasTheSameStudent = false;
+            this.weekChampionArray.find(student => {
+                if(student.student_id === item.student_id) {
+                    hasTheSameStudent = true;
+                }
+            })
+            if(hasTheSameStudent) {
+                this.$showMsg('该学生已选中')
+                return false;
+            }
+
             let obj = {};
             obj.classroomId = this.selectedRoom;
             obj.grade = item.grade;
@@ -591,8 +634,8 @@ body {
 
     color: #145192;
     padding: 0rem 0.25rem;
-    margin-left: 0.2rem
 }
+.remarkCss input[type=radio]{ width: 20px; height: 20px;}
 
 .itemStu {
     border-bottom: 1px solid #dadada;
@@ -631,4 +674,5 @@ body {
 
 .label_name{ min-width: 0.8rem;}
 .text-right{ text-align: right}
+.mint-tab-item-label{ font-size: 20px !important;}
 </style>

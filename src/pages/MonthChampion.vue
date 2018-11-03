@@ -1,16 +1,16 @@
 <template>
-	<div class="share-container relative">
+	<div class="share-container relative pb20">
     	<div class="mask" v-show="maskShow" @click="hideMask"><img @click.prevent src="../assets/images/toShare.png"></div>
 		<div class="share-top">
 			<div class="video_box">
 				<!-- <img src="static/images/course/index-top.png"> -->
 				<div style="margin: 0.1rem 0.25rem;background-color: white;padding: 0.1rem" class="box-start">
-					<div :class="[{'mleft10': index !== 0},{'active': index === activeIndex}]" v-for="(item,index) in 5" @click="choseChampionKid(index)">
+					<div :class="[{'mleft10': index !== 0},{'active': index === activeIndex}]" v-for="(item,index) in studentList.length" @click="choseChampionKid(index)">
 						<img src="static/images/course/head-img.png">
 					</div>
 				</div>
 				<div class="video" >
-					<video id="video" controls="controls" poster="../assets/images/video-preview.jpg" :src="curStudentData && curStudentData.videoUrl"></video>
+					<video id="video" controls="controls" :src="curStudentData && curStudentData.videoUrl"></video>
 				</div>
 			</div>
 		</div>
@@ -84,7 +84,7 @@ import mixin from '@/js/common/wxshare_mixin'
 		methods: { 
 			choseChampionKid(index){
                 var that=this;
-                that.championNow=that.championArr[index]
+                that.curStudentData = that.studentList[index]
 				this.activeIndex = index;
 			},
 			init() {
@@ -150,11 +150,12 @@ body {
   height: 100%;
   min-height: 100%;
 }
+#video{ background: #000;}
 .video_box {
   background: url(../assets/images/course/month_banner.png) no-repeat;
   background-size: 100% auto;
   width: 100%;
-  padding-top:100px;
+  padding-top: 2.1rem;
 }
 .video_box  .video{ 
 	width:70%;
@@ -171,7 +172,7 @@ body {
 .text{
 	width:90%;
 	margin:0 auto;
-	font-size:0.16rem;
+	font-size:0.24rem;
 	line-height:0.26rem;
 }
 .text p{

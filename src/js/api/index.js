@@ -62,6 +62,8 @@ export default {
     getEvaluate: '/wx/guide/teacher/getEvaluate',
     //保存学员作业评价
     addEvaluate: '/wx/guide/teacher/addEvaluate',
+    //查询学员作业评价
+    queryStudentEvaluation: '/wx/homepage/queryStudentEvaluation',
     
     //查询课程等级
     queryGradeAll: '/wx/guide/sa/queryGradeAll',

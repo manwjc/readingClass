@@ -21,6 +21,25 @@
 		<p>阅读过程中，能够高度专注并有兴趣的完成所有阅读内容。能够清晰饱满完成所有词汇每个音节的发音。</p>
 		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
 	</div> -->
+    <div class="course-stars box-center">
+        <img v-if="curStudentData && curStudentData.status === '1'" src="static/images/award-grey.png" class="yinClass">
+        <img v-else-if="curStudentData && curStudentData.status === '2'" src="static/images/award-gold.png" class="yinClass">
+        <div v-for="(item,index) in 5">
+            <img src="static/images/course/star-light.jpg" v-if="index < (curStudentData && curStudentData.star_count)">
+            <img src="static/images/course/star-gray.jpg" v-if="index >= (curStudentData && curStudentData.star_count)">
+        </div>
+    </div>
+    
+    <div class="text">
+        <p><span class="bold">{{curStudentData.fluency && curStudentData.fluency.item_name}}：</span>{{curStudentData.fluency && curStudentData.fluency.evaluation}}</p>
+        <p>{{curStudentData.fluency && curStudentData.fluency.english_evaluation}}</p>
+        <p><span class="bold">{{curStudentData.focus && curStudentData.focus.item_name}}：</span>{{curStudentData.focus && curStudentData.focus.evaluation}}</p>
+        <p>{{curStudentData.focus && curStudentData.focus.english_evaluation}}</p>
+        <p><span class="bold">{{curStudentData.voca && curStudentData.voca.item_name}}：</span>{{curStudentData.voca && curStudentData.voca.evaluation}}</p>
+        <p>{{curStudentData.voca && curStudentData.voca.english_evaluation}}</p>
+        <p><span class="bold">{{curStudentData.voice && curStudentData.voice.item_name}}：</span>{{curStudentData.voice && curStudentData.voice.evaluation}}</p>
+        <p>{{curStudentData.voice && curStudentData.voice.english_evaluation}}</p>
+    </div>
 	<div class="btn-wrapper" @click="showMask">
 		<div class="course-btn box-center text-center">分享</div>
 	</div>
@@ -39,9 +58,10 @@ export default {
     data() {
         return {
             userData: null,
-            videoUrl: 'https://www.chel-c.com/wx/static/media/happy_halloween_final.a339296.mp4',
+            videoUrl: '',
             maskShow: false,
             shareImg: shareImg,
+            curStudentData: null
         }
     },
     mounted() {
@@ -51,15 +71,32 @@ export default {
     methods: {
         getUserVideo() {
             let self = this;
+            this.queryStudentEvaluation()
             self.$service.getUserVideo({
                 params: {
                     id: self.$route.query.id,
-                    shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : ''
+                    shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : '123'
                 }
             }, (res) => {
                 if (res.data.code === '0' && res.data.data.vidoUrl) {
                     self.videoUrl = utils.handleUrl(res.data.data.vidoUrl);
                 } else if(res.data.code !== '0'){
+                    self.$showMsg(res.data.message);
+                }
+            })
+        },
+        queryStudentEvaluation() {
+            let self = this;
+            let dataParams = this.$qs.stringify({
+                id: self.$route.query.id,
+                shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : ''
+            });
+            self.$service.queryStudentEvaluation(
+                dataParams,
+                (res) => {
+                if (res.data.code === '0') {
+                    self.curStudentData = res.data.data[0];
+                }else{
                     self.$showMsg(res.data.message);
                 }
             })
@@ -123,8 +160,8 @@ body {
 .text {
     width: 90%;
     margin: 0 auto;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 0.24rem;
+    line-height: 0.26rem;
 }
 
 .text p {
@@ -134,5 +171,13 @@ body {
 
 .btn-wrapper {
     margin: 30px 0;
+}
+.yinClass{
+	position: absolute;
+    width: 0.9rem;
+    height: 1.2rem;
+    left: 0.25rem;
+    /*left: 0.5rem;
+    top: -1.4rem;*/
 }
 </style>

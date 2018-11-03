@@ -42,8 +42,11 @@ button {
 /* 移除ios Android 上input type=number 时候的小箭头 */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{
-    -webkit-appearance: none !important;
+    -webkit-appearance: none !important;    
     margin: 0; 
+}
+input[type=radio]{
+    border: 1px solid rgba(100, 100, 100, 0.6)
 }
 /* firefox */
 input[type="number"] {

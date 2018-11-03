@@ -14,7 +14,7 @@
         </div>
     </div>
     <div style="padding: 0.2rem 0rem">
-        <div style="font-weight: 600;margin-bottom: 0.2rem">全部作业</div>
+        <div style="font-weight: 600; margin-bottom: 0.2rem;">全部作业</div>
         <div class="workInfoItem2 displayflex mtop20" v-for="course in courseDetailData && courseDetailData.fileList" v-if="course.homeworkState === '0'">
             <div class="left-title">作业名称：</div>
             <div class="flex-start">
@@ -44,7 +44,7 @@
     </div>
     <!-- </div> -->
     <router-link :to="'/VideoShare?id=' + homeworkRecordId" v-if="uploadVideo">
-        <div class="rest box-v-end">
+        <div class="rest box-v-end mtop10">
             <div class="submitBtn">提交作业</div>
         </div>
     </router-link>
@@ -53,6 +53,7 @@
 
 <script>
 import Vue from "vue";
+import utils from '@/js/common/utils'
 import constant from "@/js/common/constant";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
@@ -149,12 +150,7 @@ export default {
                     let data = res.data;
 
                     if (data.code === "0") {
-                        if(data.data.APPENDIX_URL.indexOf('http') > -1) {
-                            self.uploadVideo = data.data.APPENDIX_URL;
-                        }else{
-                            self.uploadVideo = location.origin + '/' + data.data.APPENDIX_URL;
-                        }
-                        // self.homeworkRecordId = data.data.ID;
+                        self.uploadVideo = utils.handleUrl(data.data.APPENDIX_URL);
                         self.homeworkRecordId = self.courseDetailData.coursewareId;
                         this.$showMsg("文件上传成功");
                     } else {
@@ -232,7 +228,7 @@ body {
 }
 
 .homeWorkCotent {
-    height: 100%;
+    min-height: 100%;
     padding: 0rem 0.4rem;
     color: black;
 }
@@ -299,7 +295,7 @@ body {
 }
 
 .video {
-    height: 100%;
+    height: auto;
     margin: 0 0.6rem;
     overflow: hidden;
 }

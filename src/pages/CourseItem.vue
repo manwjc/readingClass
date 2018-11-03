@@ -128,7 +128,7 @@ export default {
         },
         //点赞/取消点赞
         changeLike(item) {
-            if(item.status !== '1') {
+            if(item.status !== '2') {
                 this.$showMsg('请先评价作业');
                 return;
             }
