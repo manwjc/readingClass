@@ -58,7 +58,7 @@ export default {
             wx.ready (function () {
                 // 微信分享的数据
                 var shareData = {
-                    "imgUrl" : 'https://www.chel-c.com/wx/index/' + self.shareImg,    // 需要绝对地址，否则无法显示。分享显示的缩略图地址constant.chelchost + '/wx/index/' + self.shareImg, 
+                    "imgUrl" : 'https://www.chel-c.com/wx/index/' + self.shareImg,    // 需要绝对地址，否则无法显示。分享显示的缩略图地址location.origin + '/wx/index/' + self.shareImg, 
                     "link" : 'https://www.chel-c.com/wx/index?sharePage=' + self.$route.path === '/' ? '' : self.$route.path + '&shareFrom=' + openId,    // 分享地址/* location.href.split('#')[0] +  */
                     "desc" : '原价699元，新生99元报名',   // 分享描述
                     "title" : '暑假英文阅读戏剧表演营'   // 分享标题

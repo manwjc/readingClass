@@ -76,7 +76,7 @@
 				userData: null,
 				mp3Url : "",
 				classBg6_8 : "",
-				shareImg: constant.chelchost + "/wx/" + shareImg
+				shareImg: location.origin + "/wx/" + shareImg
 
 			}
 		},
@@ -98,7 +98,7 @@
 							if(matchData){
 								self.uploadVideo = matchData.uploadVideo;
 								self.upLoadData = matchData.id;
-								self.listData[2].url = constant.chelchost + matchData.homeworkUrl;
+								self.listData[2].url = location.origin + matchData.homeworkUrl;
 								for(let i=0,len=matchData.coursewareUrlList.length;i<len;i++){
 									if(matchData.coursewareUrlList[i].coursewareUrl.substr(-4,4) === ".mp3" ){
 										self.listData[1].url = matchData.coursewareUrlList[i].coursewareUrl;
@@ -141,7 +141,7 @@
 			        let data = res.data;
 
 			        if(data.code === '0'){
-			        	let host = constant.chelchost;
+			        	let host = location.origin;
 			            self.uploadVideo =host + data.data.APPENDIX_URL;
 						this.$showMsg('文件上传成功');
 			        }else{
@@ -184,7 +184,7 @@
 			        // 微信分享的数据
 			        var shareData = {
 			            "imgUrl" : self.shareImg,    // 分享显示的缩略图地址
-			            "link" : constant.chelchost + '/wx/index?id=' + self.$route.params.id + '&shareFrom=' + openId,    // 分享地址
+			            "link" : location.origin + '/wx/index?id=' + self.$route.params.id + '&shareFrom=' + openId,    // 分享地址
 			            "desc" : '原价699元，新生99元报名',   // 分享描述
 			            "title" : '暑假英文阅读戏剧表演营'   // 分享标题
 			        }

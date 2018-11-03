@@ -131,9 +131,9 @@ import mixin from '@/js/common/wxshare_mixin'
 				wx.ready(function () {
 					// 微信分享的数据
 					var shareData = {
-						"imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
-						"link": constant.chelchost + '/wx/index?sharePage=monthChampion&classroomId=' + self.$route.query.classroomId, // 分享地址
-						"title": '乔希家"Happy Halloween-Trick or Treat？"', // 分享标题
+						"imgUrl": location.origin + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
+						"link": location.origin + '/wx/index?sharePage=monthChampion&classroomId=' + self.$route.query.classroomId, // 分享地址
+						"title": '乔希家"乔希家"1 Minute Show"', // 分享标题
 						"desc": '每馆限50名额，适合3-12岁孩子，边玩边学', // 分享描述
 					}
 					wx.onMenuShareTimeline(shareData)

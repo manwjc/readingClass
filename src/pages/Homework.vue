@@ -87,7 +87,7 @@ export default {
             userData: null,
             mp3Url: "",
             classBg6_8: "",
-            shareImg: constant.chelchost + "/wx/" + shareImg,
+            shareImg: location.origin + "/wx/" + shareImg,
 
             //课程信息
             courseDetailData: {},
@@ -199,7 +199,7 @@ export default {
                 // 微信分享的数据
                 var shareData = {
                     imgUrl: self.shareImg, // 分享显示的缩略图地址
-                    link: constant.chelchost +
+                    link: location.origin +
                         "/wx/index?id=" +
                         self.$route.params.id +
                         "&shareFrom=" +

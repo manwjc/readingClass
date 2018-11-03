@@ -46,7 +46,7 @@
 				videoListData: [],
 				imgData: [],
 				userData: null,
-				shareImg: constant.chelchost + "/wx/" + shareImg
+				shareImg: location.origin + "/wx/" + shareImg
 			}
 		},
 		mounted() {
@@ -63,7 +63,7 @@
 			        // 微信分享的数据
 			        var shareData = {
 			            "imgUrl" : self.shareImg,    // 分享显示的缩略图地址
-			            "link" : constant.chelchost + '/wx/index?sharePage=sceneLastDay&shareFrom=' + openId,    // 分享地址/* location.href.split('#')[0] +  */
+			            "link" : location.origin + '/wx/index?sharePage=sceneLastDay&shareFrom=' + openId,    // 分享地址/* location.href.split('#')[0] +  */
 			            "desc" : '原价699元，新生99元报名',   // 分享描述
 			            "title" : '暑假英文阅读戏剧表演营'   // 分享标题
 			        }

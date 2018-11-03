@@ -10,13 +10,13 @@
                     等级：<span class="bold" style="margin-right: 0.1rem">{{$route.query.student_grade}}</span> 
                     学生：<span class="bold" style="margin-right: 0.1rem">{{courseData && courseData.classStudentSize}}人</span> 
                 </div>
-                <div style="margin-bottom:0.2rem">
+                <!-- <div style="margin-bottom:0.2rem">
                     状态：
                     <span class="bold" v-if="$route.query.status === '-1'">未上课</span>
                     <span class="bold" v-else-if="$route.query.status === '1'">已上课</span>
                     <span class="bold" v-else-if="$route.query.status === '2'">已点评</span>
-                    <!-- status  '-1': 未上课  '1': 已上课未点评  '2': 已点评所有学生的作业  -->
-                </div>
+                </div> -->
+                <!-- status  '-1': 未上课  '1': 已上课未点评  '2': 已点评所有学生的作业  -->
             </div>
         </div>
     </div>

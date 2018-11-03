@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="box-start">
                                     <div style="margin-bottom:0.2rem;;width: 56%">中文名：{{item.name}}</div>
-                                    <!-- <div style="margin-bottom:0.2rem">等级：{{item.level}}</div> -->
+                                    <div style="margin-bottom:0.2rem">等级：{{item.grade | gradeFormat}}</div>
                                 </div>
                                 <!-- <div>
                                     <div style="margin-bottom:0.2rem;margin-top:3px;font-size: 0.24rem"><span style="color:blue;visibility: hidden;"></span>课程主题：joe和他特殊的衣服</div>

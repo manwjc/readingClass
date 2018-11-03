@@ -2,7 +2,7 @@
 <div class="share-container relative">
     <div class="mask" v-show="maskShow" @click="hideMask"><img @click.prevent src="../assets/images/toShare.png"></div>
 	<div class="share-top">
-		<img  src="static/images/course/share-banner.jpg">
+		<img  src="static/images/course/share-banner0.jpg">
 		<img  src="static/images/course/video-bg-top.jpg">
 		<div class="video_box">
 			<div class="video">
@@ -88,8 +88,8 @@ export default {
         queryStudentEvaluation() {
             let self = this;
             let dataParams = this.$qs.stringify({
-                id: self.$route.query.id,
-                shareFrom: self.userData.data && self.userData.data !== null ? self.userData.data.openId : ''
+                studentId: self.$route.query.studentId,
+                gradeNumber: self.$route.query.gradeNumber
             });
             self.$service.queryStudentEvaluation(
                 dataParams,
@@ -117,9 +117,9 @@ export default {
             wx.ready(function () {
                 // 微信分享的数据
                 var shareData = {
-                    "imgUrl": constant.chelchost + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
-                    "link": constant.chelchost + '/wx/index?sharePage=videoShare&shareFrom=' + openId + '&id=' + self.$route.query.id, // 分享地址
-                    "title": '乔希家"Happy Halloween-Trick or Treat？"', // 分享标题
+                    "imgUrl": location.origin + '/wx/index/' + self.shareImg, // 需要绝对地址，否则无法显示。分享显示的缩略图地址    imgUrl:"./static/img/share_img.ebc8a25.jpg"
+                    "link": location.origin + '/wx/index?sharePage=videoShare&shareFrom=' + openId + '&id=' + self.$route.query.id, // 分享地址
+                    "title": '乔希家"乔希家"1 Minute Show"', // 分享标题
                     "desc": '每馆限50名额，适合3-12岁孩子，边玩边学', // 分享描述
                 }
                 wx.onMenuShareTimeline(shareData)

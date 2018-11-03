@@ -14,9 +14,9 @@
             </div>
         </div>
         <div class="flash">
-            <router-link to="/activityPage">
-                <img class="flash-mask" src="static/images/course/light-bg.png">
-            </router-link>
+            <!-- <router-link to="/activityPage"> -->
+                <img class="flash-mask" src="static/images/course/light-bg0.png">
+            <!-- </router-link> -->
                 <!-- <p id="flash-circle1" class="flash-circle"></p>
             <p id="flash-circle2" class="flash-circle"></p>
             <p id="flash-circle3" class="flash-circle"></p>
@@ -170,8 +170,12 @@ export default {
             if (this.studentList.length) {
                 //获取线下导读课程
                 this.queryThisWeekReadByUser();
-                //获取已参加课程
-                this.queryClassRecord();
+                if(this.curTabIndex === 0) {
+                    //获取已参加课程
+                    this.queryClassRecord();
+                }else{
+                    this.queryClassMissing();
+                }
             }
         },
         curTabIndex: function (val) {
@@ -252,7 +256,9 @@ export default {
             this.$router.push({
                 path: 'videoShare',
                 query: {
-                    'id': item.coursewareId
+                    'id': item.coursewareId,
+                    'studentId': item.student_id,
+                    'gradeNumber': item.grade_number
                 }
             });
         },
