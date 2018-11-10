@@ -7,7 +7,7 @@
     <ul class="tab mtop20">
 
         <li @click="change(0)" style="background-color:#49caf9;">
-            深圳总部
+            深圳
         </li>
         <li @click="change(1)" style="background-color:#fdb941;">
             成都
