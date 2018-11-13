@@ -1,85 +1,89 @@
 <template>
-<div class="relative" style="width:100%">
-
-    <div class="title mtop20 f30">
+<div class="relative pt20" style="width:100%">
+    <div class="title f30">
         全国实体阅读馆分布
     </div>
     <ul class="tab mtop20">
 
-        <li @click="change(0)" style="background-color:#49caf9;">
+        <li @click="change(0)" :class="{'opacity1' : index === 0}" style="background-color:#49caf9;">
             深圳
         </li>
-        <li @click="change(1)" style="background-color:#fdb941;">
+        <li @click="change(1)" :class="{'opacity1' : index === 1}" style="background-color:#fdb941;">
             成都
         </li>
-        <li @click="change(2)" style="background-color:#fb795b;">
+        <li @click="change(2)" :class="{'opacity1' : index === 2}" style="background-color:#fb795b;">
             宁波
         </li>
-        <li @click="change(3)" style="background-color:#b269e9;">
+        <li @click="change(3)" :class="{'opacity1' : index === 3}" style="background-color:#b269e9;">
             杭州
         </li>
-        <li @click="change(4)" style="background-color:#3cc;">
+        <li @click="change(4)" :class="{'opacity1' : index === 4}" style="background-color:#3cc;">
             梅州
         </li>
-
     </ul>
 
     <div class="adress_content">
         <ul class="list_box" v-if="index==0">
             <li class="list_box-item" v-for="item in contentData['index0']">
-                <img :src="item.src" alt="">
                 <div class="adress_box">
+                    <img :src="item.src" alt="">
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
+                    <div class="text-center">
+                        <button class="red-btn" @click="gotoAddStudent">一键预约</button>
+                    </div>
                 </div>
-                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
         <ul class="list_box" v-if="index==1">
             <li class="list_box-item" v-for="item in contentData['index1']">
-                <img :src="item.src"  alt="">
                 <div class="adress_box">
+                    <img :src="item.src" alt="">
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
+                    <div class="text-center">
+                        <button class="red-btn" @click="gotoAddStudent">一键预约</button>
+                    </div>
                 </div>
-                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
         <ul class="list_box" v-if="index==2">
             <li class="list_box-item" v-for="item in contentData['index2']">
-                <img :src="item.src" alt="">
                 <div class="adress_box">
+                    <img :src="item.src" alt="">
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
+                    <div class="text-center">
+                        <button class="red-btn" @click="gotoAddStudent">一键预约</button>
+                    </div>
                 </div>
-                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
         <ul class="list_box" v-if="index==3">
             <li class="list_box-item" v-for="item in contentData['index3']">
-                <img :src="item.src" alt="">
                 <div class="adress_box">
-
-                    <div class="list_box-mid">
-                        <div class="adress_box-title">{{item.title}}</div>
-                        <div class="adress_box-content">{{item.content}}</div>
+                    <img :src="item.src" alt="">
+                    <div class="adress_box-title">{{item.title}}</div>
+                    <div class="adress_box-content">{{item.content}}</div>
+                    <div class="text-center">
+                        <button class="red-btn" @click="gotoAddStudent">一键预约</button>
                     </div>
-
                 </div>
-                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
         <ul class="list_box" v-if="index==4">
             <li class="list_box-item" v-for="item in contentData['index4']">
-                <img :src="item.src" alt="">
                 <div class="adress_box">
+                    <img :src="item.src" alt="">
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
+                    <div class="text-center">
+                        <button class="red-btn" @click="gotoAddStudent">一键预约</button>
+                    </div>
                 </div>
-                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
@@ -232,7 +236,9 @@ body {
     margin: 0 0.02rem;
     text-align: center;
     color: #ffffff;
+    opacity: 0.75;
 }
+.tab>li.opacity1 { opacity: 1;}
 
 .title {
     display: flex;
@@ -266,8 +272,9 @@ body {
 }
 
 .adress_box {
-    width: 3rem;
+    width: 100%; padding: 0 10px;
 }
+.adress_box .red-btn{ margin: 5px auto 20px; padding: 0 10px;}
 
 .adress_box-title {
     letter-spacing: 0;
@@ -275,7 +282,7 @@ body {
     color: black;
     line-height: 0;
     font-size: 0.18rem;
-    margin-top: 0.1rem;
+    margin-top: 0.2rem;
 
 }
 
@@ -293,11 +300,8 @@ body {
 }
 
 .red-btn {
-
     line-height: 0.2rem;
     font-size: 0.2rem;
-    width: 1.2rem;
-    padding: 0;
     height: 24px;
     line-height: 0.24rem;
 }
