@@ -281,14 +281,14 @@ body {
     padding: 0;
     color: black;
     line-height: 0;
-    font-size: 0.18rem;
+    font-size: 0.24rem;
     margin-top: 0.2rem;
 
 }
 
 .adress_box-content {
-    margin-top: 0.25rem;
-    font-size: 0.14rem;
+    margin-top: 0.15rem;
+    font-size: 0.18rem;
     line-height: 0.3rem;
 
 }
