@@ -36,7 +36,7 @@ export default {
         }
     },
     mounted() {
-		console.log(utils.setCookie('chel-account', 'admin'))
+        console.log(utils.setCookie('chel-account', 'admin'))
 	},
     methods: {
         countDown() {

@@ -32,9 +32,7 @@
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
                 </div>
-                <router-link to="/checkPhone">
-                    <button class="red-btn">一键预约</button>
-                </router-link>
+                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
         <ul class="list_box" v-if="index==1">
@@ -44,9 +42,7 @@
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
                 </div>
-                <router-link to="/checkPhone">
-                    <button class="red-btn">一键预约</button>
-                </router-link>
+                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
@@ -57,9 +53,7 @@
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
                 </div>
-                <router-link to="/checkPhone">
-                    <button class="red-btn">一键预约</button>
-                </router-link>
+                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
@@ -74,9 +68,7 @@
                     </div>
 
                 </div>
-                <router-link to="/checkPhone">
-                    <button class="red-btn">一键预约</button>
-                </router-link>
+                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
@@ -87,9 +79,7 @@
                     <div class="adress_box-title">{{item.title}}</div>
                     <div class="adress_box-content">{{item.content}}</div>
                 </div>
-                <router-link to="/checkPhone">
-                    <button class="red-btn">一键预约</button>
-                </router-link>
+                <button class="red-btn" @click="gotoAddStudent">一键预约</button>
             </li>
         </ul>
 
@@ -195,6 +185,20 @@ export default {
     methods: {
         change(e) {
             this.index = e;
+        },
+        gotoAddStudent() {
+            let isProd = location.origin.indexOf('chel') > -1;
+            sessionStorage.setItem('fromDating', '1');
+            if(isProd) {
+                location.href = 'https://www.chel-c.com/wx/index';
+            }else{
+                this.$router.push({
+                    path: '/',
+                    query: {
+                        fromDating: '1'
+                    }
+                })
+            }
         }
     }
 };
