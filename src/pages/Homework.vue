@@ -1,9 +1,7 @@
 <template>
-<!-- <div class="relative">		<div class="video_box">		<div v-show="!uploadVideo" class="video relative demo-upload">		<div class="relative">		<el-upload		class="upload-box center"		ref="upload"		action=""		:limit="1"		:file-list="fileList"		:upload-error="uploadError"		:before-upload="beforeUpload"		:on-success="uploadSuccess" 		:on-change="(file)=>{return handleChange(file, 22)}"		:auto-upload="false">		<el-button class="select-file"  slot="trigger" size="small" type="primary"></el-button>		<div slot="tip" class="el-upload__tip">只能上传mp4文件，且不超过100MB</div>		</el-upload>		<el-button class="up-button" size="small" type="success" @click="submitUpload">开始上传</el-button>		<img @click.prevent src="static/images/page2_01.jpg">		</div>		</div>		<div v-show="uploadVideo" class="video" >		<video id="video" controls="controls" poster="static/images/black_bg.png" :src="uploadVideo"></video>		</div>		</div>		<img @click.prevent src="static/images/page2_04.jpg">		<div class="form_list01">		<div @click="redirect(item)" class="scene_list f22 bold mb10" :class="[index % 2 === 1 ? 'minuleft20' : 'mleft20',classBg6_8]" v-for="(item, index) in listData">		<div class="scene_name">{{item.name}}</div>		</div>		</div>		<audio id="audio" ></audio>		<img @click.prevent src="static/images/page1_04.jpg">		</div> -->
-<!-- 你可以得到event对象，然后判断来源，从而只做一次事件处理，但是事件还是触发了两次。一般这种组件都有封装好的自定义事件吧，就是为了不让你使用click.native的，你可以看看文档
-            我刚刚看了下，它是有一个自定义的change事件的，你直接<el-checkbox @change=”popup”>就行了  -->
-<!-- <div class="box-v-justify "> -->
-<div class="homeWorkCotent box-v-start align-stretch">
+<div class="homeWorkCotent box-v-start align-stretch relative">
+    <el-progress class="progress" v-if="isUploading" type="circle" :percentage="videoUploadPercent"></el-progress>
+    <div class="mask" v-show="maskShow"></div>
     <div style="border-bottom: 1px solid #dadada;margin-top: 0.5rem">
         <div class="box-start workInfoItem">
             <div class=""><span>课程名称：</span>{{courseDetailData && courseDetailData.english_name}}</div>
@@ -29,9 +27,18 @@
         <div class="displayflex mtop20">
             <div class="pt10 left-title">上传作业：</div>
             <div class="relative flex-start">
-                <el-upload ref="upload" action="" :limit="1" :file-list="fileList" :upload-error="uploadError" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-change="(file)=>{return handleChange(file, 22)}" :auto-upload="true">
+                <el-upload ref="upload" :action="uploadVideoUrl" 
+                    :limit="1" 
+                    :file-list="fileList" 
+                    :upload-error="uploadError" 
+                    :before-upload="beforeUpload" 
+                    :on-progress="uploadVideoProcess" 
+                    :on-success="uploadSuccess" 
+                    :on-change="(file)=>{return handleChange(file, 22)}" 
+                    :data="uploadData"
+                    :auto-upload="true">
                     <el-button class="select-file" slot="trigger" size="small" type="primary">
-                        <div class="upload-text">{{uploadText}}</div>
+                        <div class="upload-text f24">{{uploadText}}</div>
                     </el-button>
                     <div slot="tip" class="el-upload__tip">请上传作业视频（时长小于1分钟，大小不超过100MB）</div>
                 </el-upload>
@@ -56,6 +63,7 @@ import Vue from "vue";
 import utils from '@/js/common/utils'
 import constant from "@/js/common/constant";
 import Element from "element-ui";
+import api from '@/js/api'
 import "element-ui/lib/theme-chalk/index.css";
 
 import shareImg from "@/assets/images/share_img.jpg";
@@ -67,6 +75,8 @@ Vue.use(Element);
 export default {
     data() {
         return {
+            isUploading: false,
+            videoUploadPercent: '10',
             listData: [{
                     name: "“小剧场”剧本台词",
                     url: ""
@@ -95,14 +105,30 @@ export default {
             uploadText: '选择视频',
             homeworkRecordId: '',
 
-            courseListData: {}
+            courseListData: {},
+            uploadData: {}
         };
+    },
+    computed: {
+        uploadVideoUrl() {
+            return process.env.NODE_ENV === 'development' ? '/baseApi' + api.uploadVideo : api.uploadVideo;
+        }
     },
     mounted() {
         this.initCourseDetail();
     },
     mixins: [mixin],
     methods: {
+        hideMask() {
+            this.maskShow = false;
+            document.body.style = 'overflow: inherit';
+        },
+        showMask() {
+            this.maskShow = true;
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            document.body.style = 'overflow: hidden';
+        },
         //查看课件详情
         viewCourseDetail(item) {
             sessionStorage.setItem('courseDetailData', JSON.stringify(item));
@@ -111,7 +137,7 @@ export default {
         openFullScreenLoading() {
             this.loading = this.$loading({
                 lock: true,
-                text: 'Loading',
+                text: '',
                 spinner: 'el-icon-loading',
                 background: 'rgba(0, 0, 0, 0.7)'
             });
@@ -131,46 +157,56 @@ export default {
         },
         beforeUpload(file) {
             let self = this;
-            let fd = new FormData();
+            // let fd = new FormData();
 
             //   this.$showMsg("上传中，请稍候…");
-            this.openFullScreenLoading();
+            // this.openFullScreenLoading();
 
             if (!self.beforeAvatarUpload(file)) {
-                this.loading.close();
                 return false;
             }
+            this.showMask();
+            this.uploadData.coursewareId = this.courseDetailData.coursewareId;
+            // fd.append("file", file);
+            // fd.append("coursewareId", self.courseDetailData.coursewareId);
+            // self.$service.uploadVideo(
+            //     fd,
+            //     res => {
+            //         // alert(JSON.stringify(res))
+            //         let data = res.data;
 
-            fd.append("file", file);
-            fd.append("coursewareId", self.courseDetailData.coursewareId);
-            self.$service.uploadVideo(
-                fd,
-                res => {
-                    // alert(JSON.stringify(res))
-                    let data = res.data;
-
-                    if (data.code === "0") {
-                        self.uploadVideo = utils.handleUrl(data.data.APPENDIX_URL);
-                        self.homeworkRecordId = self.courseDetailData.coursewareId;
-                        this.$showMsg("文件上传成功");
-                    } else {
-                        let message = data.message || "上传失败!";
-                        this.$showMsg(message);
-                    }
-                    this.loading.close();
-                },
-                error => {
-                    console.error(error);
-                }
-            );
-            return false; //拦截默认提交
+            //         if (data.code === "0") {
+            //             self.uploadVideo = utils.handleUrl(data.data.APPENDIX_URL);
+            //             self.homeworkRecordId = self.courseDetailData.coursewareId;
+            //             this.$showMsg("文件上传成功");
+            //         } else {
+            //             let message = data.message || "上传失败!";
+            //             this.$showMsg(message);
+            //         }
+            //         this.loading.close();
+            //     },
+            //     error => {
+            //         console.error(error);
+            //     }
+            // );
+            // return false; //拦截默认提交
         },
-        uploadSuccess(file) {
-            alert("上传文件成功！");
+        uploadVideoProcess(event, file, fileList){
+            this.isUploading = true;
+            this.videoUploadPercent = file.percentage.toFixed(0);
+        },
+        uploadSuccess(response, file, fileList) {
+            this.uploadVideo = utils.handleUrl(response.data.APPENDIX_URL);
+            this.homeworkRecordId = this.courseDetailData.coursewareId;
+            this.isUploading = false;
+            this.videoUploadPercent = 100;
+            this.hideMask();
+            this.$showMsg("文件上传成功");
         },
         // 上传错误
-        uploadError(file) {
-            alert("上传失败，请重试！");
+        uploadError(err, file, fileList) {
+            this.hideMask();
+            this.$showMsg(err);
         },
         // 上传前对文件的大小的判断
         beforeAvatarUpload(file) {
@@ -379,5 +415,13 @@ a.el-upload-list__item-name {
 
 .left-title {
     min-width: 75px;
+}
+.progress{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%, -50%);  -webkit-transform:translate(-50%, -50%);
+    z-index: 9999;
+    color: #fff !important;
 }
 </style>

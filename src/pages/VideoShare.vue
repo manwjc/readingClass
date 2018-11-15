@@ -21,7 +21,7 @@
 		<p>阅读过程中，能够高度专注并有兴趣的完成所有阅读内容。能够清晰饱满完成所有词汇每个音节的发音。</p>
 		<p>During the reading process, you can complete all reading with a high degree of concentration and interest. It is able to clearly and satisfactorily complete the pronunciation of each syllable of all words.</p>
 	</div> -->
-    <div class="course-stars box-center">
+    <div class="course-stars box-center" v-if="curStudentData && curStudentData.status !== '-1'">
         <img v-if="curStudentData && curStudentData.status === '1'" src="static/images/award-grey.png" class="yinClass">
         <img v-else-if="curStudentData && curStudentData.status === '2'" src="static/images/award-gold.png" class="yinClass">
         <div v-for="(item,index) in 5">
@@ -30,7 +30,7 @@
         </div>
     </div>
     
-    <div class="text">
+    <div class="text" v-if="curStudentData && curStudentData.status !== '-1'">
         <p><span class="bold">{{curStudentData.fluency && curStudentData.fluency.item_name}}：</span>{{curStudentData.fluency && curStudentData.fluency.evaluation}}</p>
         <p>{{curStudentData.fluency && curStudentData.fluency.english_evaluation}}</p>
         <p><span class="bold">{{curStudentData.focus && curStudentData.focus.item_name}}：</span>{{curStudentData.focus && curStudentData.focus.evaluation}}</p>

@@ -141,7 +141,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import mixin from '@/js/common/student_mixin'
 import utils from '@/js/common/utils'
 export default {
@@ -191,7 +190,6 @@ export default {
         }
     },
     mounted() {
-        console.log(moment().fromNow())
         if (this.$route.query.pageSource === 'chelcApp') {
             // alert('phone:' + utils.getCookie('phone'));
             // this.initPage();

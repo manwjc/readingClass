@@ -309,3 +309,4 @@ html {
   }
 
   .inline-block{ display: inline-block}
+  .el-progress__text{ color: #fff !important;}
